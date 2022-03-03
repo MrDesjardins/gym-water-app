@@ -43,3 +43,22 @@
   font-size: 30px;
   margin-left: 8px;
 }
+
+.SingleWeightSelectorHandle {
+  position: absolute;
+  align-items: center;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  z-index: 3;
+  width: 60px;
+  height: 60px;
+  border-radius: 40px;
+  background-color: #c4c4c4;
+  box-shadow: black 2px 2px 4px;
+}
+
+.SingleWeightSelectorHandleData{
+  flex: 1;
+  font-size: 50px;;
+}

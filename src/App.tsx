@@ -14,6 +14,9 @@ const App: Component = () => {
           defaultWeight={0}
           minimumWeight={0}
           maximumWeight={200}
+          getCurrentWeight={(weight) => {
+            console.log(weight);
+          }}
         />
       </div>
       <div class={styles.item}>
@@ -23,6 +26,9 @@ const App: Component = () => {
           defaultWeight={100}
           minimumWeight={0}
           maximumWeight={200}
+          getCurrentWeight={(weight) => {
+            console.log(weight);
+          }}
         />
       </div>
       <div class={styles.item}>
@@ -32,6 +38,9 @@ const App: Component = () => {
           defaultWeight={200}
           minimumWeight={0}
           maximumWeight={200}
+          getCurrentWeight={(weight) => {
+            console.log(weight);
+          }}
         />
       </div>
     </div>

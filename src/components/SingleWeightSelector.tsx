@@ -6,6 +6,7 @@ export interface SingleWeightSelectorProps {
   defaultWeight: number;
   width: number;
   height: number;
+  getCurrentWeight: (weight: number) => void;
 }
 const TEXT_HEIGHT = 20;
 export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
@@ -28,6 +29,10 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
     }
     return top;
   };
+
+  const getTopHandle = (): number => {
+    return currentWeight()
+  };
   return (
     <div
       class={styles.SingleWeightSelector}
@@ -37,6 +42,15 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
       }}
     >
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
+      <div
+        class={styles.SingleWeightSelectorHandle}
+        style={{
+          top: `${getTopHandle()}px`,
+          left: `${props.width - 30}px`,
+        }}
+      >
+        <div class={styles.SingleWeightSelectorHandleData}>+</div>
+      </div>
       <div
         class={styles.SingleWeightSelectorWeight}
         style={{

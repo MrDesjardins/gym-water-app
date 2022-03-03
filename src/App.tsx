@@ -1,25 +1,39 @@
-import type { Component } from 'solid-js';
+import type { Component } from "solid-js";
 
-import logo from './logo.svg';
-import styles from './App.module.css';
+import logo from "./logo.svg";
+import styles from "./App.module.css";
+import { SingleWeightSelector } from "./components/SingleWeightSelector";
 
 const App: Component = () => {
   return (
     <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
+      <div class={styles.item}>
+        <SingleWeightSelector
+          height={300}
+          width={200}
+          defaultWeight={0}
+          minimumWeight={0}
+          maximumWeight={200}
+        />
+      </div>
+      <div class={styles.item}>
+        <SingleWeightSelector
+          height={300}
+          width={200}
+          defaultWeight={100}
+          minimumWeight={0}
+          maximumWeight={200}
+        />
+      </div>
+      <div class={styles.item}>
+        <SingleWeightSelector
+          height={300}
+          width={200}
+          defaultWeight={200}
+          minimumWeight={0}
+          maximumWeight={200}
+        />
+      </div>
     </div>
   );
 };

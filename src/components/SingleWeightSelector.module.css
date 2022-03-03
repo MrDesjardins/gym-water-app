@@ -1,0 +1,45 @@
+:root {
+  --SingleWeightSelector-radius: 8px;
+}
+.SingleWeightSelector {
+  position: absolute;
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+.SingleWeightSelectorTitle {
+  position: absolute;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 30px;
+  left: 0;
+  top: -20px;
+  z-index: 3;
+}
+.SingleWeightSelectorWaterTank {
+  box-sizing: border-box; /*The width and height includes the border*/
+  border-radius: var(--SingleWeightSelector-radius);
+  background-color: #453d55;
+}
+
+.SingleWeightSelectorWaterTankWater {
+  position: absolute;
+  background-color: #0288d1;
+  border-bottom-left-radius: var(--SingleWeightSelector-radius);
+  border-bottom-right-radius: var(--SingleWeightSelector-radius);
+}
+
+.SingleWeightSelectorWeight {
+  position: absolute;
+  z-index: 3;
+  text-align: center;
+}
+
+.SingleWeightSelectorWeight_Number {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.SingleWeightSelectorWeight_Lbs {
+  font-size: 30px;
+  margin-left: 8px;
+}

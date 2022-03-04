@@ -2,6 +2,7 @@ import { createSignal } from "solid-js";
 import "./ComponentVariables.css";
 import styles from "./SingleWeightSelector.module.css";
 import { SingleWeightSelectorHandle } from "./SingleWeightSelectorHandle";
+import { Wave } from "./Wave";
 export interface SingleWeightSelectorProps {
   minimumWeight: number;
   maximumWeight: number;
@@ -49,6 +50,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         height: `${props.height + TEXT_HEIGHT}px`,
       }}
     >
+      <Wave width={props.width} height={20} top={getTop()} />
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
       <SingleWeightSelectorHandle
         handleSize={HANDLE_SIZE}

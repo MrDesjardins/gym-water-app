@@ -7,6 +7,8 @@
   z-index: 3;
   background-color: var(--SingleWeightSelector-handle-bgcolor);
   cursor: pointer;
+
+  transition: transform 0.5s cubic-bezier(0.08, 0.62, 0.26, 0.93);
 }
 .SingleWeightSelectorHandle_Unpressed {
   box-shadow: black 2px 2px 12px;
@@ -14,6 +16,7 @@
 
 .SingleWeightSelectorHandle_Pressed {
   box-shadow: black 2px 2px 4px;
+  transform: scale(0.9);
 }
 
 .SingleWeightSelectorHandleData {

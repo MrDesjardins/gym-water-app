@@ -1,17 +1,20 @@
 .Wave {
   position: absolute;
-  overflow: hidden;
-  transform: top 0.5s cubic-bezier(.08,.62,.26,.93);
-  transition: transform 0.5s cubic-bezier(.08,.62,.26,.93);
+  overflow: hidden; /*Hide the wave that are bigger on left and right side (allowing wobbling)*/
+  transition: transform 1.5s cubic-bezier(0.08, 0.62, 0.26, 0.93);
 }
 .Wave_Wobble {
-  transform: translateY(-38px);
+  transform: translateY(
+    -38px
+  ); /*2px less than 40 to avoid having a line between the water and the waveß*/
 }
 .WaveContainer {
-  transform: translateX(-25px);
+  transform: translateX(
+    -25px
+  ); /*Get in the middle of the SVG to have a left/right wobble that does not show the edges*/
 }
 .Svg {
-  transition: height 0.5s ease-in-out;
+  transition: height 1.5s ease-in-out;
 }
 .Svg_Wobble {
   animation: wobble 1.5s infinite ease-in-out;

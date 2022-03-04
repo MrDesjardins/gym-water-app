@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createMemo, createSignal } from "solid-js";
 import "./ComponentVariables.css";
 import styles from "./SingleWeightSelector.module.css";
 import { SingleWeightSelectorHandle } from "./SingleWeightSelectorHandle";
@@ -15,26 +15,28 @@ const TEXT_HEIGHT = 20;
 const HANDLE_SIZE = 60;
 export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
   const [currentWeight, setCurrentWeight] = createSignal(props.defaultWeight);
+  const [isDragging, setIsDragging] = createSignal(false);
 
-  const getHeight = (): number => {
+  const getWaterHeight = createMemo((): number => {
     return (
       (currentWeight() / (props.maximumWeight - props.minimumWeight)) *
       props.height
     );
-  };
+  });
 
-  const getTop = (): number => {
-    return props.height - getHeight();
-  };
-  const getTopText = (): number => {
-    const top = props.height - getHeight() / 2 - TEXT_HEIGHT;
+  const getWaterTop = createMemo((): number => {
+    return props.height - getWaterHeight() + 20;
+  });
+
+  const getWeightTextTop = (): number => {
+    const top = props.height - getWaterHeight() / 2 - TEXT_HEIGHT;
     if (top > props.maximumWeight + TEXT_HEIGHT) {
       return props.maximumWeight + TEXT_HEIGHT;
     }
     return top;
   };
 
-  const getTopHandle = (): number => {
+  const getHandleTop = (): number => {
     return (
       ((props.maximumWeight - currentWeight()) / props.maximumWeight) *
       (props.height - HANDLE_SIZE)
@@ -47,15 +49,15 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
     <div
       class={styles.SingleWeightSelector}
       style={{
-        width: `${props.width + TEXT_HEIGHT}px`,
-        height: `${props.height + TEXT_HEIGHT}px`,
+        width: `${props.width + HANDLE_SIZE}px`,
+        height: `${props.height}px`,
       }}
     >
-      <Wave width={props.width} top={getTop()} />
+      <Wave width={props.width} top={getWaterTop()} wobble={isDragging()} />
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
       <SingleWeightSelectorHandle
         handleSize={HANDLE_SIZE}
-        defaultTop={getTopHandle()}
+        defaultTop={getHandleTop()}
         defaultLeft={props.width - HANDLE_SIZE / 2}
         updateTop={(differencePixelMoved) => {
           setCurrentWeight((prev) => {
@@ -73,13 +75,16 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
             return Math.trunc(newWeight);
           });
         }}
+        isDragging={(dragging: boolean) => {
+          setIsDragging(dragging);
+        }}
       />
 
       <div
         class={styles.SingleWeightSelectorWeight}
         style={{
           width: `${props.width}px`,
-          top: `${getTopText()}px`,
+          top: `${getWeightTextTop()}px`,
           left: 0,
         }}
       >
@@ -99,8 +104,8 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
           class={styles.SingleWeightSelectorWaterTankWater}
           style={{
             width: `${props.width}px`,
-            height: `${getHeight()}px`,
-            top: `${getTop()}px`,
+            height: `${getWaterHeight()}px`,
+            top: `${getWaterTop()}px`,
             left: 0,
           }}
         ></div>

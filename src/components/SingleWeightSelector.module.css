@@ -3,6 +3,8 @@
   color: var(--text-title-color);
   font-family: "Roboto", sans-serif;
   user-select: none;
+  overflow: hidden;
+  padding-top: 20px; /*Give some vertical space for the SingleWeightSelectorTitle */
 }
 .SingleWeightSelectorTitle {
   position: absolute;
@@ -10,7 +12,7 @@
   font-weight: 500;
   font-size: 30px;
   left: 0;
-  top: -20px;
+  top: 0;
   z-index: 3;
   text-shadow: black 1px 1px 1px;
 }

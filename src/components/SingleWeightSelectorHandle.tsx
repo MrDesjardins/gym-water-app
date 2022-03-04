@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import "./ComponentVariables.css";
 import styles from "./SingleWeightSelectorHandle.module.css";
 import { BiMoveVertical } from "solid-icons/bi";
@@ -8,12 +8,16 @@ export interface SingleWeightSelectorHandleProps {
   defaultLeft: number;
   updateTop: (differencePixelMoved: number) => void;
   handleSize: number;
+  isDragging: (dragging: boolean) => void;
 }
 export const SingleWeightSelectorHandle = (
   props: SingleWeightSelectorHandleProps
 ) => {
   const [isDragging, setIsDragging] = createSignal(false);
   const [initialYPosition, setInitialYPosition] = createSignal(0);
+  createEffect(() => {
+    props.isDragging(isDragging());
+  });
   return (
     <div
       onmousedown={(e) => {

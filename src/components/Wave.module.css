@@ -1,3 +1,36 @@
 .Wave {
   position: absolute;
+  overflow: hidden;
+  transform: top 0.5s cubic-bezier(.08,.62,.26,.93);
+  transition: transform 0.5s cubic-bezier(.08,.62,.26,.93);
+}
+.Wave_Wobble {
+  transform: translateY(-38px);
+}
+.WaveContainer {
+  transform: translateX(-25px);
+}
+.Svg {
+  transition: height 0.5s ease-in-out;
+}
+.Svg_Wobble {
+  animation: wobble 1.5s infinite ease-in-out;
+}
+
+@keyframes wobble {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(25px);
+  }
+  50% {
+    transform: translateX(0px);
+  }
+  75% {
+    transform: translateX(-25px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }

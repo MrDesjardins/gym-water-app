@@ -40,6 +40,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
       (props.height - HANDLE_SIZE)
     );
   };
+
   // differencePixelMoved /
   // (props.maximumWeight - props.minimumWeight)
   return (
@@ -50,7 +51,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         height: `${props.height + TEXT_HEIGHT}px`,
       }}
     >
-      <Wave width={props.width} height={20} top={getTop()} />
+      <Wave width={props.width} top={getTop()} />
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
       <SingleWeightSelectorHandle
         handleSize={HANDLE_SIZE}

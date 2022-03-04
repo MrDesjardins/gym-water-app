@@ -1,23 +1,25 @@
 import styles from "./Wave.module.css";
 export interface WaveProps {
   width: number;
-  height: number;
   top: number;
+  wobble: boolean
 }
 export const Wave = (props: WaveProps) => {
+  const height = 40;
+
   return (
     <div
       class={styles.Wave}
       style={{
-        width: `${props.width}px`,
-        height: `${props.height}px`,
-        top: `${props.top - 2* props.height-4}px`,
+        top: `${props.top - height}px`,
       }}
     >
       <svg
         class={styles.Svg}
         viewBox="0 0 1440 320"
-        preserveAspectRatio="xMinYMin slice"
+        preserveAspectRatio="none"
+        width={`${props.width}px`}
+        height={`${height}px`}
       >
         <path
           fill="#0288d1"

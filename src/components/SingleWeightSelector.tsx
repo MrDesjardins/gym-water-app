@@ -1,5 +1,7 @@
 import { createSignal } from "solid-js";
+import "./ComponentVariables.css";
 import styles from "./SingleWeightSelector.module.css";
+import { SingleWeightSelectorHandle } from "./SingleWeightSelectorHandle";
 export interface SingleWeightSelectorProps {
   minimumWeight: number;
   maximumWeight: number;
@@ -9,6 +11,7 @@ export interface SingleWeightSelectorProps {
   getCurrentWeight: (weight: number) => void;
 }
 const TEXT_HEIGHT = 20;
+const HANDLE_SIZE = 60;
 export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
   const [currentWeight, setCurrentWeight] = createSignal(props.defaultWeight);
 
@@ -31,8 +34,13 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
   };
 
   const getTopHandle = (): number => {
-    return currentWeight()
+    return (
+      ((props.maximumWeight - currentWeight()) / props.maximumWeight) *
+      (props.height - HANDLE_SIZE)
+    );
   };
+  // differencePixelMoved /
+  // (props.maximumWeight - props.minimumWeight)
   return (
     <div
       class={styles.SingleWeightSelector}
@@ -42,15 +50,28 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
       }}
     >
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
-      <div
-        class={styles.SingleWeightSelectorHandle}
-        style={{
-          top: `${getTopHandle()}px`,
-          left: `${props.width - 30}px`,
+      <SingleWeightSelectorHandle
+        handleSize={HANDLE_SIZE}
+        defaultTop={getTopHandle()}
+        defaultLeft={props.width - HANDLE_SIZE / 2}
+        updateTop={(differencePixelMoved) => {
+          setCurrentWeight((prev) => {
+            let newWeight = prev;
+            if (differencePixelMoved < 0) {
+              newWeight = prev += 1;
+            } else if (differencePixelMoved > 0) {
+              newWeight = prev -= 1;
+            }
+            if (newWeight < props.minimumWeight) {
+              return props.minimumWeight;
+            } else if (newWeight > props.maximumWeight) {
+              return props.maximumWeight;
+            }
+            return Math.trunc(newWeight);
+          });
         }}
-      >
-        <div class={styles.SingleWeightSelectorHandleData}>+</div>
-      </div>
+      />
+
       <div
         class={styles.SingleWeightSelectorWeight}
         style={{

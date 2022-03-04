@@ -1,10 +1,8 @@
-:root {
-  --SingleWeightSelector-radius: 8px;
-}
 .SingleWeightSelector {
   position: absolute;
-  color: white;
+  color: var(--text-title-color);
   font-family: "Roboto", sans-serif;
+  user-select: none;
 }
 .SingleWeightSelectorTitle {
   position: absolute;
@@ -14,16 +12,17 @@
   left: 0;
   top: -20px;
   z-index: 3;
+  text-shadow: black 1px 1px 1px;
 }
 .SingleWeightSelectorWaterTank {
   box-sizing: border-box; /*The width and height includes the border*/
   border-radius: var(--SingleWeightSelector-radius);
-  background-color: #453d55;
+  background-color: var(--SingleWeightSelector-waterTank-bgcolor);
 }
 
 .SingleWeightSelectorWaterTankWater {
   position: absolute;
-  background-color: #0288d1;
+  background-color: var(--SingleWeightSelector-waterTank-bgcolor-water);
   border-bottom-left-radius: var(--SingleWeightSelector-radius);
   border-bottom-right-radius: var(--SingleWeightSelector-radius);
 }
@@ -36,29 +35,11 @@
 
 .SingleWeightSelectorWeight_Number {
   font-size: 50px;
+  line-height: 50px;
   font-weight: bold;
 }
 
 .SingleWeightSelectorWeight_Lbs {
   font-size: 30px;
   margin-left: 8px;
-}
-
-.SingleWeightSelectorHandle {
-  position: absolute;
-  align-items: center;
-  align-content: center;
-  display: flex;
-  flex-direction: column;
-  z-index: 3;
-  width: 60px;
-  height: 60px;
-  border-radius: 40px;
-  background-color: #c4c4c4;
-  box-shadow: black 2px 2px 4px;
-}
-
-.SingleWeightSelectorHandleData{
-  flex: 1;
-  font-size: 50px;;
 }

@@ -1,3 +1,5 @@
+import { ChartData } from "../components/RepsTempo/canvasModel";
+
 /**
  * Provide a stream of distance that goes up around a maximum and down again to zero
  * for a given number of repetition. It simulates a set of x repetition with different
@@ -5,7 +7,7 @@
  */
 export function fakeDistanceSensor(
   repNumber: number,
-  callback: (distanceCm: number, timeSec: number, currentRep: number) => void
+  callback: (newChartData: ChartData) => void
 ): void {
   let lastCm = 0;
   let lastSec = 0;
@@ -28,14 +30,22 @@ export function fakeDistanceSensor(
     if (lastCm <= 0) {
       // This might not be totally good. We usually not go to zero when we change rep...
       lastCm = 0;
-      callback(lastCm, lastSec, currentRep);
+      callback({
+        distanceInCm: lastCm,
+        timeInSec: lastSec,
+        repetitionIndex: currentRep,
+      });
       startedTime = Date.now();
       currentRep++;
       setTimeout(loop, 50 + Math.random() * 200);
     } else if (currentRep < repNumber) {
-      callback(lastCm, lastSec, currentRep);
+      callback({
+        distanceInCm: lastCm,
+        timeInSec: lastSec,
+        repetitionIndex: currentRep,
+      });
       setTimeout(loop, 10 + Math.random() * 200);
     }
   };
-  let inter = setTimeout(loop, 0);
+  setTimeout(loop, 0);
 }

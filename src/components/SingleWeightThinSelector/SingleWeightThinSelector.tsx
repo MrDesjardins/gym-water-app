@@ -1,26 +1,27 @@
 import { createMemo, createSignal } from "solid-js";
 import "../ComponentVariables.css";
-import styles from "./SingleWeightSelector.module.css";
-import { SingleWeightSelectorHandle } from "./SingleWeightSelectorHandle";
-import { Wave } from "./Wave";
-export interface SingleWeightSelectorProps {
+import styles from "./SingleWeightThinSelector.module.css";
+import { SingleWeightThinSelectorHandle } from "./SingleWeightThinSelectorHandle";
+export interface SingleWeightThinSelectorProps {
   minimumWeight: number;
   maximumWeight: number;
   defaultWeight: number;
-  width: number;
   height: number;
   getCurrentWeight: (weight: number) => void;
 }
-const TEXT_HEIGHT = 20;
 const HANDLE_SIZE = 60;
-export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
+const TEXT_HEIGHT = 40;
+
+export const SingleWeightThinSelector = (
+  props: SingleWeightThinSelectorProps
+) => {
   const [currentWeight, setCurrentWeight] = createSignal(props.defaultWeight);
   const [isDragging, setIsDragging] = createSignal(false);
 
   const getWaterHeight = createMemo((): number => {
     return (
       (currentWeight() / (props.maximumWeight - props.minimumWeight)) *
-      (props.height-TEXT_HEIGHT)
+      (props.height - TEXT_HEIGHT)
     );
   });
 
@@ -36,35 +37,31 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
     return props.height / weightRange;
   });
 
-  const getWeightTextTop = createMemo((): number => {
-    const top = props.height - getWaterHeight() / 2 - TEXT_HEIGHT;
-    if (top > props.maximumWeight + TEXT_HEIGHT) {
-      return props.maximumWeight + TEXT_HEIGHT;
-    }
-    return top;
-  });
-
   const getHandleTop = createMemo((): number => {
     return (
       ((props.maximumWeight - currentWeight()) / props.maximumWeight) *
-      (props.height - HANDLE_SIZE)
+        (props.height - 2*HANDLE_SIZE) +
+      HANDLE_SIZE
     );
   });
 
   return (
     <div
-      class={styles.SingleWeightSelector}
+      class={styles.SingleWeightThinSelector}
       style={{
-        width: `${props.width + HANDLE_SIZE}px`,
         height: `${props.height}px`,
       }}
     >
-      <Wave width={props.width} top={getWaterTop()} wobble={isDragging()} />
-      <div class={styles.SingleWeightSelectorTitle}>Weight</div>
-      <SingleWeightSelectorHandle
+      <div class={styles.SingleWeightSelectorThinTitle}>
+        <div class={styles.SingleWeightSelectorThinTitleText}>
+          {currentWeight()}
+        </div>
+        <div class={styles.SingleWeightSelectorThinTitleLbs}>lbs</div>
+      </div>
+      <SingleWeightThinSelectorHandle
         handleSize={HANDLE_SIZE}
         defaultTop={getHandleTop()}
-        defaultLeft={props.width - HANDLE_SIZE / 2}
+        defaultLeft={0}
         updateTop={(differencePixelMoved) => {
           setCurrentWeight((previousWeight) => {
             let newWeight =
@@ -88,32 +85,16 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
           setIsDragging(dragging);
         }}
       />
-
       <div
-        class={styles.SingleWeightSelectorWeight}
+        class={styles.SingleWeightThinSelectorWaterTank}
         style={{
-          width: `${props.width}px`,
-          top: `${getWeightTextTop()}px`,
-          left: 0,
-        }}
-      >
-        <span class={styles.SingleWeightSelectorWeight_Number}>
-          {currentWeight()}
-        </span>
-        <span class={styles.SingleWeightSelectorWeight_Lbs}>lbs</span>
-      </div>
-      <div
-        class={styles.SingleWeightSelectorWaterTank}
-        style={{
-          width: `${props.width}px`,
-          height: `${props.height-TEXT_HEIGHT}px`,
+          height: `${props.height - TEXT_HEIGHT}px`,
           "margin-top": `${TEXT_HEIGHT}px`,
         }}
       >
         <div
-          class={styles.SingleWeightSelectorWaterTankWater}
+          class={styles.SingleWeightThinSelectorWaterTankWater}
           style={{
-            width: `${props.width}px`,
             height: `${getWaterHeight()}px`,
             top: `${getWaterTop()}px`,
             left: 0,

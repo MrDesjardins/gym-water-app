@@ -2,14 +2,15 @@ import type { Component } from "solid-js";
 import styles from "./App.module.css";
 import { RepsTempo } from "./components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "./components/SingleWeightSelector/SingleWeightSelector";
+import { SingleWeightThinSelector } from "./components/SingleWeightThinSelector/SingleWeightThinSelector";
 
 const App: Component = () => {
   return (
     <div class={styles.App}>
       <div class={styles.item}>
-        <SingleWeightSelector
+        <SingleWeightThinSelector
           height={300}
-          width={200}
+          width={30}
           defaultWeight={100}
           minimumWeight={0}
           maximumWeight={200}

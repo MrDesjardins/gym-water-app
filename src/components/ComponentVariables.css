@@ -4,4 +4,7 @@
   --SingleWeightSelector-waterTank-bgcolor: #453d55;
   --SingleWeightSelector-waterTank-bgcolor-water: #0288d1;
   --SingleWeightSelector-handle-bgcolor: #c4c4c4;
+
+  --Reps-bgcolor: var(--SingleWeightSelector-waterTank-bgcolor);
+  --Reps-radius: var(--SingleWeightSelector-radius);
 }

@@ -1,5 +1,5 @@
 import { createEffect, createSignal } from "solid-js";
-import "./ComponentVariables.css";
+import "../ComponentVariables.css";
 import styles from "./SingleWeightSelectorHandle.module.css";
 import { BiMoveVertical } from "solid-icons/bi";
 
@@ -30,8 +30,8 @@ export const SingleWeightSelectorHandle = (
       }}
       onmousemove={(e) => {
         if (isDragging()) {
-          props.updateTop(e.screenY - initialYPosition());
-          setInitialYPosition(e.screenY);
+          props.updateTop(e.clientY - initialYPosition());
+          setInitialYPosition(e.clientY);
         }
       }}
       ontouchmove={(e) => {

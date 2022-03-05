@@ -1,3 +1,4 @@
+import "../ComponentVariables.css";
 import styles from "./Wave.module.css";
 export interface WaveProps {
   /**

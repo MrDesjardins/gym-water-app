@@ -1,5 +1,5 @@
 import { createMemo, createSignal } from "solid-js";
-import "./ComponentVariables.css";
+import "../ComponentVariables.css";
 import styles from "./SingleWeightSelector.module.css";
 import { SingleWeightSelectorHandle } from "./SingleWeightSelectorHandle";
 import { Wave } from "./Wave";
@@ -28,23 +28,29 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
     return props.height - getWaterHeight() + 20;
   });
 
-  const getWeightTextTop = (): number => {
+  /**
+   * Return the number of pixel that represent 1 lbs
+   */
+  const getOneLbsPixelEquivalence = createMemo((): number => {
+    const weightRange = props.maximumWeight - props.minimumWeight;
+    return props.height / weightRange;
+  });
+
+  const getWeightTextTop = createMemo((): number => {
     const top = props.height - getWaterHeight() / 2 - TEXT_HEIGHT;
     if (top > props.maximumWeight + TEXT_HEIGHT) {
       return props.maximumWeight + TEXT_HEIGHT;
     }
     return top;
-  };
+  });
 
-  const getHandleTop = (): number => {
+  const getHandleTop = createMemo((): number => {
     return (
       ((props.maximumWeight - currentWeight()) / props.maximumWeight) *
       (props.height - HANDLE_SIZE)
     );
-  };
+  });
 
-  // differencePixelMoved /
-  // (props.maximumWeight - props.minimumWeight)
   return (
     <div
       class={styles.SingleWeightSelector}
@@ -60,19 +66,22 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         defaultTop={getHandleTop()}
         defaultLeft={props.width - HANDLE_SIZE / 2}
         updateTop={(differencePixelMoved) => {
-          setCurrentWeight((prev) => {
-            let newWeight = prev;
+          setCurrentWeight((previousWeight) => {
+            let newWeight =
+              previousWeight +
+              (-1 * differencePixelMoved) / getOneLbsPixelEquivalence();
             if (differencePixelMoved < 0) {
-              newWeight = prev += 1;
-            } else if (differencePixelMoved > 0) {
-              newWeight = prev -= 1;
+              newWeight = Math.ceil(newWeight);
+            } else {
+              newWeight = Math.floor(newWeight);
             }
-            if (newWeight < props.minimumWeight) {
+
+            if (newWeight <= props.minimumWeight) {
               return props.minimumWeight;
-            } else if (newWeight > props.maximumWeight) {
+            } else if (newWeight >= props.maximumWeight) {
               return props.maximumWeight;
             }
-            return Math.trunc(newWeight);
+            return newWeight;
           });
         }}
         isDragging={(dragging: boolean) => {

@@ -1,10 +1,11 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { fakeDistanceSensor } from "../../sensors/FakeDistanceSensor";
 import { loop } from "./canvasContextDrawing";
 import { ChartData } from "./canvasModel";
 import styles from "./RepsTempo.module.css";
 
 export interface RepsTempoChartProps {
+  repGroupId: number;
   height: number;
   width: number;
 }
@@ -17,20 +18,37 @@ export const RepsTempoChart = (props: RepsTempoChartProps) => {
    *  [{repetitionIndex: 1, timeInSec: 0.33, distanceInCm: 0.93}, {repetitionIndex: 1, timeInSec: 1.01, distanceInCm: 2.44}, {...}],
    * ]
    */
-  const [chartData, setChartData] = createSignal<ChartData[][]>([]);
+  let chartData: ChartData[][] = []; // Does not need to be a signal
   let canvasRef: HTMLCanvasElement | undefined = undefined;
-
-  onMount(() => {
-    fakeDistanceSensor(2, (newChartData) => {
-      setChartData((chartData) => {
-        return updateChartData(chartData, newChartData);
-      });
-    });
+  let frame: number;
+  const draw = () => {
     const ctx = canvasRef?.getContext("2d") ?? null;
-    let frame = requestAnimationFrame(() =>
-      loop(ctx, props.width, props.height, () => chartData())
-    );
+    loop(ctx, props.repGroupId, props.width, props.height, chartData);
+    frame = requestAnimationFrame(draw);
+  };
+
+  // Props are changing, we are clearing the canvas and the list of chart data
+  createEffect(() => {
+    console.log("Props changed in RepsTempoChart", props.repGroupId);
+    const ctx = canvasRef?.getContext("2d") ?? null;
+    ctx?.clearRect(0, 0, props.width, props.height); // Clear the canvas
+    chartData = []; // Clear the array
+    cancelAnimationFrame(frame); // Cancel the previous animation frame
+
+    fakeDistanceSensor(12, props.repGroupId, (newChartData, repGroupId) => {
+      if (repGroupId === props.repGroupId) {
+        updateChartData(chartData, newChartData);
+        return true;
+      }
+      return false;
+    });
+
+    frame = requestAnimationFrame(draw);
     onCleanup(() => cancelAnimationFrame(frame));
+  });
+
+  createEffect(() => {
+    console.log("chartData changed", chartData);
   });
 
   return (
@@ -46,7 +64,7 @@ export const RepsTempoChart = (props: RepsTempoChartProps) => {
 /**
  * Receive the existing chartData and the 3 new values
  */
-function updateChartData(chartData: ChartData[][], newData: ChartData) {
+function updateChartData(chartData: ChartData[][], newData: ChartData): void {
   const {
     distanceInCm: distance,
     timeInSec: sec,
@@ -75,5 +93,4 @@ function updateChartData(chartData: ChartData[][], newData: ChartData) {
       ]);
     }
   }
-  return chartData;
 }

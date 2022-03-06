@@ -7,7 +7,8 @@ import { ChartData } from "../components/RepsTempo/canvasModel";
  */
 export function fakeDistanceSensor(
   repNumber: number,
-  callback: (newChartData: ChartData) => void
+  repGroupId: number,
+  callback: (newChartData: ChartData, repGroupId: number) => boolean
 ): void {
   let lastCm = 0;
   let lastSec = 0;
@@ -15,7 +16,7 @@ export function fakeDistanceSensor(
   let direction = 1;
   let startedTime = Date.now();
   const loop = () => {
-    if (lastCm > 35) {
+    if (lastCm > 40) {
       direction = -1;
     }
     if (lastCm <= 0) {
@@ -30,21 +31,35 @@ export function fakeDistanceSensor(
     if (lastCm <= 0) {
       // This might not be totally good. We usually not go to zero when we change rep...
       lastCm = 0;
-      callback({
-        distanceInCm: lastCm,
-        timeInSec: lastSec,
-        repetitionIndex: currentRep,
-      });
+      if (
+        !callback(
+          {
+            distanceInCm: lastCm,
+            timeInSec: lastSec,
+            repetitionIndex: currentRep,
+          },
+          repGroupId
+        )
+      ) {
+        return;
+      }
       startedTime = Date.now();
       currentRep++;
-      setTimeout(loop, 50 + Math.random() * 200);
+      setTimeout(loop, 50 + Math.random() * 500);
     } else if (currentRep < repNumber) {
-      callback({
-        distanceInCm: lastCm,
-        timeInSec: lastSec,
-        repetitionIndex: currentRep,
-      });
-      setTimeout(loop, 10 + Math.random() * 200);
+      if (
+        !callback(
+          {
+            distanceInCm: lastCm,
+            timeInSec: lastSec,
+            repetitionIndex: currentRep,
+          },
+          repGroupId
+        )
+      ) {
+        return;
+      }
+      setTimeout(loop, 10 + Math.random() * 500);
     }
   };
   setTimeout(loop, 0);

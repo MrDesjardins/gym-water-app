@@ -1,21 +1,21 @@
-import type { Component } from "solid-js";
+import { Component, createSignal } from "solid-js";
 import styles from "./App.module.css";
 import { RepsTempo } from "./components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "./components/SingleWeightSelector/SingleWeightSelector";
 import { SingleWeightThinSelector } from "./components/SingleWeightThinSelector/SingleWeightThinSelector";
 
 const App: Component = () => {
+  const [repGroupId, setRepGroupId] = createSignal(0);
   return (
     <div class={styles.App}>
       <div class={styles.item}>
         <SingleWeightThinSelector
           height={300}
-          width={30}
           defaultWeight={100}
           minimumWeight={0}
           maximumWeight={200}
           getCurrentWeight={(weight) => {
-            console.log(weight);
+            console.log("Thin out:", weight);
           }}
         />
       </div>
@@ -27,12 +27,17 @@ const App: Component = () => {
           minimumWeight={0}
           maximumWeight={200}
           getCurrentWeight={(weight) => {
-            console.log(weight);
+            console.log("Fat out:", weight);
           }}
         />
       </div>
       <div class={styles.item}>
-        <RepsTempo height={300} width={300} />
+        <div style={{ height: "350px" }}>
+          <RepsTempo repGroupId={repGroupId()} height={300} width={300} />
+        </div>
+        <button onclick={() => setRepGroupId(repGroupId() + 1)}>
+          Next Set ({repGroupId()})
+        </button>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@
 .RepSelectorChoices {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 100%;
 }
 
@@ -32,6 +32,8 @@
 
 .RepSelectorChoiceSelected {
   background-color: var(--ButtonSelected);
+  color:var(--text-title-color);
+  font-weight: bold;
 }
 
 .RepSelectorChoice > div {

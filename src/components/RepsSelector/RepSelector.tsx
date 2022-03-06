@@ -7,7 +7,7 @@ export interface RepSelectorProps {
   getCurrentReps: (reps: number) => void;
 }
 
-const TEXT_HEIGHT = 20;
+const TEXT_HEIGHT = 40;
 
 export const RepSelector = (props: RepSelectorProps) => {
   const [currentReps, setCurrentReps] = createSignal(props.repsChoices[0] ?? 0);

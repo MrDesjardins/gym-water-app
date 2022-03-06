@@ -9,7 +9,7 @@ const App: Component = () => {
   const [repGroupId, setRepGroupId] = createSignal(0);
   return (
     <div class={styles.App}>
-      <div class={styles.item}>
+      <div class={styles.item} style={{ width: "150px" }}>
         <SingleWeightThinSelector
           height={300}
           defaultWeight={100}
@@ -20,7 +20,7 @@ const App: Component = () => {
           }}
         />
       </div>
-      <div class={styles.item}>
+      <div class={styles.item} style={{ width: "150px" }}>
         <RepSelector
           height={300}
           repsChoices={[6, 8, 10, 12, 16]}
@@ -29,7 +29,7 @@ const App: Component = () => {
           }}
         />
       </div>
-      <div class={styles.item}>
+      <div class={styles.item} style={{ width: "300px" }}>
         <SingleWeightSelector
           height={300}
           width={200}
@@ -41,7 +41,7 @@ const App: Component = () => {
           }}
         />
       </div>
-      <div class={styles.item}>
+      <div class={styles.item} style={{ width: "300px" }}>
         <div style={{ height: "350px" }}>
           <RepsTempo repGroupId={repGroupId()} height={300} width={300} />
         </div>

@@ -2,14 +2,13 @@
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: center;
   align-content: center;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .item {
   flex: 0 0 auto;
-  width: 250px;
-  height:350px;
+  height:325px;
 }

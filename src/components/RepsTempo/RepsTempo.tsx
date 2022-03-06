@@ -7,6 +7,7 @@ export interface RepsTempoProps {
   width: number;
   repGroupId: number;
 }
+const TEXT_HEIGHT = 20;
 export const RepsTempo = (props: RepsTempoProps) => {
   return (
     <div
@@ -21,13 +22,14 @@ export const RepsTempo = (props: RepsTempoProps) => {
         class={styles.RepsTempoContent}
         style={{
           width: `${props.width}px`,
-          height: `${props.height}px`,
+          height: `${props.height - TEXT_HEIGHT}px`,
+          "margin-top": `${TEXT_HEIGHT}px`,
         }}
       >
         <RepsTempoChart
           repGroupId={props.repGroupId}
           width={props.width}
-          height={props.height}
+          height={props.height - TEXT_HEIGHT}
         />
       </div>
     </div>

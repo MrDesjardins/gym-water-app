@@ -1,5 +1,6 @@
 import { Component, createSignal } from "solid-js";
 import styles from "./App.module.css";
+import { RepSelector } from "./components/RepsSelector/RepSelector";
 import { RepsTempo } from "./components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "./components/SingleWeightSelector/SingleWeightSelector";
 import { SingleWeightThinSelector } from "./components/SingleWeightThinSelector/SingleWeightThinSelector";
@@ -16,6 +17,15 @@ const App: Component = () => {
           maximumWeight={200}
           getCurrentWeight={(weight) => {
             console.log("Thin out:", weight);
+          }}
+        />
+      </div>
+      <div class={styles.item}>
+        <RepSelector
+          height={300}
+          repsChoices={[6, 8, 10, 12, 16]}
+          getCurrentReps={(reps) => {
+            console.log("Rep Selector:", reps);
           }}
         />
       </div>

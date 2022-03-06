@@ -1,0 +1,40 @@
+.RepSelector {
+  color: var(--text-title-color);
+  font-family: "Roboto", sans-serif;
+  user-select: none;
+  overflow: hidden;
+  width: 70px;
+}
+
+.RepSelectorChoices {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.RepSelectorChoice {
+  background-color: var(--Reps-bgcolor);
+
+  flex: 0 1 auto;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  border-radius: var(--Reps-radius);
+  color: var(--LabelColor);
+
+  cursor: pointer;
+}
+
+.RepSelectorChoiceSelected {
+  background-color: var(--ButtonSelected);
+}
+
+.RepSelectorChoice > div {
+  width: 30px;
+  height: 20px;
+}

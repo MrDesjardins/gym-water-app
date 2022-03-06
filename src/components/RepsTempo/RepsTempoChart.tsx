@@ -23,13 +23,12 @@ export const RepsTempoChart = (props: RepsTempoChartProps) => {
   let frame: number;
   const draw = () => {
     const ctx = canvasRef?.getContext("2d") ?? null;
-    loop(ctx, props.repGroupId, props.width, props.height, chartData);
+    loop(ctx, props.width, props.height, chartData);
     frame = requestAnimationFrame(draw);
   };
 
   // Props are changing, we are clearing the canvas and the list of chart data
   createEffect(() => {
-    console.log("Props changed in RepsTempoChart", props.repGroupId);
     const ctx = canvasRef?.getContext("2d") ?? null;
     ctx?.clearRect(0, 0, props.width, props.height); // Clear the canvas
     chartData = []; // Clear the array
@@ -45,10 +44,6 @@ export const RepsTempoChart = (props: RepsTempoChartProps) => {
 
     frame = requestAnimationFrame(draw);
     onCleanup(() => cancelAnimationFrame(frame));
-  });
-
-  createEffect(() => {
-    console.log("chartData changed", chartData);
   });
 
   return (

@@ -5,6 +5,8 @@
   --SingleWeightSelector-waterTank-bgcolor-water: #0288d1;
   --SingleWeightSelector-handle-bgcolor: #c4c4c4;
 
+  --LabelColor: #888296;
+  --ButtonSelected: #654e92;
   --Reps-bgcolor: var(--SingleWeightSelector-waterTank-bgcolor);
   --Reps-radius: var(--SingleWeightSelector-radius);
 }

@@ -10,12 +10,10 @@ import {
 
 export const loop = (
   ctx: CanvasRenderingContext2D | null,
-  repGroupId: number,
   width: number,
   height: number,
   getData: ChartData[][]
 ): void => {
-  console.log("In the loop with repGroupId:", repGroupId);
   const pixel_vertical_y_axis_bottom = height - PIXEL_VERTICAL_BOTTOM;
   const pixel_vertical_y_axis_top = PIXEL_VERTICAL_TOP + 20;
   const pixel_horizontal_x_axis_right = width - PIXEL_HORIZONTAL_LEFT - 20;
@@ -106,5 +104,4 @@ export const loop = (
       }
     }
   }
-  //requestAnimationFrame(() => loop(ctx, repGroupId, width, height, getData));
 };

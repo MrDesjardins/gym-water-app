@@ -1,0 +1,21 @@
+.Choose {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex:1;
+}
+
+.nav {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+a.nav,
+a.nav:visited {
+  font-size:30px;
+  color: #98d0fd;
+}

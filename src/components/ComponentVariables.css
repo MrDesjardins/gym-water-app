@@ -9,4 +9,8 @@
   --ButtonSelected: #654e92;
   --Reps-bgcolor: var(--SingleWeightSelector-waterTank-bgcolor);
   --Reps-radius: var(--SingleWeightSelector-radius);
+
+  --TitleColor: var(--SingleWeightSelector-waterTank-bgcolor-water);
+  --ButtonFgColor: var(--text-title-color);
+  --ButtonBgColor: var(--SingleWeightSelector-waterTank-bgcolor-water);
 }

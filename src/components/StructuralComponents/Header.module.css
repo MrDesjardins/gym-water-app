@@ -1,0 +1,12 @@
+.Header {
+  color: var(--TitleColor);
+
+  flex: 0 0 100px
+}
+
+.Header h1{
+  font-size: 50px;
+  margin: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}

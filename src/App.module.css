@@ -1,14 +1,30 @@
 .App {
   background-color: #282c34;
+  color: white;
   min-height: 100vh;
   display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
+  flex-flow: column wrap;
 }
 
-.item {
+.Menu {
   flex: 0 0 auto;
-  height:325px;
+  height:50px;
+  
+  background-color: #757981;
+  display: flex;
+  align-items: center;
+}
+
+.Menu > a {
+  margin: 0 10px 0 10px;
+  flex: 0 0 auto;
+
+  color: #282c34;
+}
+.Menu > a,
+.Menu > a:visited {
+  color: #98d0fd;
+}
+
+.Content {
 }

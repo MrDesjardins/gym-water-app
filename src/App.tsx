@@ -1,56 +1,27 @@
-import { Component, createSignal } from "solid-js";
+import { Link, Route, Routes } from "solid-app-router";
+import { Component } from "solid-js";
+import { Main } from "./pages/Main";
+import { NotFound } from "./pages/NotFound";
+import { StoryBook } from "./pages/StoryBook";
 import styles from "./App.module.css";
-import { RepSelector } from "./components/RepsSelector/RepSelector";
-import { RepsTempo } from "./components/RepsTempo/RepsTempo";
-import { SingleWeightSelector } from "./components/SingleWeightSelector/SingleWeightSelector";
-import { SingleWeightThinSelector } from "./components/SingleWeightThinSelector/SingleWeightThinSelector";
-
 const App: Component = () => {
-  const [repGroupId, setRepGroupId] = createSignal(0);
-  return (
-    <div class={styles.App}>
-      <div class={styles.item} style={{ width: "150px" }}>
-        <SingleWeightThinSelector
-          height={300}
-          defaultWeight={100}
-          minimumWeight={0}
-          maximumWeight={200}
-          getCurrentWeight={(weight) => {
-            console.log("Thin out:", weight);
-          }}
-        />
-      </div>
-      <div class={styles.item} style={{ width: "150px" }}>
-        <RepSelector
-          height={300}
-          repsChoices={[6, 8, 10, 12, 16]}
-          getCurrentReps={(reps) => {
-            console.log("Rep Selector:", reps);
-          }}
-        />
-      </div>
-      <div class={styles.item} style={{ width: "300px" }}>
-        <SingleWeightSelector
-          height={300}
-          width={200}
-          defaultWeight={200}
-          minimumWeight={0}
-          maximumWeight={200}
-          getCurrentWeight={(weight) => {
-            console.log("Fat out:", weight);
-          }}
-        />
-      </div>
-      <div class={styles.item} style={{ width: "300px" }}>
-        <div style={{ height: "350px" }}>
-          <RepsTempo repGroupId={repGroupId()} height={300} width={300} />
-        </div>
-        <button onclick={() => setRepGroupId(repGroupId() + 1)}>
-          Next Set ({repGroupId()})
-        </button>
-      </div>
+  return <div class={styles.App}>
+    <div class={styles.Menu}>
+      <Link class="nav" href="/">
+        Home
+      </Link>
+      <Link class="nav" href="/storybook">
+        StoryBook
+      </Link>
     </div>
-  );
+    <div class="Container">
+      <Routes>
+        <Route path="/storybook" element={<StoryBook />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/*all" element={<NotFound />} />
+      </Routes>
+    </div>
+  </div>
 };
 
 export default App;

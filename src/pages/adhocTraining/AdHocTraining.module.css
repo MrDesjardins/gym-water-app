@@ -1,7 +1,7 @@
 .AdHocTraining {
   display: grid;
-  grid-template-columns: 300px auto;
-  grid-template-rows: 300px auto;
+  grid-template-columns: 340px auto;
+  grid-template-rows: 340px auto;
   grid-template-areas:
     "weightSelector repTempo"
     "weightSelectorActions repTempoActions";

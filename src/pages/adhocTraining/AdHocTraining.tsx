@@ -21,7 +21,7 @@ export const AdHocTraining = () => {
         <div class={styles.weightSelector}>
           {
             <SingleWeightSelector
-              height={300}
+              height={340}
               width={230}
               defaultWeight={DEFAULT_WEIGHT}
               minimumWeight={0}
@@ -49,7 +49,7 @@ export const AdHocTraining = () => {
           </Button>
         </div>
         <div class={styles.repTempo}>
-          <RepsTempo repGroupId={setId()} height={300} width={630} />
+          <RepsTempo repGroupId={setId()} height={340} width={630} />
         </div>
         <div class={styles.repTempoActions}>
           <Button

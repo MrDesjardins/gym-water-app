@@ -5,16 +5,22 @@ import { NotFound } from "./pages/NotFound";
 import { StoryBook } from "./pages/StoryBook";
 import styles from "./App.module.css";
 import { Choose } from "./pages/Choose";
+import { AdHocTraining } from "./pages/adhocTraining/AdHocTraining";
+import { SingleExercise } from "./pages/singleExercise/SingleExercise";
+import { Workout } from "./pages/Workout/Workout";
+import { ROUTES } from "./pages/routes";
 const App: Component = () => {
   return (
     <div class={styles.App}>
       <div class={styles.Container}>
         <Routes>
-          <Route path="/" element={<Choose />} />
-          <Route path="/storybook" element={<StoryBook />} />
-          <Route path="/main" element={<Main />}>
-            <Route path="/" />
-            <Route path="training" element={<Main />} />
+          <Route path={ROUTES.HOME} element={<Choose />} />
+          <Route path={ROUTES.STORYBOOK} element={<StoryBook />} />
+          <Route path={ROUTES.MAIN}>
+            <Route path={ROUTES.ADHOC} element={<AdHocTraining />} />
+            <Route path={ROUTES.SINGLE_EXERCISE} element={<SingleExercise />} />
+            <Route path={ROUTES.WORKOUT} element={<Workout />} />
+            <Route path={ROUTES.HOME} element={<Main />} />
           </Route>
           <Route path="/*all" element={<NotFound />} />
         </Routes>

@@ -3,40 +3,25 @@ import styles from "./Main.module.css";
 import { BsArrowRight } from "solid-icons/bs";
 import { useNavigate } from "solid-app-router";
 import { getMainRoutes, ROUTES } from "./routes";
+import { MainStructure } from "../structure/MainStructure";
+import { Button } from "../components/Button/Button";
 export const Main = () => {
   const navigate = useNavigate();
   return (
-    <div class={styles.Main}>
-      <Header title="Training" />
+    <MainStructure title="Training">
       <div class={styles.MainContainer}>
         <div class={styles.MainContainerMenu}>
-          <button
-            class={styles.MainContainerMenuButton}
-            onclick={() => {
-              navigate(getMainRoutes(ROUTES.ADHOC));
-            }}
-          >
+          <Button link={getMainRoutes(ROUTES.ADHOC)}>
             <span>Ad-Hoc Training</span> <BsArrowRight size={24} color="#fff" />
-          </button>
-          <button
-            class={styles.MainContainerMenuButton}
-            onclick={() => {
-              navigate(getMainRoutes(ROUTES.SINGLE_EXERCISE));
-            }}
-          >
-            <span>Single Exercise </span>{" "}
-            <BsArrowRight size={24} color="#fff" />
-          </button>
-          <button
-            class={styles.MainContainerMenuButton}
-            onclick={() => {
-              navigate(getMainRoutes(ROUTES.WORKOUT));
-            }}
-          >
-            <span>Full Workout </span> <BsArrowRight size={24} color="#fff" />
-          </button>
+          </Button>
+          <Button link={getMainRoutes(ROUTES.SINGLE_EXERCISE)}>
+            <span>Single Exercise</span> <BsArrowRight size={24} color="#fff" />
+          </Button>
+          <Button link={getMainRoutes(ROUTES.WORKOUT)}>
+            <span>Workout</span> <BsArrowRight size={24} color="#fff" />
+          </Button>
         </div>
       </div>
-    </div>
+    </MainStructure>
   );
 };

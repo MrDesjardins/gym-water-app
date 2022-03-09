@@ -1,4 +1,5 @@
-import { createMemo, createSignal } from "solid-js";
+import createDebounce from "@solid-primitives/debounce";
+import { createEffect, createMemo, createSignal, onCleanup } from "solid-js";
 import "../ComponentVariables.css";
 import styles from "./SingleWeightSelector.module.css";
 import { SingleWeightSelectorHandle } from "./SingleWeightSelectorHandle";
@@ -20,7 +21,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
   const getWaterHeight = createMemo((): number => {
     return (
       (currentWeight() / (props.maximumWeight - props.minimumWeight)) *
-      (props.height-TEXT_HEIGHT)
+      (props.height - TEXT_HEIGHT)
     );
   });
 
@@ -51,6 +52,18 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
     );
   });
 
+  // Debounch to improve performance. Will get the last value
+  // after 200ms of inactivity.
+  const [updateNewWeight, clear] = createDebounce(
+    (value) => props.getCurrentWeight(value as number),
+    200
+  );
+  createEffect(() => {
+    updateNewWeight(currentWeight());
+  });
+  onCleanup(() => {
+    clear();
+  });
   return (
     <div
       class={styles.SingleWeightSelector}
@@ -106,7 +119,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         class={styles.SingleWeightSelectorWaterTank}
         style={{
           width: `${props.width}px`,
-          height: `${props.height-TEXT_HEIGHT}px`,
+          height: `${props.height - TEXT_HEIGHT}px`,
           "margin-top": `${TEXT_HEIGHT}px`,
         }}
       >

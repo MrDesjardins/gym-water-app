@@ -1,0 +1,9 @@
+.MainStructure {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.MainStructureContainer {
+  flex: 1 1 auto;
+}

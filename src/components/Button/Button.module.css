@@ -1,0 +1,17 @@
+.Button {
+  background-color: var(--ButtonBgColor);
+  color: var(--ButtonFgColor);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 0;
+  border-radius: 4px;
+  padding: 35px;
+  cursor: pointer;
+
+  /*Align the content (text, svg) middle vertically*/
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}

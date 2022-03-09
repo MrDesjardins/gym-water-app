@@ -1,12 +1,30 @@
 .Header {
-  color: var(--TitleColor);
-
-  flex: 0 0 100px
+  flex: 0 0 100px;
 }
 
-.Header h1{
+.Header h1 {
+  color: var(--TitleColor);
   font-size: 50px;
-  margin: 20px;
+  margin: 20px 0 0 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+.Header h2 {
+  color: var(--SubTitleColor);
+  font-size: 28px;
+  margin: 0 0 20px 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: inline;
+}
+
+.back {
+  top: 20px;
+  right: 20px;
+  position: absolute;
+  width: 200px;
+}
+
+.back > svg {
+  margin-right: 10px;
 }

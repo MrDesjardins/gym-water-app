@@ -41,7 +41,7 @@ export const loop = (
     ctx.font = `14px Arial`;
     ctx.fillStyle = "#888296";
     ctx.fillText(`DISTANCE CM`, 10, PIXEL_VERTICAL_TOP);
-    ctx.fillText(`SEC`, 260, pixel_vertical_y_axis_bottom + 5);
+    ctx.fillText(`SEC`, width - 40, pixel_vertical_y_axis_bottom + 5);
 
     // Y-Axis Labels
     ctx.textAlign = "end";

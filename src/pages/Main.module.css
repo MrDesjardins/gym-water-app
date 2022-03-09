@@ -1,18 +1,11 @@
-.Main {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-}
-
 .MainContainer {
   flex: 1 1 auto;
-
+  height: 100%;
   display: flex;
   align-items: center;
   align-content: center;
   justify-content: center;
 }
-
 .MainContainerMenu {
   flex: 1 1 auto;
   display: flex;
@@ -21,32 +14,17 @@
   justify-content: space-evenly;
 }
 
-.MainContainerMenuButton {
-  background-color: var(--ButtonBgColor);
-  color: var(--ButtonFgColor);
-  font-size: 15px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  border: 0;
-  border-radius: 4px;
-  padding: 35px;
-
+.MainContainerMenu > button {
   width: 300px;
   flex: 0 0 300px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
 }
 
-.MainContainerMenuButton > span {
+.MainContainerMenu span {
   flex: 0 0 auto;
-  padding:0;
-  margin-right:10px;
+  padding: 0;
+  margin-right: 10px;
 }
-.MainContainerMenuButton > svg {
+.MainContainerMenu svg {
   flex: 0;
-  padding:0;
+  padding: 0;
 }

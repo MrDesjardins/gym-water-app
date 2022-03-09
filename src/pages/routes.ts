@@ -7,6 +7,6 @@ export const ROUTES = {
   WORKOUT: "/workout",
 };
 
-export function getMainRoutes(route: string): string {
+export function getMainRoutes(route: string = ""): string {
   return `${ROUTES.MAIN}${route}`;
 }

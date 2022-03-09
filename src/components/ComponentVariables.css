@@ -11,6 +11,7 @@
   --Reps-radius: var(--SingleWeightSelector-radius);
 
   --TitleColor: var(--SingleWeightSelector-waterTank-bgcolor-water);
+  --SubTitleColor: var(---text-title-color);
   --ButtonFgColor: var(--text-title-color);
   --ButtonBgColor: var(--SingleWeightSelector-waterTank-bgcolor-water);
 }

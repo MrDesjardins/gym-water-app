@@ -44,8 +44,8 @@ export const SingleWeightSelectorHandle = (
           console.log(newY);
           if (newY >= props.parentHeight - props.handleSize) {
             newY = props.parentHeight - props.handleSize;
-          } else if (newY <= 0) {
-            newY = 0;
+          } else if (newY <= props.titleOffset) {
+            newY = props.titleOffset;
           }
 
           props.updateTop(newY);

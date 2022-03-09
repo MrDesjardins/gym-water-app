@@ -90,7 +90,6 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         defaultTop={getHandleTop()}
         defaultLeft={props.width - HANDLE_SIZE / 2}
         updateTop={(pixel) => {
-          console.log("Updatetop to: ", pixel);
           setCurrentWeight(() => {
             let newWeight = Math.round(
               (props.height - HANDLE_SIZE - pixel) / getOneLbsPixelEquivalence()

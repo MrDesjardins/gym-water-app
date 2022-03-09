@@ -20,13 +20,6 @@ export const SingleWeightThinSelector = (
   const [isDragging, setIsDragging] = createSignal(false);
 
   const getWaterHeight = createMemo((): number => {
-    // console.log("currentWeight", currentWeight());
-    // console.log("height", props.height);
-    // console.log(
-    //   "Multi",
-    //   currentWeight() / (props.maximumWeight - props.minimumWeight)
-    // );
-    // console.log("Height", props.height  - TEXT_HEIGHT);
     return (
       (currentWeight() / (props.maximumWeight - props.minimumWeight)) *
       (props.height - TEXT_HEIGHT)
@@ -41,13 +34,14 @@ export const SingleWeightThinSelector = (
    */
   const getOneLbsPixelEquivalence = createMemo((): number => {
     const weightRange = props.maximumWeight - props.minimumWeight;
-    return (props.height - HANDLE_SIZE) / weightRange;
+    return (props.height - HANDLE_SIZE - TEXT_HEIGHT) / weightRange;
   });
 
   const getHandleTop = createMemo((): number => {
     return (
+      TEXT_HEIGHT +
       ((props.maximumWeight - currentWeight()) / props.maximumWeight) *
-      (props.height - HANDLE_SIZE - TEXT_HEIGHT)
+        (props.height - HANDLE_SIZE - TEXT_HEIGHT)
     );
   });
   let containerRef: HTMLDivElement | undefined = undefined;

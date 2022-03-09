@@ -27,7 +27,17 @@ export const SingleWeightSelectorHandle = (
   //   (value) => props.updateTop(value as number),
   //   5
   // );
+  function adjustClientYE(mouseOrTouchY: number) {
+    let newY = mouseOrTouchY - props.offsetY - handleOffset;
+    if (newY >= props.parentHeight - props.handleSize) {
+      newY = props.parentHeight - props.handleSize;
+    } else if (newY <= props.titleOffset) {
+      newY = props.titleOffset;
+    }
 
+    props.updateTop(newY);
+    setRealYPosition(newY);
+  }
   let handleOffset = 0;
   return (
     <div
@@ -36,26 +46,19 @@ export const SingleWeightSelectorHandle = (
         setIsDragging(true);
       }}
       ontouchstart={(e) => {
+        console.log(e.touches[0]);
         setIsDragging(true);
       }}
       onmousemove={(e) => {
         if (isDragging()) {
-          let newY = e.clientY - props.offsetY - handleOffset;
-          if (newY >= props.parentHeight - props.handleSize) {
-            newY = props.parentHeight - props.handleSize;
-          } else if (newY <= props.titleOffset) {
-            newY = props.titleOffset;
-          }
-
-          props.updateTop(newY);
-          setRealYPosition(newY);
+          const clientEY = e.clientY;
+          adjustClientYE(clientEY);
         }
       }}
       ontouchmove={(e) => {
         if (isDragging()) {
-          const newY = e.touches[0].clientY - props.offsetY - handleOffset;
-          props.updateTop(newY);
-          setRealYPosition(newY);
+          const clientEY = e.touches[0].clientY ;
+          adjustClientYE(clientEY);
         }
       }}
       onmouseup={(e) => {

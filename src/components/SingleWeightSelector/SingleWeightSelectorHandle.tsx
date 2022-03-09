@@ -10,6 +10,7 @@ export interface SingleWeightSelectorHandleProps {
   isDragging: (dragging: boolean) => void;
   offsetY: number;
   parentHeight: number;
+  titleOffset: number;
 }
 export const SingleWeightSelectorHandle = (
   props: SingleWeightSelectorHandleProps

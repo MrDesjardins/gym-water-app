@@ -4,7 +4,6 @@
   font-family: "Roboto", sans-serif;
   user-select: none;
   overflow: hidden;
-  width:100px;
 }
 
 .SingleWeightSelectorThinTitle {
@@ -12,41 +11,36 @@
   font-weight: 500;
   font-size: 30px;
   left: 0;
-  width:100px;
   text-align: center;
   top: 0;
   z-index: 3;
   text-shadow: black 1px 1px 1px;
 }
-.SingleWeightSelectorThinTitleText{
+.SingleWeightSelectorThinTitleText {
   font-size: 24px;
   text-transform: uppercase;
   display: inline;
 }
-.SingleWeightSelectorThinTitleLbs{
+.SingleWeightSelectorThinTitleLbs {
   font-size: 18px;
   display: inline;
   margin-left: 5px;
 }
 
+
 .SingleWeightThinSelectorWaterTank,
 .SingleWeightThinSelectorWaterTankWater {
-  margin-left:47px;
-  width:20px;
-}
-
-.SingleWeightThinSelectorWaterTank {
   box-sizing: border-box; /*The width and height includes the border*/
   border-radius: var(--SingleWeightSelector-radius);
   background-color: var(--SingleWeightSelector-waterTank-bgcolor);
 }
+
 
 .SingleWeightThinSelectorWaterTankWater {
   position: absolute;
   background-color: var(--SingleWeightSelector-waterTank-bgcolor-water);
   border-bottom-left-radius: var(--SingleWeightSelector-radius);
   border-bottom-right-radius: var(--SingleWeightSelector-radius);
-  border-radius: var(--SingleWeightSelector-radius);
 }
 
 .SingleWeightSelectorWeight {

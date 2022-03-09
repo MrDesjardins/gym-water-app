@@ -84,13 +84,14 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
       <SingleWeightSelectorHandle
         offsetY={getOffset()}
+        titleOffset={0}
         parentHeight={props.height}
         handleSize={HANDLE_SIZE}
         defaultTop={getHandleTop()}
         defaultLeft={props.width - HANDLE_SIZE / 2}
         updateTop={(pixel) => {
           console.log("Updatetop to: ", pixel);
-          setCurrentWeight((previousWeight) => {
+          setCurrentWeight(() => {
             let newWeight = Math.round(
               (props.height - HANDLE_SIZE - pixel) / getOneLbsPixelEquivalence()
             );

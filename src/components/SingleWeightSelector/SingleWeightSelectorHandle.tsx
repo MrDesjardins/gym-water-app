@@ -41,7 +41,6 @@ export const SingleWeightSelectorHandle = (
       onmousemove={(e) => {
         if (isDragging()) {
           let newY = e.clientY - props.offsetY - handleOffset;
-          console.log(newY);
           if (newY >= props.parentHeight - props.handleSize) {
             newY = props.parentHeight - props.handleSize;
           } else if (newY <= props.titleOffset) {

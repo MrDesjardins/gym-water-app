@@ -34,7 +34,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
    */
   const getOneLbsPixelEquivalence = createMemo((): number => {
     const weightRange = props.maximumWeight - props.minimumWeight;
-    return props.height / weightRange;
+    return (props.height - HANDLE_SIZE) / weightRange;
   });
 
   const getWeightTextTop = createMemo((): number => {
@@ -64,8 +64,16 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
   onCleanup(() => {
     clear();
   });
+  let containerRef: HTMLDivElement | undefined = undefined;
+  const getOffset = (): number => {
+    if (containerRef) {
+      return containerRef.getBoundingClientRect().top;
+    }
+    return 0;
+  };
   return (
     <div
+      ref={containerRef}
       class={styles.SingleWeightSelector}
       style={{
         width: `${props.width + HANDLE_SIZE}px`,
@@ -75,26 +83,19 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
       <Wave width={props.width} top={getWaterTop()} wobble={isDragging()} />
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
       <SingleWeightSelectorHandle
+        offsetY={getOffset()}
+        parentHeight={props.height}
         handleSize={HANDLE_SIZE}
         defaultTop={getHandleTop()}
         defaultLeft={props.width - HANDLE_SIZE / 2}
-        updateTop={(differencePixelMoved) => {
+        updateTop={(pixel) => {
+          console.log("Updatetop to: ", pixel);
           setCurrentWeight((previousWeight) => {
-            let newWeight =
-              previousWeight +
-              (-1 * differencePixelMoved) / getOneLbsPixelEquivalence();
-            if (differencePixelMoved < 0) {
-              newWeight = Math.ceil(newWeight);
-            } else {
-              newWeight = Math.floor(newWeight);
-            }
+            let newWeight = Math.round(
+              (props.height - HANDLE_SIZE - pixel) / getOneLbsPixelEquivalence()
+            );
 
-            if (newWeight <= props.minimumWeight) {
-              return props.minimumWeight;
-            } else if (newWeight >= props.maximumWeight) {
-              return props.maximumWeight;
-            }
-            return newWeight;
+            return newWeight; // 0 to 280 (320-60)
           });
         }}
         isDragging={(dragging: boolean) => {

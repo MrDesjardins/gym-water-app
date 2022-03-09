@@ -27,7 +27,7 @@ export const AdHocTraining = () => {
               minimumWeight={0}
               maximumWeight={200}
               getCurrentWeight={(weight) => {
-                console.log("ADasdadadasdasd");
+                console.log("Set the weight to: ", weight);
                 setWeight(weight);
               }}
             />

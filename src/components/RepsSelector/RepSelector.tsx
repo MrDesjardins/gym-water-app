@@ -4,18 +4,23 @@ import styles from "./RepSelector.module.css";
 export interface RepSelectorProps {
   repsChoices: number[];
   height: number;
+  width: number;
+  repSelection?: number;
   getCurrentReps: (reps: number) => void;
 }
 
 const TEXT_HEIGHT = 40;
 
 export const RepSelector = (props: RepSelectorProps) => {
-  const [currentReps, setCurrentReps] = createSignal(props.repsChoices[0] ?? 0);
+  const [currentReps, setCurrentReps] = createSignal(
+    props.repSelection ?? props.repsChoices[0]
+  );
   return (
     <div
       class={styles.RepSelector}
       style={{
         height: `${props.height}px`,
+        width: `${props.width}px`,
       }}
     >
       <div

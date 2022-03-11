@@ -1,4 +1,5 @@
-import { createMemo, createSignal } from "solid-js";
+import createDebounce from "@solid-primitives/debounce";
+import { createEffect, createMemo, createSignal, onCleanup } from "solid-js";
 import "../ComponentVariables.css";
 import { SingleWeightSelectorHandle } from "../SingleWeightSelector/SingleWeightSelectorHandle";
 import styles from "./SingleWeightThinSelector.module.css";
@@ -51,6 +52,19 @@ export const SingleWeightThinSelector = (
     }
     return 0;
   };
+
+  // Debounch to improve performance. Will get the last value
+  // after 200ms of inactivity.
+  const [updateNewWeight, clear] = createDebounce(
+    (value) => props.getCurrentWeight(value as number),
+    200
+  );
+  createEffect(() => {
+    updateNewWeight(currentWeight());
+  });
+  onCleanup(() => {
+    clear();
+  });
   return (
     <div
       ref={containerRef}

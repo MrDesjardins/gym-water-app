@@ -2,6 +2,7 @@ import { createSignal } from "solid-js";
 import { Button } from "../../components/Button/Button";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "../../components/SingleWeightSelector/SingleWeightSelector";
+import { CONSTANTS } from "../../models/constants";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes } from "../routes";
 import styles from "./AdHocTraining.module.css";
@@ -21,8 +22,8 @@ export const AdHocTraining = () => {
             height={340}
             width={230}
             defaultWeight={DEFAULT_WEIGHT}
-            minimumWeight={0}
-            maximumWeight={200}
+            minimumWeight={CONSTANTS.MIN_WEIGHT}
+            maximumWeight={CONSTANTS.MAX_WEIGHT}
             getCurrentWeight={(weight) => {
               console.log("Set the weight to: ", weight);
               setWeight(weight);

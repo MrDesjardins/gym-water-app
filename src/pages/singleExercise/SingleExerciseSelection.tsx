@@ -1,7 +1,7 @@
 import { BsArrowRight } from "solid-icons/bs";
 import { Button } from "../../components/Button/Button";
 import { MainStructure } from "../../structure/MainStructure";
-import { getOrderedExercices } from "../exercise";
+import { getOrderedExercices } from "../../models/exercise";
 import { getMainRoutes, getSingleExercise } from "../routes";
 import styles from "./SingleExerciseSelection.module.css";
 export const SingleExerciseSelection = () => {

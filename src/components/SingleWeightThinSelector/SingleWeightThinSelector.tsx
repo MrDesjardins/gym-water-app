@@ -70,7 +70,7 @@ export const SingleWeightThinSelector = (
       ref={containerRef}
       class={styles.SingleWeightThinSelector}
       style={{
-        width: `${WIDTH + HANDLE_SIZE}px`,
+        width: `${ HANDLE_SIZE}px`,
         height: `${props.height}px`,
       }}
     >

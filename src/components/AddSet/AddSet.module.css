@@ -3,7 +3,7 @@
 }
 
 .backdrop {
-  background-color: rgb(40 44 52 / 70%);
+  background-color: rgb(40 44 52 / 85%);
   z-index: 50;
   position: absolute;
 }

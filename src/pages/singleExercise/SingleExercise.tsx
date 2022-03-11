@@ -1,7 +1,9 @@
 import { useParams } from "solid-app-router";
+import { BsArrowRight } from "solid-icons/bs";
 import { createSignal } from "solid-js";
 import { style } from "solid-js/web";
 import { AddSet } from "../../components/AddSet/AddSet";
+import { Button } from "../../components/Button/Button";
 import { RepSelector } from "../../components/RepsSelector/RepSelector";
 import { SingleWeightThinSelector } from "../../components/SingleWeightThinSelector/SingleWeightThinSelector";
 import { CONSTANTS } from "../../models/constants";
@@ -14,6 +16,7 @@ export const SingleExercise = () => {
   const COMPONENT_HEIGHT = 400;
   const lastKnownWeightForExercise = 50;
   const REP_SELECTOR_WIDTH = 50;
+  const REP_CHOICES = [6, 8, 10, 12, 16, 20];
   const [setData, setSetData] = createSignal<ExerciseSet[]>([]);
   return (
     <MainStructure
@@ -25,7 +28,7 @@ export const SingleExercise = () => {
         {setData().map((set, i) => (
           <div
             class={styles.oneset}
-            style={{ width: `${75 + REP_SELECTOR_WIDTH}px` }}
+            style={{ width: `${70 + REP_SELECTOR_WIDTH}px` }}
           >
             <div class={styles.child1}>
               <SingleWeightThinSelector
@@ -42,7 +45,7 @@ export const SingleExercise = () => {
               <RepSelector
                 height={COMPONENT_HEIGHT}
                 width={REP_SELECTOR_WIDTH}
-                repsChoices={[6, 8, 10, 12, 16]}
+                repsChoices={REP_CHOICES}
                 repSelection={set.reps}
                 getCurrentReps={(reps) => {
                   setData()[i].reps = reps;
@@ -52,12 +55,20 @@ export const SingleExercise = () => {
           </div>
         ))}
         <AddSet
-          width={160}
+          showRemoveButton={setData().length > 0}
+          width={120}
           height={COMPONENT_HEIGHT}
-          onClick={() => {
+          onAddClick={() => {
             setSetData((prev) => {
               const newData = prev.slice();
               newData.push(getNewSet());
+              return newData;
+            });
+          }}
+          onRemoveClick={() => {
+            setSetData((prev) => {
+              const newData = prev.slice();
+              newData.pop();
               return newData;
             });
           }}
@@ -78,7 +89,7 @@ export const SingleExercise = () => {
               <RepSelector
                 height={COMPONENT_HEIGHT}
                 width={REP_SELECTOR_WIDTH}
-                repsChoices={[6, 8, 10, 12, 16]}
+                repsChoices={REP_CHOICES}
                 getCurrentReps={(reps) => {
                   console.log("Rep Selector:", reps);
                 }}
@@ -86,6 +97,12 @@ export const SingleExercise = () => {
             </div>
           </div>
         </AddSet>
+      </div>
+      <div class={styles.buttonColumn}>
+        <Button class={styles.right} link={"#"}>
+          Next
+          <BsArrowRight size={24} color="#fff" />
+        </Button>
       </div>
     </MainStructure>
   );

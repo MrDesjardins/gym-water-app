@@ -12,3 +12,20 @@
 .oneset > .child2 {
   flex: 0 0 50px;
 }
+
+.next {
+  width: 200px;
+}
+
+.next > svg {
+  margin-right: 10px;
+}
+
+.buttonColumn {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  margin-bottom: 20px;
+  margin-right: 40px;
+}

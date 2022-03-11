@@ -18,7 +18,8 @@
 .SingleWeightSelectorWaterTank,
 .SingleWeightSelectorWaterTankWater {
   box-sizing: border-box; /*The width and height includes the border*/
-  border-radius: var(--SingleWeightSelector-radius);
+  border-bottom-left-radius: var(--SingleWeightSelector-radius);
+  border-bottom-right-radius: var(--SingleWeightSelector-radius);
   background-color: var(--SingleWeightSelector-waterTank-bgcolor);
 }
 
@@ -27,6 +28,7 @@
   background-color: var(--SingleWeightSelector-waterTank-bgcolor-water);
   border-bottom-left-radius: var(--SingleWeightSelector-radius);
   border-bottom-right-radius: var(--SingleWeightSelector-radius);
+  z-index: 2;
 }
 
 .SingleWeightSelectorWeight {

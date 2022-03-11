@@ -7,6 +7,7 @@
   z-index: 3;
   background-color: var(--SingleWeightSelector-handle-bgcolor);
   cursor: pointer;
+  z-index: 10; /*Must be bigger than the label and water tank water to not interfer with the dragging event*/
 
   transition: transform 0.5s cubic-bezier(0.08, 0.62, 0.26, 0.93);
 }

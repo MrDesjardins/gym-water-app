@@ -2,6 +2,7 @@
   position: absolute;
   overflow: hidden; /*Hide the wave that are bigger on left and right side (allowing wobbling)*/
   transition: transform 1.5s cubic-bezier(0.08, 0.62, 0.26, 0.93);
+  z-index: 2;
 }
 .Wave_Wobble {
   transform: translateY(

@@ -9,6 +9,7 @@ import { AdHocTraining } from "./pages/adhocTraining/AdHocTraining";
 import { SingleExercise } from "./pages/singleExercise/SingleExercise";
 import { Workout } from "./pages/Workout/Workout";
 import { ROUTES } from "./pages/routes";
+import { SingleExerciseSelection } from "./pages/singleExercise/SingleExerciseSelection";
 const App: Component = () => {
   return (
     <div class={styles.App}>
@@ -18,7 +19,8 @@ const App: Component = () => {
           <Route path={ROUTES.STORYBOOK} element={<StoryBook />} />
           <Route path={ROUTES.MAIN}>
             <Route path={ROUTES.ADHOC} element={<AdHocTraining />} />
-            <Route path={ROUTES.SINGLE_EXERCISE} element={<SingleExercise />} />
+            <Route path={ROUTES.SINGLE_EXERCISE} element={<SingleExerciseSelection />} />
+            <Route path={ROUTES.SINGLE_EXERCISE_ID} element={<SingleExercise />} />
             <Route path={ROUTES.WORKOUT} element={<Workout />} />
             <Route path={ROUTES.HOME} element={<Main />} />
           </Route>

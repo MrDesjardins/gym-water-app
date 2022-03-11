@@ -4,7 +4,7 @@
 }
 
 .App {
-  background-color: #282c34;
+  background-color: blue;
   color: white;
   font-family: Roboto;
   min-height: 100vh;
@@ -13,7 +13,11 @@
 }
 
 .Container {
-  flex: 1 1 auto;
-
+  background-color: #282c34;
   display:flex;
+
+  /*flex: 1 1 auto;*/
+  width: 1024px;
+  height: 600px;
+  border: black 1px;
 }

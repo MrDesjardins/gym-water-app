@@ -44,10 +44,8 @@ export const StoryBook = () => {
         <div style={{ height: "350px" }}>
           <RepsTempo repGroupId={repGroupId()} height={300} width={300} />
         </div>
-        <button onclick={() => setRepGroupId(repGroupId() + 1)}>
-          Next Set ({repGroupId()})
-        </button>
+        <button onclick={() => setRepGroupId(repGroupId() + 1)}>Next Set ({repGroupId()})</button>
       </div>
     </div>
   );
-}
+};

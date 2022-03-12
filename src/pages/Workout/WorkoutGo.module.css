@@ -1,0 +1,11 @@
+.WorkoutGoExercise {
+  flex: 0 0 250px;
+}
+
+.WorkoutGoSets {
+  flex: 1 1 auto;
+}
+
+.WorkoutGoTempo {
+  flex: 0 0 300px;
+}

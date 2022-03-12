@@ -80,3 +80,7 @@ export const EXERCISES: Exercise[] = [
 export function getOrderedExercices(): Exercise[] {
   return EXERCISES.sort((a, b) => a.displayOrder - b.displayOrder);
 }
+
+export function getExercise(id: number): Exercise | undefined {
+  return EXERCISES.find((exercise) => exercise.id === id);
+}

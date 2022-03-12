@@ -1,35 +1,43 @@
-import { useParams } from "solid-app-router";
+import { useNavigate, useParams } from "solid-app-router";
 import { BsArrowRight } from "solid-icons/bs";
 import { createSignal } from "solid-js";
-import { style } from "solid-js/web";
 import { AddSet } from "../../components/AddSet/AddSet";
 import { Button } from "../../components/Button/Button";
 import { RepSelector } from "../../components/RepsSelector/RepSelector";
 import { SingleWeightThinSelector } from "../../components/SingleWeightThinSelector/SingleWeightThinSelector";
 import { CONSTANTS } from "../../models/constants";
-import { ExerciseSet, getNewSet } from "../../models/exerciseSet";
+import { getExercise } from "../../models/exercise";
+import { ExerciseSet, getNewSet, WorkoutExercise } from "../../models/exerciseSet";
+import { Workout } from "../../models/workout";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes, ROUTES } from "../routes";
 import styles from "./SingleExercise.module.css";
 export const SingleExercise = () => {
   const params = useParams();
+  const navigate = useNavigate();
+
   const COMPONENT_HEIGHT = 400;
   const lastKnownWeightForExercise = 50;
   const REP_SELECTOR_WIDTH = 50;
   const REP_CHOICES = [6, 8, 10, 12, 16, 20];
   const [setData, setSetData] = createSignal<ExerciseSet[]>([]);
+
+  const exerciseDetail = getExercise(Number(params.id));
+
+  if (exerciseDetail === undefined) {
+    // Should never happen, but if the URL had a exercise ID that does not exist, we move back
+    navigate(getMainRoutes(ROUTES.SINGLE_EXERCISE));
+  }
   return (
     <MainStructure
       title="Training"
       subtitle="Per Exercise"
+      subtitleDetail={exerciseDetail!.displayName}
       backButtonLink={getMainRoutes(ROUTES.SINGLE_EXERCISE)}
     >
-      <div class={styles.root}>
+      <div class={styles.SingleExercise}>
         {setData().map((set, i) => (
-          <div
-            class={styles.oneset}
-            style={{ width: `${70 + REP_SELECTOR_WIDTH}px` }}
-          >
+          <div class={styles.oneset} style={{ width: `${70 + REP_SELECTOR_WIDTH}px` }}>
             <div class={styles.child1}>
               <SingleWeightThinSelector
                 defaultWeight={set.weight}
@@ -99,7 +107,22 @@ export const SingleExercise = () => {
         </AddSet>
       </div>
       <div class={styles.buttonColumn}>
-        <Button class={styles.right} link={"#"}>
+        <Button
+          class={styles.right}
+          onClick={() => {
+            const singleWorkoutExercise: WorkoutExercise = {
+              exercise: exerciseDetail!,
+              exerciseSets: setData(),
+            };
+            const adhocWorkout: Workout = {
+              workoutName: "Adhoc",
+              workoutExercises: [singleWorkoutExercise],
+            };
+            navigate(getMainRoutes(ROUTES.WORKOUT_GO), {
+              state: adhocWorkout,
+            });
+          }}
+        >
           Next
           <BsArrowRight size={24} color="#fff" />
         </Button>

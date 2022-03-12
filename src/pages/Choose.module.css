@@ -6,7 +6,7 @@
   align-items: center;
   align-content: center;
   justify-content: center;
-  flex:1;
+  flex: 1;
 }
 
 .nav {
@@ -16,6 +16,6 @@
 
 a.nav,
 a.nav:visited {
-  font-size:30px;
+  font-size: 30px;
   color: #98d0fd;
 }

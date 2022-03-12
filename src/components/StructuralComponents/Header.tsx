@@ -4,6 +4,7 @@ import styles from "./Header.module.css";
 export interface HeaderProps {
   title: string;
   subtitle?: string;
+  subtitleDetail?: string;
   backButtonLink?: string;
 }
 export const Header = (props: HeaderProps) => {
@@ -17,8 +18,15 @@ export const Header = (props: HeaderProps) => {
             Back
           </Button>
         )}
+
+        {props.subtitle && <h2>{props.subtitle}</h2>}
+        {props.subtitleDetail && (
+          <>
+            <span>|</span>
+            <h3>{props.subtitleDetail}</h3>
+          </>
+        )}
       </header>
-      {props.subtitle && <h2>{props.subtitle}</h2>}
     </div>
   );
 };

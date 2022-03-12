@@ -5,6 +5,7 @@ export interface MainStructureProps {
   children: JSX.Element;
   title: string;
   subtitle?: string;
+  subtitleDetail?: string;
   backButtonLink?: string;
 }
 export const MainStructure = (props: MainStructureProps): JSX.Element => {
@@ -13,6 +14,7 @@ export const MainStructure = (props: MainStructureProps): JSX.Element => {
       <Header
         title={props.title}
         subtitle={props.subtitle}
+        subtitleDetail={props.subtitleDetail}
         backButtonLink={props.backButtonLink}
       />
       <div class={styles.MainStructureContainer}>{props.children}</div>

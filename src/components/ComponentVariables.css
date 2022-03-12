@@ -14,4 +14,7 @@
   --SubTitleColor: var(---text-title-color);
   --ButtonFgColor: var(--text-title-color);
   --ButtonBgColor: var(--SingleWeightSelector-waterTank-bgcolor-water);
+
+  --ExerciseBgColor: var(--SingleWeightSelector-waterTank-bgcolor);
+  --ExerciseLabelColor: var(--LabelColor);
 }

@@ -4,6 +4,7 @@ import { JSX } from "solid-js";
 export interface ButtonProps {
   children: JSX.Element | string;
   link?: string;
+  onClick?: () => void;
   props?: JSX.ButtonHTMLAttributes<HTMLButtonElement>;
   class?: string;
 }
@@ -18,6 +19,8 @@ export const Button = (props: ButtonProps) => {
       onclick={() => {
         if (props.link !== undefined) {
           navigate(props.link);
+        } else if (props.onClick !== undefined) {
+          props.onClick();
         }
       }}
       {...props.props}

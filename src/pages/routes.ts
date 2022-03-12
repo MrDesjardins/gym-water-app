@@ -4,8 +4,9 @@ export const ROUTES = {
   MAIN: "/main",
   ADHOC: "/adhoc-training",
   SINGLE_EXERCISE: "/single-exercise",
-  SINGLE_EXERCISE_ID: "/single-exercise/:exerciseId",
+  SINGLE_EXERCISE_ID: "/single-exercise/:id",
   WORKOUT: "/workout",
+  WORKOUT_GO: "/workout/go",
 };
 
 export function getMainRoutes(route: string = ""): string {

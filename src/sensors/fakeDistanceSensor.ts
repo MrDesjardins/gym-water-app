@@ -8,7 +8,7 @@ import { ChartData } from "../components/RepsTempo/canvasModel";
 export function fakeDistanceSensor(
   repNumber: number,
   repGroupId: number,
-  callback: (newChartData: ChartData, repGroupId: number) => boolean
+  callback: (newChartData: ChartData, repGroupId: number) => boolean,
 ): void {
   let lastCm = 0;
   let lastSec = 0;
@@ -38,7 +38,7 @@ export function fakeDistanceSensor(
             timeInSec: lastSec,
             repetitionIndex: currentRep,
           },
-          repGroupId
+          repGroupId,
         )
       ) {
         return;
@@ -54,7 +54,7 @@ export function fakeDistanceSensor(
             timeInSec: lastSec,
             repetitionIndex: currentRep,
           },
-          repGroupId
+          repGroupId,
         )
       ) {
         return;

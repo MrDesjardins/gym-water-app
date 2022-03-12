@@ -1,5 +1,5 @@
 import { useLocation } from "solid-app-router";
-import { createMemo, createSignal } from "solid-js";
+import { batch, createMemo, createSignal } from "solid-js";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { Workout } from "../../models/workout";
 import { MainStructure } from "../../structure/MainStructure";
@@ -18,6 +18,28 @@ export const WorkoutGo = () => {
   const currentExercise = createMemo(() => {
     return workout.workoutExercises[activeExerciseIndex()];
   });
+  const next = () => {
+    const e = currentExercise();
+    const s = e.exerciseSets;
+    if (activeSetIndex() < s.length - 1) {
+      batch(() => {
+        // Next set (same exercise)
+        setActiveSetIndex((prev) => prev + 1);
+        setRepGroupId((prev) => prev + 1);
+      });
+    } else {
+      if (activeExerciseIndex() < workout.workoutExercises.length - 1) {
+        // Next exercise
+        batch(() => {
+          setActiveSetIndex(0);
+          setActiveExerciseIndex(activeExerciseIndex() + 1);
+          setRepGroupId((prev) => prev + 1);
+        });
+      } else {
+        console.log("Workout is done!");
+      }
+    }
+  };
   return (
     <MainStructure
       title="Training"
@@ -33,6 +55,16 @@ export const WorkoutGo = () => {
       </div>
       <div class={styles.WorkoutGoTempo}>
         <RepsTempo repGroupId={repGroupId()} height={400} width={430} />
+      </div>
+      <div class={styles.dev}>
+        <a
+          href="#"
+          onClick={() => {
+            next();
+          }}
+        >
+          Next
+        </a>
       </div>
     </MainStructure>
   );

@@ -12,3 +12,9 @@
   flex: 0 0 450px;
   padding-top: 40px;
 }
+
+.dev {
+  position: absolute;
+  right: 20px;
+  top: 550px;
+}

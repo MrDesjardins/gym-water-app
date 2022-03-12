@@ -21,6 +21,8 @@ export const workouts: Workout[] = [
           { weight: 45, reps: 12 },
           { weight: 50, reps: 10 },
           { weight: 55, reps: 8 },
+          { weight: 50, reps: 6 },
+          { weight: 50, reps: 6 },
         ],
       },
       {

@@ -6,6 +6,9 @@
 
 .oneset {
   flex: 0 0 70px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .notactive {
@@ -15,6 +18,8 @@
 .Moveable {
   display: flex;
   position: relative;
+
+  transition: left 0.5s ease-in-out;
 }
 .curtainLeft {
   background: linear-gradient(90deg, rgba(40, 44, 52, 10) 0%, rgba(40, 44, 52, 0) 90%);
@@ -27,4 +32,12 @@
 .curtainRight {
   flex: 0 0 60px;
   z-index: 10;
+}
+
+.topControl {
+  flex: 0 0 400px;
+}
+
+.bottomControl {
+  flex: 0 0 40px;
 }

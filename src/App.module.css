@@ -6,7 +6,6 @@
 .App {
   font-family: "Roboto", sans-serif;
   color: white;
-  font-family: Roboto;
   min-height: 100vh;
   display: flex;
   flex-flow: column wrap;

@@ -24,7 +24,7 @@
 }
 
 .button {
-  background-color: var(--SingleWeightSelector-handle-bgcolor);
+  background-color: var(--weight-selector-handle-bgcolor);
   width: 60px;
   height: 60px;
   border-radius: 50%;

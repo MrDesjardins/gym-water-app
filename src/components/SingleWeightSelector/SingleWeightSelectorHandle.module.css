@@ -1,13 +1,16 @@
 .SingleWeightSelectorHandle {
   position: absolute;
-  align-items: center;
-  align-content: center;
+
   display: flex;
   flex-direction: column;
-  z-index: 3;
-  background-color: var(--SingleWeightSelector-handle-bgcolor);
+  align-items: center;
+  align-content: center;
+
+  background-color: var(--weight-selector-handle-bgcolor);
   cursor: pointer;
-  z-index: 10; /*Must be bigger than the label and water tank water to not interfer with the dragging event*/
+  z-index: var(
+    --component-handle-zindex
+  ); /*Must be bigger than the label and water tank water to not interfer with the dragging event*/
 
   transition: transform 0.5s cubic-bezier(0.08, 0.62, 0.26, 0.93);
 }
@@ -22,7 +25,7 @@
 
 .SingleWeightSelectorHandleData {
   flex: 1;
-  font-size: 50px;
+  font-size: var(--component-big-font-size);
 
   display: flex; /*Vertical center*/
   align-items: center; /*Vertical center*/

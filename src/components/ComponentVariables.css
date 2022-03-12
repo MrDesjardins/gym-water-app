@@ -1,20 +1,45 @@
 :root {
-  --text-title-color: white;
-  --SingleWeightSelector-radius: 8px;
-  --SingleWeightSelector-waterTank-bgcolor: #453d55;
-  --SingleWeightSelector-waterTank-bgcolor-water: #0288d1;
-  --SingleWeightSelector-handle-bgcolor: #c4c4c4;
+  /*General variables*/
+  --text-color: white;
+  --app-bgcolor: #282c34;
+  --link-fg-color: #98d0fd;
 
-  --LabelColor: #888296;
-  --ButtonSelected: #654e92;
-  --Reps-bgcolor: var(--SingleWeightSelector-waterTank-bgcolor);
-  --Reps-radius: var(--SingleWeightSelector-radius);
+  /*Weight Selector (thin, large, etc)*/
+  --weight-selector-radius: 8px;
+  --weight-selector-water-tank-bgcolor: #453d55;
+  --weight-selector-water-tank-bgcolor-water: #0288d1;
+  --weight-selector-handle-bgcolor: #c4c4c4;
 
-  --TitleColor: var(--SingleWeightSelector-waterTank-bgcolor-water);
-  --SubTitleColor: var(---text-title-color);
-  --ButtonFgColor: var(--text-title-color);
-  --ButtonBgColor: var(--SingleWeightSelector-waterTank-bgcolor-water);
+  /*The repetition color*/
+  --rep-fgcolor: #888296;
+  --rep-selected-bgcolor: #654e92;
+  --rep-bgcolor: var(--weight-selector-water-tank-bgcolor);
+  --rep-radius: var(--weight-selector-radius);
 
-  --ExerciseBgColor: var(--SingleWeightSelector-waterTank-bgcolor);
-  --ExerciseLabelColor: var(--LabelColor);
+  /*Top header */
+  --app-title-fgcolor: var(--weight-selector-water-tank-bgcolor-water);
+  --app-subtitle-fgcolor: var(--text-color);
+  --app-title-font-large: 50px;
+  --app-title-font-medium: 28px;
+  --app-title-font-small: 14px;
+
+  /*The blue button used everywhere*/
+  --button-basic-fgcolor: var(--text-color);
+  --button-basic-bgcolor: var(--weight-selector-water-tank-bgcolor-water);
+  --button-font-size: 15px;
+
+  /*List of exercise inside a workout*/
+  --exercise-bgcolor: var(--weight-selector-water-tank-bgcolor);
+  --exercise-fgcolor: var(--rep-fgcolor);
+
+  /*Components*/
+  --component-font-size: 30px;
+  --component-big-font-size: 50px;
+
+  /*Z-index*/
+  --movable-panel-curtains-zindex: 10;
+  --water-zindex: 2;
+  --component-title-zindex: 3;
+  --component-svg-zindex: 3;
+  --component-handle-zindex: 8;
 }

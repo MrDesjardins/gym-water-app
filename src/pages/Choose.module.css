@@ -1,5 +1,5 @@
 .Choose {
-  background-color: #282c34;
+  background-color: var(--app-bgcolor);
   min-height: 100vh;
   display: flex;
   flex-flow: row wrap;
@@ -16,6 +16,6 @@
 
 a.nav,
 a.nav:visited {
-  font-size: 30px;
-  color: #98d0fd;
+  font-size: var(--component-font-size);
+  color: var(--link-fg-color);
 }

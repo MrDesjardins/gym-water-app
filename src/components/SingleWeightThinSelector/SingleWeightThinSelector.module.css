@@ -1,19 +1,18 @@
 .SingleWeightThinSelector {
   position: absolute;
-  color: var(--text-title-color);
-  font-family: "Roboto", sans-serif;
+  color: var(--text-color);
   user-select: none;
   overflow: hidden;
 }
 
 .SingleWeightSelectorThinTitle {
   position: absolute;
-  font-weight: 500;
-  font-size: 30px;
+  font-weight: bold;
+  font-size: var(--component-font-size);
   left: 0;
   text-align: center;
   top: 0;
-  z-index: 3;
+  z-index: var(--component-title-zindex);
   text-shadow: black 1px 1px 1px;
 }
 .SingleWeightSelectorThinTitleText {
@@ -27,41 +26,39 @@
   margin-left: 5px;
 }
 
-
 .SingleWeightThinSelectorWaterTank,
 .SingleWeightThinSelectorWaterTankWater {
   box-sizing: border-box; /*The width and height includes the border*/
-  border-radius: var(--SingleWeightSelector-radius);
-  background-color: var(--SingleWeightSelector-waterTank-bgcolor);
+  border-radius: var(--weight-selector-radius);
+  background-color: var(--weight-selector-water-tank-bgcolor);
 }
-
 
 .SingleWeightThinSelectorWaterTankWater {
   position: absolute;
-  background-color: var(--SingleWeightSelector-waterTank-bgcolor-water);
-  border-bottom-left-radius: var(--SingleWeightSelector-radius);
-  border-bottom-right-radius: var(--SingleWeightSelector-radius);
+  background-color: var(--weight-selector-water-tank-bgcolor-water);
+  border-bottom-left-radius: var(--weight-selector-radius);
+  border-bottom-right-radius: var(--weight-selector-radius);
 }
 
 .SingleWeightSelectorWeight {
   position: absolute;
-  z-index: 3;
+  z-index: var(--component-title-zindex);
   text-align: center;
 }
 
 .SingleWeightSelectorWeight_Number {
-  font-size: 50px;
-  line-height: 50px;
+  font-size: var(--component-big-font-size);
+  line-height: var(--component-big-font-size);
   font-weight: bold;
 }
 
 .SingleWeightSelectorWeight_Lbs {
-  font-size: 30px;
+  font-size: var(--component-font-size);
   margin-left: 8px;
 }
 
 .Svg {
   position: absolute;
-  z-index: 3;
+  z-index: var(--component-svg-zindex);
   overflow: visible;
 }

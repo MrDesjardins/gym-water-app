@@ -20,5 +20,5 @@
 .curtainLeft,
 .curtainRight {
   flex: 0 1 60px;
-  z-index: 10;
+  z-index: var(--movable-panel-curtains-zindex);
 }

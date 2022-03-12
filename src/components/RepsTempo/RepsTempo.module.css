@@ -1,25 +1,24 @@
 .RepsTempo {
   position: absolute;
-  color: var(--text-title-color);
-  font-family: "Roboto", sans-serif;
+  color: var(--text-color);
   user-select: none;
   overflow: hidden;
 }
 
 .RepsTempoContent {
   box-sizing: border-box; /*The width and height includes the border*/
-  background-color: var(--Reps-bgcolor);
-  border-radius: var(--Reps-radius);
+  background-color: var(--rep-bgcolor);
+  border-radius: var(--rep-radius);
 }
 
 .RepsTempoTitle {
   position: absolute;
   text-transform: uppercase;
-  font-weight: 500;
-  font-size: 30px;
+  font-weight: bold;
+  font-size: var(--component-font-size);
   left: 0;
   top: 0;
-  z-index: 3;
+  z-index: var(--component-title-zindex);
   text-shadow: black 1px 1px 1px;
 }
 

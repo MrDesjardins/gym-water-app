@@ -4,7 +4,7 @@
 }
 
 .App {
-  background-color: blue;
+  font-family: "Roboto", sans-serif;
   color: white;
   font-family: Roboto;
   min-height: 100vh;

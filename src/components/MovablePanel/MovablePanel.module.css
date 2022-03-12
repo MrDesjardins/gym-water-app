@@ -19,6 +19,6 @@
 }
 .curtainLeft,
 .curtainRight {
-  flex: 0 0 60px;
+  flex: 0 1 60px;
   z-index: 10;
 }

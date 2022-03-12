@@ -9,12 +9,13 @@ export interface WorkoutExerciseSetsProps {
   activeSet: number;
 }
 
+const PADDING = 20; // Space between sets
 const WIDTH = 50; // Size of the width of the weight of the current set
-const OFFSET = 40; // Margin
+const OFFSET = 40; // Margin from the windowß
 function getLeft(activeIndex: number): number {
   // We do not move for the first 3 sets, the move to keep always in view the current set
   if (activeIndex >= 3) {
-    return -OFFSET - WIDTH * activeIndex + 2 * WIDTH;
+    return -OFFSET - (WIDTH + PADDING) * activeIndex + 2 * (WIDTH + PADDING);
   } else {
     return -OFFSET;
   }
@@ -36,26 +37,26 @@ export const WorkoutExerciseSets = (props: WorkoutExerciseSetsProps) => {
     // );
   });
   return (
-    <>
-      <MovablePanel getLeft={() => getLeft(props.activeSet)} class={styles.WorkoutExerciseSets}>
-        {props.workoutExercise.exerciseSets.map((set, i) => (
-          <div classList={{ [styles.oneset]: true, [styles.notactive]: i !== props.activeSet }}>
-            <div class={styles.topControl}>
-              <SingleWeightThinSelector
-                defaultWeight={set.weight}
-                height={380}
-                width={WIDTH}
-                minimumWeight={CONSTANTS.MIN_WEIGHT}
-                maximumWeight={getMaxWeightForSet()}
-                getCurrentWeight={(weight) => {}}
-                turnOffHandle={true}
-              />
-            </div>
-            <div class={styles.bottomControl}>{set.reps} reps</div>
+    <MovablePanel getLeft={() => getLeft(props.activeSet)} class={styles.WorkoutExerciseSets}>
+      {props.workoutExercise.exerciseSets.map((set, i) => (
+        <div
+          classList={{ [styles.oneset]: true, [styles.notactive]: i !== props.activeSet }}
+          style={{ flex: `0 0 ${WIDTH + PADDING}px` }}
+        >
+          <div class={styles.topControl}>
+            <SingleWeightThinSelector
+              defaultWeight={set.weight}
+              height={380}
+              width={WIDTH}
+              minimumWeight={CONSTANTS.MIN_WEIGHT}
+              maximumWeight={getMaxWeightForSet()}
+              getCurrentWeight={(weight) => {}}
+              turnOffHandle={true}
+            />
           </div>
-        ))}
-      </MovablePanel>
-      <div class={styles.curtainRight} />
-    </>
+          <div class={styles.bottomControl}>{set.reps} reps</div>
+        </div>
+      ))}
+    </MovablePanel>
   );
 };

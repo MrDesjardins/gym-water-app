@@ -3,7 +3,7 @@
 }
 
 .oneset {
-  flex: 0 0 70px;
+  /*Flex set in the style*/
 
   display: flex;
   flex-direction: column;

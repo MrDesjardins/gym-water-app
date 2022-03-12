@@ -4,8 +4,10 @@
 
 .WorkoutGoSets {
   flex: 1 1 auto;
+  overflow: hidden;
 }
 
 .WorkoutGoTempo {
-  flex: 0 0 300px;
+  flex: 0 0 450px;
+  padding-top: 40px;
 }

@@ -1,0 +1,17 @@
+.WorkoutExerciseSets {
+  display: flex;
+  margin: 20px 0px 0px 20px;
+}
+
+.oneset {
+  flex: 0 0 70px;
+}
+
+.notactive {
+  opacity: 0.2;
+}
+
+.Moveable {
+  display: flex;
+  position: relative;
+}

@@ -9,22 +9,19 @@ export interface SingleWeightThinSelectorProps {
   defaultWeight: number;
   height: number;
   getCurrentWeight: (weight: number) => void;
+  turnOffHandle?: boolean;
+  width?: number;
 }
 const HANDLE_SIZE = 60;
 const TEXT_HEIGHT = 40;
 const WIDTH = 20;
 
-export const SingleWeightThinSelector = (
-  props: SingleWeightThinSelectorProps
-) => {
+export const SingleWeightThinSelector = (props: SingleWeightThinSelectorProps) => {
   const [currentWeight, setCurrentWeight] = createSignal(props.defaultWeight);
   const [isDragging, setIsDragging] = createSignal(false);
 
   const getWaterHeight = createMemo((): number => {
-    return (
-      (currentWeight() / (props.maximumWeight - props.minimumWeight)) *
-      (props.height - TEXT_HEIGHT)
-    );
+    return (currentWeight() / (props.maximumWeight - props.minimumWeight)) * (props.height - TEXT_HEIGHT);
   });
 
   const getWaterTop = createMemo((): number => {
@@ -55,10 +52,7 @@ export const SingleWeightThinSelector = (
 
   // Debounch to improve performance. Will get the last value
   // after 200ms of inactivity.
-  const [updateNewWeight, clear] = createDebounce(
-    (value) => props.getCurrentWeight(value as number),
-    200
-  );
+  const [updateNewWeight, clear] = createDebounce((value) => props.getCurrentWeight(value as number), 200);
   createEffect(() => {
     updateNewWeight(currentWeight());
   });
@@ -70,40 +64,38 @@ export const SingleWeightThinSelector = (
       ref={containerRef}
       class={styles.SingleWeightThinSelector}
       style={{
-        width: `${ HANDLE_SIZE}px`,
+        width: `${HANDLE_SIZE}px`,
         height: `${props.height}px`,
       }}
     >
       <div class={styles.SingleWeightSelectorThinTitle}>
-        <div class={styles.SingleWeightSelectorThinTitleText}>
-          {currentWeight()}
-        </div>
+        <div class={styles.SingleWeightSelectorThinTitleText}>{currentWeight()}</div>
         <div class={styles.SingleWeightSelectorThinTitleLbs}>lbs</div>
       </div>
-      <SingleWeightSelectorHandle
-        offsetY={getOffset()}
-        titleOffset={TEXT_HEIGHT}
-        handleSize={HANDLE_SIZE}
-        parentHeight={props.height}
-        defaultTop={getHandleTop()}
-        defaultLeft={0}
-        updateTop={(pixel) => {
-          setCurrentWeight(() => {
-            let newWeight = Math.round(
-              (props.height - HANDLE_SIZE - pixel) / getOneLbsPixelEquivalence()
-            );
+      {props.turnOffHandle === undefined || props.turnOffHandle === false ? (
+        <SingleWeightSelectorHandle
+          offsetY={getOffset()}
+          titleOffset={TEXT_HEIGHT}
+          handleSize={HANDLE_SIZE}
+          parentHeight={props.height}
+          defaultTop={getHandleTop()}
+          defaultLeft={0}
+          updateTop={(pixel) => {
+            setCurrentWeight(() => {
+              let newWeight = Math.round((props.height - HANDLE_SIZE - pixel) / getOneLbsPixelEquivalence());
 
-            return newWeight;
-          });
-        }}
-        isDragging={(dragging: boolean) => {
-          setIsDragging(dragging);
-        }}
-      />
+              return newWeight;
+            });
+          }}
+          isDragging={(dragging: boolean) => {
+            setIsDragging(dragging);
+          }}
+        />
+      ) : null}
       <div
         class={styles.SingleWeightThinSelectorWaterTank}
         style={{
-          width: `${WIDTH}px`,
+          width: `${props.width ?? WIDTH}px`,
           height: `${props.height - TEXT_HEIGHT}px`,
           "margin-top": `${TEXT_HEIGHT}px`,
         }}
@@ -111,7 +103,7 @@ export const SingleWeightThinSelector = (
         <div
           class={styles.SingleWeightThinSelectorWaterTankWater}
           style={{
-            width: `${WIDTH}px`,
+            width: `${props.width ?? WIDTH}px`,
             height: `${getWaterHeight()}px`,
             top: `${getWaterTop()}px`,
             left: 0,

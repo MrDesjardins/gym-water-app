@@ -22,6 +22,7 @@ export const StoryBook = () => {
       <div class={styles.item} style={{ width: "150px" }}>
         <RepSelector
           height={300}
+          width={50}
           repsChoices={[6, 8, 10, 12, 16]}
           getCurrentReps={(reps) => {
             console.log("Rep Selector:", reps);

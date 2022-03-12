@@ -75,12 +75,18 @@ export const EXERCISES: Exercise[] = [
     category: ExerciseCategory.SHOULDER,
     displayOrder: 10,
   },
+  {
+    id: 100,
+    displayName: "Unknown Exercise",
+    category: ExerciseCategory.ABS,
+    displayOrder: 100,
+  },
 ];
 
 export function getOrderedExercices(): Exercise[] {
   return EXERCISES.sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
-export function getExercise(id: number): Exercise | undefined {
-  return EXERCISES.find((exercise) => exercise.id === id);
+export function getExercise(id: number): Exercise {
+  return EXERCISES.find((exercise) => exercise.id === id) ?? EXERCISES[EXERCISES.length - 1];
 }

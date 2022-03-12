@@ -11,7 +11,7 @@ export const SingleExerciseSelection = () => {
       subtitle="Per Exercise"
       backButtonLink={getMainRoutes()}
     >
-      <div class={styles.root}>
+      <div class={styles.SingleExerciseSelection}>
         {getOrderedExercices().map((exercise) => (
           <div class={styles.choice}>
             <ExerciseButton

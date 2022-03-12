@@ -1,6 +1,7 @@
 .WorkoutExerciseSets {
   display: flex;
-  margin: 20px 0px 0px 20px;
+  padding: 20px 0px 0px 0px;
+  flex: 1;
 }
 
 .oneset {
@@ -14,4 +15,16 @@
 .Moveable {
   display: flex;
   position: relative;
+}
+.curtainLeft {
+  background: linear-gradient(90deg, rgba(40, 44, 52, 10) 0%, rgba(40, 44, 52, 0) 90%);
+}
+
+.curtainRight {
+  background: linear-gradient(90deg, rgba(40, 44, 52, 0) 10%, rgba(40, 44, 52, 1) 90%);
+}
+.curtainLeft,
+.curtainRight {
+  flex: 0 0 60px;
+  z-index: 10;
 }

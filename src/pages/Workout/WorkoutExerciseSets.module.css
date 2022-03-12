@@ -1,7 +1,5 @@
 .WorkoutExerciseSets {
-  display: flex;
   padding: 20px 0px 0px 0px;
-  flex: 1;
 }
 
 .oneset {
@@ -13,25 +11,6 @@
 
 .notactive {
   opacity: 0.2;
-}
-
-.Moveable {
-  display: flex;
-  position: relative;
-
-  transition: left 0.5s ease-in-out;
-}
-.curtainLeft {
-  background: linear-gradient(90deg, rgba(40, 44, 52, 10) 0%, rgba(40, 44, 52, 0) 90%);
-}
-
-.curtainRight {
-  background: linear-gradient(90deg, rgba(40, 44, 52, 0) 10%, rgba(40, 44, 52, 1) 90%);
-}
-.curtainLeft,
-.curtainRight {
-  flex: 0 0 60px;
-  z-index: 10;
 }
 
 .topControl {

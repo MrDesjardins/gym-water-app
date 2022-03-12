@@ -18,3 +18,6 @@ Source code of the user interface operating the gym machine with water weight.
 1. Connect to NodeJs for sensors information (might need to throttle)
 2. Connect to NodeJs to download workouts (or create on the device ?)
 3. Save previous weight for specific exercises, when coming back, we could reload previously used weight
+
+## Cleanip
+1. CSS Variables

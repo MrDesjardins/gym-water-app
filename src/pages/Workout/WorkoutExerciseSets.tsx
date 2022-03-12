@@ -1,4 +1,5 @@
 import { createMemo } from "solid-js";
+import { MovablePanel } from "../../components/MovablePanel/MovablePanel";
 import { SingleWeightThinSelector } from "../../components/SingleWeightThinSelector/SingleWeightThinSelector";
 import { CONSTANTS } from "../../models/constants";
 import { WorkoutExercise } from "../../models/exerciseSet";
@@ -34,30 +35,26 @@ export const WorkoutExerciseSets = (props: WorkoutExerciseSetsProps) => {
     //   CONSTANTS.MAX_WEIGHT,
     // );
   });
-  console.log(getMaxWeightForSet());
   return (
     <>
-      <div class={styles.curtainLeft} />
-      <div class={styles.WorkoutExerciseSets}>
-        <div class={styles.Moveable} style={{ left: `${getLeft(props.activeSet)}px` }}>
-          {props.workoutExercise.exerciseSets.map((set, i) => (
-            <div classList={{ [styles.oneset]: true, [styles.notactive]: i !== props.activeSet }}>
-              <div class={styles.topControl}>
-                <SingleWeightThinSelector
-                  defaultWeight={set.weight}
-                  height={380}
-                  width={WIDTH}
-                  minimumWeight={CONSTANTS.MIN_WEIGHT}
-                  maximumWeight={getMaxWeightForSet()}
-                  getCurrentWeight={(weight) => {}}
-                  turnOffHandle={true}
-                />
-              </div>
-              <div class={styles.bottomControl}>{set.reps} reps</div>
+      <MovablePanel getLeft={() => getLeft(props.activeSet)} class={styles.WorkoutExerciseSets}>
+        {props.workoutExercise.exerciseSets.map((set, i) => (
+          <div classList={{ [styles.oneset]: true, [styles.notactive]: i !== props.activeSet }}>
+            <div class={styles.topControl}>
+              <SingleWeightThinSelector
+                defaultWeight={set.weight}
+                height={380}
+                width={WIDTH}
+                minimumWeight={CONSTANTS.MIN_WEIGHT}
+                maximumWeight={getMaxWeightForSet()}
+                getCurrentWeight={(weight) => {}}
+                turnOffHandle={true}
+              />
             </div>
-          ))}
-        </div>
-      </div>
+            <div class={styles.bottomControl}>{set.reps} reps</div>
+          </div>
+        ))}
+      </MovablePanel>
       <div class={styles.curtainRight} />
     </>
   );

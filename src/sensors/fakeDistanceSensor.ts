@@ -6,7 +6,8 @@ export function fakeDistanceSensor(startedTime: number, getData: (cm: number, se
     if (lastCm > 40) {
       direction = -1;
     }
-    if (lastCm <= 0) {
+    if (lastCm <= Math.random() * 10) {
+      // We might start a new rep not at exactly 0 cm from the bottom
       direction = 1;
     }
     lastCm += (2 + Math.random() * 5) * direction;

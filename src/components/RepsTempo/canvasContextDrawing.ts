@@ -8,7 +8,7 @@ import {
   PIXEL_VERTICAL_TOP,
 } from "./canvasModel";
 
-export const loop = (
+export const drawDotsLinesTempos = (
   ctx: CanvasRenderingContext2D | null,
   width: number,
   height: number,

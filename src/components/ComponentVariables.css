@@ -32,6 +32,11 @@
   --exercise-bgcolor: var(--weight-selector-water-tank-bgcolor);
   --exercise-fgcolor: var(--rep-fgcolor);
 
+  /*Reps Tempo Canvas Component*/
+  --overlay-bg: #5b5469;
+  --overlay-font-large: 44px;
+  --overlay-font-small: 30px;
+
   /*Components*/
   --component-font-size: 30px;
   --component-big-font-size: 50px;

@@ -43,7 +43,7 @@ export const StoryBook = () => {
       </div>
       <div class={styles.item} style={{ width: "300px" }}>
         <div style={{ height: "350px" }}>
-          <RepsTempo repGroupId={repGroupId()} height={300} width={300} />
+          <RepsTempo repGroupId={repGroupId()} height={300} width={300} expectedReps={12} />
         </div>
         <button onclick={() => setRepGroupId(repGroupId() + 1)}>Next Set ({repGroupId()})</button>
       </div>

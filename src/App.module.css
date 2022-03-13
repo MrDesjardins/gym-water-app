@@ -13,7 +13,7 @@
 
 .Container {
   background-color: #282c34;
-  display:flex;
+  display: flex;
 
   /*flex: 1 1 auto;*/
   width: 1024px;

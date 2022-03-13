@@ -9,6 +9,7 @@ export function fakeDistanceSensor(
   repNumber: number,
   repGroupId: number,
   callback: (newChartData: ChartData, repGroupId: number) => boolean,
+  callbackOver: () => void,
 ): void {
   let lastCm = 0;
   let lastSec = 0;
@@ -45,7 +46,7 @@ export function fakeDistanceSensor(
       }
       startedTime = Date.now();
       currentRep++;
-      setTimeout(loop, 50 + Math.random() * 500);
+      setTimeout(loop, 50 + Math.random() * 400);
     } else if (currentRep < repNumber) {
       if (
         !callback(
@@ -59,7 +60,9 @@ export function fakeDistanceSensor(
       ) {
         return;
       }
-      setTimeout(loop, 10 + Math.random() * 500);
+      setTimeout(loop, 10 + Math.random() * 300);
+    } else {
+      callbackOver();
     }
   };
   setTimeout(loop, 0);

@@ -18,6 +18,9 @@ export const WorkoutGo = () => {
   const currentExercise = createMemo(() => {
     return workout.workoutExercises[activeExerciseIndex()];
   });
+  const currentSet = createMemo(() => {
+    return currentExercise().exerciseSets[activeSetIndex()];
+  });
   const next = () => {
     const e = currentExercise();
     const s = e.exerciseSets;
@@ -54,7 +57,7 @@ export const WorkoutGo = () => {
         <WorkoutExerciseSets workoutExercise={currentExercise()} activeSet={activeSetIndex()} />
       </div>
       <div class={styles.WorkoutGoTempo}>
-        <RepsTempo repGroupId={repGroupId()} height={400} width={430} />
+        <RepsTempo repGroupId={repGroupId()} height={400} width={430} expectedReps={currentSet().reps} />
       </div>
       <div class={styles.dev}>
         <a

@@ -25,3 +25,56 @@
 .RepsTempoCanvas {
   display: block;
 }
+
+.reps {
+  padding: 10px 20px;
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  background-color: var(--overlay-bg);
+  border-radius: 4px;
+  opacity: 0.8; /*In case a tempo line goes underneath*/
+}
+
+.currentRepCount {
+  font-size: var(--overlay-font-large);
+  font-weight: bold;
+  display: inline-block;
+  height: 40px;
+}
+
+.currentRepCount > div {
+  position: absolute;
+}
+.currentRepCountAnimated > div {
+  animation: pulseFast 1s ease-in-out infinite alternate;
+}
+
+.repSeparator,
+.expectedRep {
+  font-size: var(--overlay-font-small);
+  color: var(--rep-fgcolor);
+}
+
+.repSeparator {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+@keyframes pulseFast {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.3) rotate(15deg);
+  }
+  50% {
+    transform: scale(1) rotate(0deg);
+  }
+  75% {
+    transform: scale(1.3) rotate(-15deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}

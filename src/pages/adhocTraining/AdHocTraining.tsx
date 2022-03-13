@@ -11,11 +11,7 @@ export const AdHocTraining = () => {
   const [weight, setWeight] = createSignal(DEFAULT_WEIGHT);
   const [setId, setSetId] = createSignal(0);
   return (
-    <MainStructure
-      title="Training"
-      subtitle="Ad-Hoc"
-      backButtonLink={getMainRoutes()}
-    >
+    <MainStructure title="Training" subtitle="Ad-Hoc" backButtonLink={getMainRoutes()}>
       <div class={styles.AdHocTraining}>
         <div class={styles.weightSelector}>
           <SingleWeightSelector
@@ -35,10 +31,7 @@ export const AdHocTraining = () => {
             class={styles.button}
             props={{
               onclick: () => {
-                console.log(
-                  "Adjusting the weight. Sending signal with a weight of: ",
-                  weight()
-                );
+                console.log("Adjusting the weight. Sending signal with a weight of: ", weight());
               },
             }}
           >

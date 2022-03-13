@@ -116,7 +116,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
           class={styles.currentRepCount}
           classList={{ [styles.currentRepCountAnimated]: makeEmphasisRep() }}
           style={{
-            width: (props.expectedReps ?? 99) > 9 ? "50px" : "30px",
+            width: currentRepetition() > 9 ? "50px" : "30px",
           }}
         >
           <div>{currentRepetition()}</div>

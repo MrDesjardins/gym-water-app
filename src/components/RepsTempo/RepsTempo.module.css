@@ -34,6 +34,9 @@
   background-color: var(--overlay-bg);
   border-radius: 4px;
   opacity: 0.8; /*In case a tempo line goes underneath*/
+
+  display: flex;
+  align-items: flex-end;
 }
 
 .currentRepCount {

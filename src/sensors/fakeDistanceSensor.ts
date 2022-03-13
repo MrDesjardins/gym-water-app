@@ -1,4 +1,4 @@
-export function fakeDistanceSensor(startedTime: number, getData: (cm: number, sec: number) => boolean): void {
+export function fakeDistanceSensor(getData: (cm: number, sec: number) => boolean): void {
   let lastCm = 0;
   let direction = 1;
 

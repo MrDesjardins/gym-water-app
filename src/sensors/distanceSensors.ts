@@ -12,7 +12,7 @@ export function distanceSensor(
   let lastCm = 0;
   let lastSec = 0;
   let isGoingDown = false;
-  fakeDistanceSensor(startedTime, (cm: number, timeMs: number) => {
+  fakeDistanceSensor((cm: number, timeMs: number) => {
     lastSec = (Date.now() - startedTime) / 1000;
     if (cm < lastCm) {
       isGoingDown = true;

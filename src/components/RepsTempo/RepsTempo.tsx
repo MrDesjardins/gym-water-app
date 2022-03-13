@@ -1,4 +1,5 @@
 import { createEffect, createMemo, createSignal } from "solid-js";
+import { distanceSensor } from "../../sensors/distanceSensors";
 import { fakeDistanceSensor } from "../../sensors/fakeDistanceSensor";
 import "../ComponentVariables.css";
 import { ChartData } from "./canvasModel";
@@ -54,7 +55,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
   // Props are changing (repGroupId), we are clearing the canvas and the list of chart data
   createEffect(() => {
     setChartData([]);
-    fakeDistanceSensor(
+    distanceSensor(
       props.expectedReps ?? 10,
       props.repGroupId,
       (newChartData, repGroupId) => {

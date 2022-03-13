@@ -40,7 +40,8 @@
   font-size: var(--overlay-font-large);
   font-weight: bold;
   display: inline-block;
-  height: 40px;
+  height: var(--overlay-font-large);
+  line-height: var(--overlay-font-large);
 }
 
 .currentRepCount > div {

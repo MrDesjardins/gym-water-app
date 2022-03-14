@@ -7,14 +7,17 @@ export interface ButtonProps {
   onClick?: () => void;
   props?: JSX.ButtonHTMLAttributes<HTMLButtonElement>;
   class?: string;
+  disabled?: boolean;
 }
 export const Button = (props: ButtonProps) => {
   const navigate = useNavigate();
   return (
     <button
+      disabled={props.disabled ?? false}
       class={styles.Button}
       classList={{
         [props.class!]: props.class !== undefined,
+        [styles.disabled]: props.disabled ?? false,
       }}
       onclick={() => {
         if (props.link !== undefined) {

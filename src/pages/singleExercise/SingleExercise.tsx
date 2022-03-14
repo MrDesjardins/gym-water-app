@@ -124,6 +124,7 @@ export const SingleExercise = () => {
       </div>
       <div class={styles.buttonColumn}>
         <Button
+          disabled={setData().length === 0}
           class={styles.right}
           onClick={() => {
             const singleWorkoutExercise: WorkoutExercise = {

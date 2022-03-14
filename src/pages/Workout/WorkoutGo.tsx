@@ -1,6 +1,7 @@
 import { useLocation } from "solid-app-router";
 import { batch, createMemo, createSignal } from "solid-js";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
+import { WaterScreen } from "../../components/Transitions/WaterScreen";
 import { Workout } from "../../models/workout";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes } from "../routes";
@@ -50,6 +51,7 @@ export const WorkoutGo = () => {
       subtitleDetail={workout.workoutName}
       backButtonLink={getMainRoutes()}
     >
+      <WaterScreen />
       <div class={styles.WorkoutGoExercise}>
         <WorkoutExercises exercises={workout.workoutExercises} activeExercise={activeExerciseIndex()} />
       </div>

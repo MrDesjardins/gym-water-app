@@ -87,6 +87,15 @@ export const workouts: Workout[] = [
       },
     ],
   },
+  {
+    workoutName: "Dev Tempo Small",
+    workoutExercises: [
+      {
+        exercise: getExercise(1),
+        exerciseSets: [{ weight: 40, reps: 16 }],
+      },
+    ],
+  },
 ];
 export function getOrderedWorkouts(): Workout[] {
   return workouts;

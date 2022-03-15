@@ -6,7 +6,7 @@ export const WaterScreen = (props: WaterScreenProps) => {
   const [isWaveAnimationRunning, setIsWaveAnimationRunning] = createSignal(true);
   let canvasRef: HTMLCanvasElement | undefined = undefined;
   let frame: number;
-  let canvasHeight = 490;
+  let canvasHeight = 470;
   let canvasWidth = 1024;
 
   const WAVE_NUMBER = 4;

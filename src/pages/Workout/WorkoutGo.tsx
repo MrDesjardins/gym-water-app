@@ -1,4 +1,4 @@
-import { useLocation } from "solid-app-router";
+import { useLocation, useNavigate } from "solid-app-router";
 import { batch, createMemo, createSignal } from "solid-js";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { WaterScreen } from "../../components/Transitions/WaterScreen";
@@ -67,7 +67,13 @@ export const WorkoutGo = () => {
         <WorkoutExerciseSets workoutExercise={currentExercise()} activeSet={activeSetIndex()} />
       </div>
       <div class={styles.WorkoutGoTempo}>
-        <RepsTempo repStartGroupId={repStartGroupId()} repStopGroupId={repStopGroupId()} height={400} width={430} expectedReps={currentSet().reps} />
+        <RepsTempo
+          repStartGroupId={repStartGroupId()}
+          repStopGroupId={repStopGroupId()}
+          height={400}
+          width={430}
+          expectedReps={currentSet().reps}
+        />
       </div>
       <div class={styles.dev}>
         <h3> Dev Panel: Fake Sensor Event</h3>

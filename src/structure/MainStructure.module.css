@@ -9,3 +9,17 @@
 
   display: flex;
 }
+
+
+.dev {
+  position: absolute;
+  right: 20px;
+  top: 650px;
+}
+
+.dev > h3{
+  color: var(--app-title-fgcolor);
+}
+.dev > a {
+  display:block;
+}

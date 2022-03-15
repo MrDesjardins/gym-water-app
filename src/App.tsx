@@ -11,31 +11,28 @@ import { Workout } from "./pages/Workout/Workout";
 import { ROUTES } from "./pages/routes";
 import { SingleExerciseSelection } from "./pages/singleExercise/SingleExerciseSelection";
 import { WorkoutGo } from "./pages/Workout/WorkoutGo";
+import { SensorsProvider } from "./sensors/SensorsContext";
 const App: Component = () => {
   return (
-    <div class={styles.App}>
-      <div class={styles.Container}>
-        <Routes>
-          <Route path={ROUTES.HOME} element={<Choose />} />
-          <Route path={ROUTES.STORYBOOK} element={<StoryBook />} />
-          <Route path={ROUTES.MAIN}>
-            <Route path={ROUTES.ADHOC} element={<AdHocTraining />} />
-            <Route
-              path={ROUTES.SINGLE_EXERCISE}
-              element={<SingleExerciseSelection />}
-            />
-            <Route
-              path={ROUTES.SINGLE_EXERCISE_ID}
-              element={<SingleExercise />}
-            />
-            <Route path={ROUTES.WORKOUT} element={<Workout />} />
-            <Route path={ROUTES.WORKOUT_GO} element={<WorkoutGo />} />
-            <Route path={ROUTES.HOME} element={<Main />} />
-          </Route>
-          <Route path="/*all" element={<NotFound />} />
-        </Routes>
+    <SensorsProvider useFakeSensors={true}>
+      <div class={styles.App}>
+        <div class={styles.Container}>
+          <Routes>
+            <Route path={ROUTES.HOME} element={<Choose />} />
+            <Route path={ROUTES.STORYBOOK} element={<StoryBook />} />
+            <Route path={ROUTES.MAIN}>
+              <Route path={ROUTES.ADHOC} element={<AdHocTraining />} />
+              <Route path={ROUTES.SINGLE_EXERCISE} element={<SingleExerciseSelection />} />
+              <Route path={ROUTES.SINGLE_EXERCISE_ID} element={<SingleExercise />} />
+              <Route path={ROUTES.WORKOUT} element={<Workout />} />
+              <Route path={ROUTES.WORKOUT_GO} element={<WorkoutGo />} />
+              <Route path={ROUTES.HOME} element={<Main />} />
+            </Route>
+            <Route path="/*all" element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </SensorsProvider>
   );
 };
 

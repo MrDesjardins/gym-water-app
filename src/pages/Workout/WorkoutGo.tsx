@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from "solid-app-router";
-import { batch, createMemo, createSignal } from "solid-js";
+import { batch, createEffect, createMemo, createSignal, on } from "solid-js";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { WaterScreen } from "../../components/Transitions/WaterScreen";
 import { Workout } from "../../models/workout";
+import { useSensors } from "../../sensors/SensorsContext";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes } from "../routes";
 import { WorkoutExercises } from "./WorkoutExercises";
@@ -11,6 +12,7 @@ import styles from "./WorkoutGo.module.css";
 
 export const WorkoutGo = () => {
   const location = useLocation();
+  const sensors = useSensors();
   const [activeExerciseIndex, setActiveExerciseIndex] = createSignal(0);
   const [activeSetIndex, setActiveSetIndex] = createSignal(0);
   const [repStartGroupId, setStartRepGroupId] = createSignal(0);
@@ -24,9 +26,22 @@ export const WorkoutGo = () => {
     return currentExercise().exerciseSets[activeSetIndex()];
   });
 
-  const startExerciseSet = () => {
-    setStartRepGroupId((prev) => prev + 1);
-  };
+  createEffect(
+    on(
+      () => sensors?.state.contactSensorIsClosed,
+      () => {
+        console.log("This should not be called");
+        if (sensors !== undefined) {
+          if (sensors.state.contactSensorIsClosed) {
+            goToNextSetOrExercise();
+          } else {
+            setStartRepGroupId((prev) => prev + 1);
+          }
+        }
+      },
+      { defer: true }, // Need to defer: we do not want any execution on the first render, only when a change occurs
+    ),
+  );
   const goToNextSetOrExercise = () => {
     const e = currentExercise();
     const s = e.exerciseSets;
@@ -74,25 +89,6 @@ export const WorkoutGo = () => {
           width={430}
           expectedReps={currentSet().reps}
         />
-      </div>
-      <div class={styles.dev}>
-        <h3> Dev Panel: Fake Sensor Event</h3>
-        <a
-          href="#"
-          onClick={() => {
-            startExerciseSet();
-          }}
-        >
-          Contact Sensor Open
-        </a>
-        <a
-          href="#"
-          onClick={() => {
-            goToNextSetOrExercise();
-          }}
-        >
-          Contact Sensor Close
-        </a>
       </div>
     </MainStructure>
   );

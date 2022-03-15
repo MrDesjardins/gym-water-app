@@ -34,6 +34,7 @@
 
   /*Reps Tempo Canvas Component*/
   --overlay-bg: #5b5469;
+  --overlay-font-extra-large: 84px;
   --overlay-font-large: 44px;
   --overlay-font-small: 30px;
 
@@ -48,4 +49,5 @@
   --component-svg-zindex: 3;
   --component-handle-zindex: 8;
   --transition-zindex: 100;
+  --transition-text-zindex: 110;
 }

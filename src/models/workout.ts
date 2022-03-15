@@ -92,7 +92,7 @@ export const workouts: Workout[] = [
     workoutExercises: [
       {
         exercise: getExercise(1),
-        exerciseSets: [{ weight: 40, reps: 16 }],
+        exerciseSets: [{ weight: 40, reps: 6 }],
       },
     ],
   },

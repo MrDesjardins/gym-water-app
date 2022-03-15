@@ -6,6 +6,7 @@ import { SingleWeightThinSelector } from "../components/SingleWeightThinSelector
 import { createSignal } from "solid-js";
 export const StoryBook = () => {
   const [repGroupId, setRepGroupId] = createSignal(0);
+  const [repGroupId2, setRepGroupId2] = createSignal(0);
   return (
     <div class={styles.StoryBook}>
       <div class={styles.item} style={{ width: "150px" }}>
@@ -43,9 +44,16 @@ export const StoryBook = () => {
       </div>
       <div class={styles.item} style={{ width: "300px" }}>
         <div style={{ height: "350px" }}>
-          <RepsTempo repGroupId={repGroupId()} height={300} width={300} expectedReps={12} />
+          <RepsTempo
+            repStartGroupId={repGroupId()}
+            repStopGroupId={repGroupId2()}
+            height={300}
+            width={300}
+            expectedReps={12}
+          />
         </div>
-        <button onclick={() => setRepGroupId(repGroupId() + 1)}>Next Set ({repGroupId()})</button>
+        <button onclick={() => setRepGroupId(repGroupId() + 1)}>Start({repGroupId()})</button>
+        <button onclick={() => setRepGroupId(repGroupId2() + 1)}>Stop ({repGroupId2()})</button>
       </div>
     </div>
   );

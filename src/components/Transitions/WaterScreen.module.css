@@ -1,6 +1,20 @@
 .WaterScreen {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+
   position: absolute;
   left: 0;
   right: 0;
   z-index: var(--transition-zindex);
+}
+
+.finalMessage {
+  flex: 0 0 auto;
+  font-size: var(--overlay-font-extra-large);
+  letter-spacing: 5px;
+  z-index: var(--transition-text-zindex);
+
+  position: relative;
+  transition: top 800ms cubic-bezier(0.07, 1.07, 0.94, 1.23); /*https://cubic-bezier.com/#.07,1.07,.94,1.23*/
 }

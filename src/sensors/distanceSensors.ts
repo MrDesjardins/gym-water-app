@@ -7,7 +7,7 @@ export function distanceSensor(
   repGroupId: number,
   callbackNewDataPoint: (newDataPoint: ChartData, repGroupId: number) => boolean,
   callbackOver: () => void,
-): void {
+): ReturnType<typeof fakeDistanceSensor> {
   let startedTime = Date.now();
   let currentRep = 0;
   let lastCm = 0;
@@ -34,4 +34,5 @@ export function distanceSensor(
   };
 
   const distanceSensor = fakeDistanceSensor(throttle(handleData, 100));
+  return distanceSensor;
 }

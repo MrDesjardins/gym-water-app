@@ -1,6 +1,5 @@
-import { createEffect, createMemo, createSignal } from "solid-js";
+import { createEffect, createMemo, createSignal, untrack } from "solid-js";
 import { distanceSensor } from "../../sensors/distanceSensors";
-import { fakeDistanceSensor } from "../../sensors/fakeDistanceSensor";
 import "../ComponentVariables.css";
 import { ChartData } from "./canvasModel";
 import styles from "./RepsTempo.module.css";
@@ -8,7 +7,8 @@ import { RepsTempoChart } from "./RepsTempoChart";
 export interface RepsTempoProps {
   height: number;
   width: number;
-  repGroupId: number;
+  repStartGroupId: number;
+  repStopGroupId: number;
   expectedReps?: number;
 }
 const TEXT_HEIGHT = 20;
@@ -51,25 +51,40 @@ export const RepsTempo = (props: RepsTempoProps) => {
     }
     setChartData(currentData);
   }
-
+  let distSensor: ReturnType<typeof distanceSensor>;
   // Props are changing (repGroupId), we are clearing the canvas and the list of chart data
   createEffect(() => {
-    setChartData([]);
-    distanceSensor(
-      props.expectedReps ?? 10,
-      props.repGroupId,
-      (newChartData, repGroupId) => {
-        if (repGroupId === props.repGroupId) {
-          pushNewData(newChartData);
-          return true;
-        }
-        return false;
-      },
-      () => {
-        setExecuting(false);
-      },
-    );
+    // Default value is zero, we do not start the sensor, we wait to have 1+
+    if (props.repStartGroupId > 0) {
+      setChartData([]); // Start fresh with no data
+      distSensor?.stop(); // If already have a sensor running, stop it
+      untrack(() => {
+        // The props.expectedReps is set on stop, hence execute this code which should only run at start
+        distSensor = distanceSensor(
+          props.expectedReps ?? 10,
+          props.repStartGroupId,
+          (newChartData, repGroupId) => {
+            if (repGroupId === props.repStartGroupId) {
+              pushNewData(newChartData);
+              return true;
+            }
+            return false;
+          },
+          () => {
+            setExecuting(false);
+          },
+        );
+      });
+    }
   });
+
+  createEffect(() => {
+    if (props.repStopGroupId > 0) {
+      distSensor?.stop();
+      setExecuting(false);
+    }
+  });
+
   const currentRepetition = createMemo(() => {
     const arrData = chartData();
     return arrData.length;
@@ -106,7 +121,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
         }}
       >
         <RepsTempoChart
-          repGroupId={props.repGroupId}
+          repGroupId={props.repStartGroupId}
           width={props.width}
           height={props.height - TEXT_HEIGHT}
           chartData={chartData()}

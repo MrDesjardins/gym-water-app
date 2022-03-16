@@ -7,7 +7,7 @@
  */
  export interface ChartData {
   repetitionIndex: number; // Start at 0 to the number of repetition for the set -1. E.g. A set of 12 repetitions start at 0 and end at 11.
-  timeInSec: number; // Can be a fraction of second like 1.56 seconds
+  timeInMs: number; // Time in ms since the start of the set
   distanceInCm: number; // Can be a fraction like 1.23 cm
 }
 

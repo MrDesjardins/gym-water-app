@@ -1,5 +1,6 @@
-import { createEffect, createMemo, createSignal, untrack } from "solid-js";
-import { distanceSensor } from "../../sensors/distanceSensors";
+import { batch, createEffect, createMemo, createSignal, on, onCleanup, onMount, untrack } from "solid-js";
+import { SensorObserverPayload } from "../../sensors/distanceSensors";
+import { useSensors } from "../../sensors/SensorsContext";
 import "../ComponentVariables.css";
 import { ChartData } from "./canvasModel";
 import styles from "./RepsTempo.module.css";
@@ -7,13 +8,62 @@ import { RepsTempoChart } from "./RepsTempoChart";
 export interface RepsTempoProps {
   height: number;
   width: number;
-  repStartGroupId: number;
-  repStopGroupId: number;
   expectedReps?: number;
 }
 const TEXT_HEIGHT = 20;
 export const RepsTempo = (props: RepsTempoProps) => {
-  const [executing, setExecuting] = createSignal(true);
+  let repetitionIndex = 0;
+  let directionUp = true;
+  let lastCm = 0;
+  let startTimeInMs = 0;
+  const sensors = useSensors();
+  const distanceSensorInput = (input: SensorObserverPayload): void => {
+    if (input.cm > lastCm && !directionUp) {
+      directionUp = true;
+      repetitionIndex++;
+      startTimeInMs = Date.now();
+    } else if (input.cm < lastCm && directionUp) {
+      directionUp = false;
+    }
+    const newData: ChartData = {
+      distanceInCm: input.cm,
+      timeInMs: input.fullDateTimeInMs - startTimeInMs,
+      repetitionIndex: repetitionIndex,
+    };
+    pushNewData(newData);
+    lastCm = input.cm;
+  };
+  onMount(() => {
+    sensors?.actions.subscribeToDistanceSensor(distanceSensorInput);
+    onCleanup(() => {
+      sensors?.actions.unSubscribeToDistanceSensor(distanceSensorInput);
+    });
+  });
+  const [executing, setExecuting] = createSignal(false);
+
+  createEffect(
+    on(
+      () => sensors?.state.contactSensorIsClosed,
+      () => {
+        if (sensors !== undefined) {
+          if (sensors.state.contactSensorIsClosed) {
+            batch(() => {
+              setExecuting(false);
+            });
+          } else {
+            repetitionIndex = 0;
+            directionUp = true;
+            lastCm = 0;
+            setChartData([]); // Start fresh with no data
+            startTimeInMs = Date.now();
+            setExecuting(true);
+          }
+        }
+      },
+      { defer: true }, // Need to defer: we do not want any execution on the first render, only when a change occurs
+    ),
+  );
+
   /**
    * E.g.
    * [
@@ -28,62 +78,29 @@ export const RepsTempo = (props: RepsTempoProps) => {
    */
   function pushNewData(newData: ChartData): void {
     const currentData = chartData().slice();
-    const { distanceInCm: distance, timeInSec: sec, repetitionIndex: currentRep } = newData;
+    const { distanceInCm: distance, timeInMs: timeMs, repetitionIndex: currentRep } = newData;
     if (currentData.length === 0) {
-      currentData.push([{ repetitionIndex: 0, distanceInCm: distance, timeInSec: sec }]);
+      currentData.push([{ repetitionIndex: 0, distanceInCm: distance, timeInMs: timeMs }]);
     } else {
       const lastRepetitionIndex = currentData[currentData.length - 1][0].repetitionIndex;
       if (lastRepetitionIndex === currentRep) {
         currentData[currentData.length - 1].push({
           repetitionIndex: currentRep,
           distanceInCm: distance,
-          timeInSec: sec,
+          timeInMs: timeMs,
         });
       } else {
         currentData.push([
           {
             repetitionIndex: currentRep,
             distanceInCm: distance,
-            timeInSec: sec,
+            timeInMs: timeMs,
           },
         ]);
       }
     }
     setChartData(currentData);
   }
-  let distSensor: ReturnType<typeof distanceSensor>;
-  // Props are changing (repGroupId), we are clearing the canvas and the list of chart data
-  createEffect(() => {
-    // Default value is zero, we do not start the sensor, we wait to have 1+
-    if (props.repStartGroupId > 0) {
-      setChartData([]); // Start fresh with no data
-      distSensor?.stop(); // If already have a sensor running, stop it
-      untrack(() => {
-        // The props.expectedReps is set on stop, hence execute this code which should only run at start
-        distSensor = distanceSensor(
-          props.expectedReps ?? 10,
-          props.repStartGroupId,
-          (newChartData, repGroupId) => {
-            if (repGroupId === props.repStartGroupId) {
-              pushNewData(newChartData);
-              return true;
-            }
-            return false;
-          },
-          () => {
-            setExecuting(false);
-          },
-        );
-      });
-    }
-  });
-
-  createEffect(() => {
-    if (props.repStopGroupId > 0) {
-      distSensor?.stop();
-      setExecuting(false);
-    }
-  });
 
   const currentRepetition = createMemo(() => {
     const arrData = chartData();
@@ -120,12 +137,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
           "margin-top": `${TEXT_HEIGHT}px`,
         }}
       >
-        <RepsTempoChart
-          repGroupId={props.repStartGroupId}
-          width={props.width}
-          height={props.height - TEXT_HEIGHT}
-          chartData={chartData()}
-        />
+        <RepsTempoChart width={props.width} height={props.height - TEXT_HEIGHT} chartData={chartData()} />
       </div>
       <div class={styles.reps}>
         <span

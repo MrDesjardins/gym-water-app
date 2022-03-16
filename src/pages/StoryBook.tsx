@@ -50,6 +50,7 @@ export const StoryBook = () => {
             height={300}
             width={300}
             expectedReps={12}
+            startTimeInMs={0}
           />
         </div>
         <button onclick={() => setRepGroupId(repGroupId() + 1)}>Start({repGroupId()})</button>

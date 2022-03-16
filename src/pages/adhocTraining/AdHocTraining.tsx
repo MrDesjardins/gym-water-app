@@ -1,15 +1,16 @@
-import { createSignal } from "solid-js";
+import { batch, createEffect, createSignal, on } from "solid-js";
 import { Button } from "../../components/Button/Button";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "../../components/SingleWeightSelector/SingleWeightSelector";
 import { CONSTANTS } from "../../models/constants";
+import { useSensors } from "../../sensors/SensorsContext";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes } from "../routes";
 import styles from "./AdHocTraining.module.css";
 const DEFAULT_WEIGHT = 50;
 export const AdHocTraining = () => {
   const [weight, setWeight] = createSignal(DEFAULT_WEIGHT);
-  const [setId, setSetId] = createSignal(0);
+
   return (
     <MainStructure title="Training" subtitle="Ad-Hoc" backButtonLink={getMainRoutes()}>
       <div class={styles.AdHocTraining}>
@@ -39,19 +40,7 @@ export const AdHocTraining = () => {
           </Button>
         </div>
         <div class={styles.repTempo}>
-          <RepsTempo repGroupId={setId()} height={340} width={630} />
-        </div>
-        <div class={styles.repTempoActions}>
-          <Button
-            class={styles.button}
-            props={{
-              onclick: () => {
-                setSetId((prev) => prev + 1);
-              },
-            }}
-          >
-            Reset
-          </Button>
+          <RepsTempo height={440} width={625} />
         </div>
       </div>
     </MainStructure>

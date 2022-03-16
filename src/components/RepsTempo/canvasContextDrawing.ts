@@ -12,7 +12,7 @@ export const drawDotsLinesTempos = (
   ctx: CanvasRenderingContext2D | null,
   width: number,
   height: number,
-  getData: ChartData[][]
+  dataPoints: ChartData[][],
 ): void => {
   const pixel_vertical_y_axis_bottom = height - PIXEL_VERTICAL_BOTTOM;
   const pixel_vertical_y_axis_top = PIXEL_VERTICAL_TOP + 20;
@@ -20,16 +20,14 @@ export const drawDotsLinesTempos = (
   function getVerticalPixelFromDistanceInCm(cm: number): number {
     return (
       pixel_vertical_y_axis_bottom -
-      (cm * (pixel_vertical_y_axis_bottom - pixel_vertical_y_axis_top)) /
-        MAX_CM_IN_CHART
+      (cm * (pixel_vertical_y_axis_bottom - pixel_vertical_y_axis_top)) / MAX_CM_IN_CHART
     );
   }
 
-  function getHorizontalPixelFromTimeInSec(sec: number): number {
+  function getHorizontalPixelFromTimeInMs(msSinceStartSet: number): number {
     return (
       PIXEL_HORIZONTAL_LEFT +
-      (sec * (pixel_horizontal_x_axis_right - PIXEL_HORIZONTAL_LEFT)) /
-        MAX_SEC_IN_CHART
+      ((msSinceStartSet / 1000) * (pixel_horizontal_x_axis_right - PIXEL_HORIZONTAL_LEFT)) / MAX_SEC_IN_CHART
     );
   }
 
@@ -54,36 +52,25 @@ export const drawDotsLinesTempos = (
     ctx.textAlign = "start";
     ctx.font = `16px Arial`;
     for (let i = 0; i <= 6; i++) {
-      ctx.fillText(
-        i + "",
-        getHorizontalPixelFromTimeInSec(i),
-        pixel_vertical_y_axis_bottom + 20
-      );
+      ctx.fillText(i + "", getHorizontalPixelFromTimeInMs(i * 1000), pixel_vertical_y_axis_bottom + 20);
     }
 
     // Chart Structure
     ctx.strokeStyle = "#E5E5E5";
     ctx.moveTo(PIXEL_HORIZONTAL_LEFT, pixel_vertical_y_axis_top - 10);
     ctx.lineTo(PIXEL_HORIZONTAL_LEFT, pixel_vertical_y_axis_bottom);
-    ctx.lineTo(
-      pixel_horizontal_x_axis_right + 10,
-      pixel_vertical_y_axis_bottom
-    );
+    ctx.lineTo(pixel_horizontal_x_axis_right + 10, pixel_vertical_y_axis_bottom);
     ctx.stroke();
 
     // Draw all lines
-    const d = getData.slice();
+    const d = dataPoints.slice();
     for (let repIndex = 0; repIndex < d.length; repIndex++) {
       const isActiveRep = repIndex === d.length - 1;
       let lastX = PIXEL_HORIZONTAL_LEFT;
       let lastY = pixel_vertical_y_axis_bottom;
-      for (
-        let dataPointIndex = 0;
-        dataPointIndex < d[repIndex].length;
-        dataPointIndex++
-      ) {
+      for (let dataPointIndex = 0; dataPointIndex < d[repIndex].length; dataPointIndex++) {
         const dataPoint = d[repIndex][dataPointIndex];
-        const x = getHorizontalPixelFromTimeInSec(dataPoint.timeInSec);
+        const x = getHorizontalPixelFromTimeInMs(dataPoint.timeInMs);
         const y = getVerticalPixelFromDistanceInCm(dataPoint.distanceInCm);
 
         // Dot

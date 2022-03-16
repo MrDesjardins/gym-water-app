@@ -4,7 +4,6 @@ import { ChartData } from "./canvasModel";
 import styles from "./RepsTempo.module.css";
 
 export interface RepsTempoChartProps {
-  repGroupId: number;
   height: number;
   width: number;
   chartData: ChartData[][];

@@ -1,8 +1,13 @@
-export function fakeDistanceSensor(getData: (cm: number, sec: number) => void): { stop: () => void } {
+import { SensorObserverPayload } from "./distanceSensors";
+
+export function fakeDistanceSensor(send: (data: SensorObserverPayload) => void): {
+  start: () => void;
+  stop: () => void;
+} {
   let lastCm = 0;
   let direction = 1;
   let ref = 0;
-  let continueReceiveData = true;
+  let continueReceiveData = false;
   const loop = () => {
     if (continueReceiveData) {
       if (lastCm > 40) {
@@ -13,18 +18,26 @@ export function fakeDistanceSensor(getData: (cm: number, sec: number) => void): 
         direction = 1;
       }
       lastCm += (0.2 + Math.random() * 1) * direction;
-      getData(lastCm, Date.now());
+      send({ cm: lastCm, fullDateTimeInMs: Date.now() });
       clearTimeout(ref);
       ref = setTimeout(() => loop(), 1 + Math.random() * 60); // Next fake fetched data in few ms
     } else {
       clearTimeout(ref);
     }
   };
-  ref = setTimeout(() => loop(), 0); // Start getting fake data
+
   return {
+    start: () => {
+      continueReceiveData = false;
+      clearTimeout(ref);
+      continueReceiveData = true;
+      ref = setTimeout(() => loop(), 0); // Start getting fake data
+    },
     stop: () => {
       continueReceiveData = false;
       clearTimeout(ref);
+      lastCm = 0;
+      direction = 1;
     },
   };
 }

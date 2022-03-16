@@ -15,8 +15,6 @@ export const WorkoutGo = () => {
   const sensors = useSensors();
   const [activeExerciseIndex, setActiveExerciseIndex] = createSignal(0);
   const [activeSetIndex, setActiveSetIndex] = createSignal(0);
-  const [repStartGroupId, setStartRepGroupId] = createSignal(0);
-  const [repStopGroupId, setStopRepGroupId] = createSignal(0);
   const [workoutCompleted, setWorkoutCompleted] = createSignal(false);
   const workout = location.state as Workout;
   const currentExercise = createMemo(() => {
@@ -30,12 +28,9 @@ export const WorkoutGo = () => {
     on(
       () => sensors?.state.contactSensorIsClosed,
       () => {
-        console.log("This should not be called");
         if (sensors !== undefined) {
           if (sensors.state.contactSensorIsClosed) {
             goToNextSetOrExercise();
-          } else {
-            setStartRepGroupId((prev) => prev + 1);
           }
         }
       },
@@ -48,7 +43,6 @@ export const WorkoutGo = () => {
     if (activeSetIndex() < s.length - 1) {
       batch(() => {
         setActiveSetIndex((prev) => prev + 1);
-        setStopRepGroupId((prev) => prev + 1);
       });
     } else {
       if (activeExerciseIndex() < workout.workoutExercises.length - 1) {
@@ -56,12 +50,10 @@ export const WorkoutGo = () => {
         batch(() => {
           setActiveSetIndex(0);
           setActiveExerciseIndex(activeExerciseIndex() + 1);
-          setStopRepGroupId((prev) => prev + 1);
         });
       } else {
         console.log("Workout is done!");
         batch(() => {
-          setStopRepGroupId((prev) => prev + 1);
           setWorkoutCompleted(true);
         });
       }
@@ -82,13 +74,7 @@ export const WorkoutGo = () => {
         <WorkoutExerciseSets workoutExercise={currentExercise()} activeSet={activeSetIndex()} />
       </div>
       <div class={styles.WorkoutGoTempo}>
-        <RepsTempo
-          repStartGroupId={repStartGroupId()}
-          repStopGroupId={repStopGroupId()}
-          height={400}
-          width={430}
-          expectedReps={currentSet().reps}
-        />
+        <RepsTempo height={400} width={430} expectedReps={currentSet().reps} />
       </div>
     </MainStructure>
   );

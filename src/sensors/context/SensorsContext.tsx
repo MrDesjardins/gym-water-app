@@ -1,21 +1,24 @@
 import { JSX, createContext, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
-import { DistanceSensor, SensorObserver } from "./distanceSensors";
+import { UltraSonicSensor, UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
+import { SensorObserver } from "../common/physicalSensor";
+import { MagneticContactSensor } from "../magneticContactSensor";
+import { magneticSensor } from "../physicalSensors/magneticSensor";
 
-export interface SensorsContextState {
-  contactSensorIsClosed: boolean;
-  isListeningDistanceSensor: boolean;
-}
+export interface SensorsContextState {}
 export interface SensorsContextActions {
-  openHeightContactSensor: () => void;
-  closeHeightContactSensor: () => void;
   listenDistanceSensor: () => void;
   stopListeningDistanceSensor: () => void;
-  subscribeToDistanceSensor: (o: SensorObserver) => void;
-  unSubscribeToDistanceSensor: (o: SensorObserver) => void;
+  subscribeToDistanceSensor: (o: SensorObserver<UltraSonicSensorObserverPayload>) => void;
+  unSubscribeToDistanceSensor: (o: SensorObserver<UltraSonicSensorObserverPayload>) => void;
+}
+export interface SensorsContextSensors {
+  ultraSonicSensor: UltraSonicSensor;
+  magneticContactSensor: MagneticContactSensor;
 }
 export interface SensorsContextModel {
   state: SensorsContextState;
+  sensors: SensorsContextSensors;
   actions: SensorsContextActions;
 }
 export interface SensorsContextProps {
@@ -32,35 +35,27 @@ export interface SensorsContextProps {
 export const SensorsContext = createContext<SensorsContextModel>();
 
 export function SensorsProvider(props: SensorsContextProps) {
-  const [state, setState] = createStore<SensorsContextState>({
-    contactSensorIsClosed: true,
-    isListeningDistanceSensor: false,
-  });
-  const distanceSensor = new DistanceSensor();
+  const [state, setState] = createStore<SensorsContextState>({});
+  const distanceSensor = new UltraSonicSensor(props.useFakeSensors);
+  const magneticSensor = new MagneticContactSensor(props.useFakeSensors);
 
   const value: SensorsContextModel = {
     state: state,
+    sensors: {
+      ultraSonicSensor: distanceSensor,
+      magneticContactSensor: magneticSensor,
+    },
     actions: {
-      openHeightContactSensor() {
-        setState("contactSensorIsClosed", false);
-        distanceSensor.startListening();
-      },
-      closeHeightContactSensor() {
-        setState("contactSensorIsClosed", true);
-        distanceSensor.stopListening();
-      },
       listenDistanceSensor() {
-        setState("isListeningDistanceSensor", true);
         distanceSensor.startListening();
       },
       stopListeningDistanceSensor() {
-        setState("isListeningDistanceSensor", false);
         distanceSensor.stopListening();
       },
-      subscribeToDistanceSensor(observer: SensorObserver) {
+      subscribeToDistanceSensor(observer: SensorObserver<UltraSonicSensorObserverPayload>) {
         distanceSensor.subscribe(observer);
       },
-      unSubscribeToDistanceSensor(observer: SensorObserver) {
+      unSubscribeToDistanceSensor(observer: SensorObserver<UltraSonicSensorObserverPayload>) {
         distanceSensor.unsubscribe(observer);
       },
     },

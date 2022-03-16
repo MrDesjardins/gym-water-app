@@ -1,9 +1,10 @@
 import { useLocation, useNavigate } from "solid-app-router";
-import { batch, createEffect, createMemo, createSignal, on } from "solid-js";
+import { batch, createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { WaterScreen } from "../../components/Transitions/WaterScreen";
 import { Workout } from "../../models/workout";
-import { useSensors } from "../../sensors/SensorsContext";
+import { useSensors } from "../../sensors/context/SensorsContext";
+import { MagneticContactSensorObserverPayload } from "../../sensors/magneticContactSensor";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes } from "../routes";
 import { WorkoutExercises } from "./WorkoutExercises";
@@ -24,19 +25,19 @@ export const WorkoutGo = () => {
     return currentExercise().exerciseSets[activeSetIndex()];
   });
 
-  createEffect(
-    on(
-      () => sensors?.state.contactSensorIsClosed,
-      () => {
-        if (sensors !== undefined) {
-          if (sensors.state.contactSensorIsClosed) {
-            goToNextSetOrExercise();
-          }
-        }
-      },
-      { defer: true }, // Need to defer: we do not want any execution on the first render, only when a change occurs
-    ),
-  );
+  const magneticContactSensorInput = (input: MagneticContactSensorObserverPayload): void => {
+    if (!input.isOpen) {
+      goToNextSetOrExercise();
+    }
+  };
+
+  onMount(() => {
+    sensors?.sensors.magneticContactSensor.subscribe(magneticContactSensorInput);
+    onCleanup(() => {
+      sensors?.sensors.magneticContactSensor.unsubscribe(magneticContactSensorInput);
+    });
+  });
+
   const goToNextSetOrExercise = () => {
     const e = currentExercise();
     const s = e.exerciseSets;

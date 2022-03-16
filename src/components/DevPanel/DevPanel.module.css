@@ -2,11 +2,16 @@
   position: absolute;
   right: 20px;
   top: 650px;
+  padding: 20px;
+  background-color: #bfc5d2;
+  border-radius: 5px;
 }
 
 .dev > h3 {
   color: var(--app-title-fgcolor);
+  margin-top: 0;
 }
 .dev > a {
   display: block;
+  margin-bottom: 10px;
 }

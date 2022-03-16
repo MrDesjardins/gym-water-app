@@ -1,4 +1,5 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
+import { CONSTANTS } from "../../models/constants";
 import styles from "./WaterScreen.module.css";
 export interface WaterScreenProps {}
 
@@ -31,7 +32,7 @@ export const WaterScreen = (props: WaterScreenProps) => {
 
     if (ctx && isWaveAnimationRunning()) {
       ctx.fillStyle = "#0288d1";
-      if (time > lastTime + 1000 / 30) {
+      if (time > lastTime + 1000 / CONSTANTS.FPS) {
         ctx.globalAlpha = waterTransparency;
         ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Might not need to clear all
         ctx.beginPath();

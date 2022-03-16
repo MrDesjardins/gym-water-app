@@ -11,7 +11,7 @@ import { Workout } from "./pages/Workout/Workout";
 import { ROUTES } from "./pages/routes";
 import { SingleExerciseSelection } from "./pages/singleExercise/SingleExerciseSelection";
 import { WorkoutGo } from "./pages/Workout/WorkoutGo";
-import { SensorsProvider } from "./sensors/SensorsContext";
+import { SensorsProvider } from "./sensors/context/SensorsContext";
 const App: Component = () => {
   return (
     <SensorsProvider useFakeSensors={true}>

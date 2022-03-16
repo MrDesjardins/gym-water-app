@@ -1,6 +1,9 @@
-import { SensorObserverPayload } from "./distanceSensors";
+import { UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
 
-export function fakeDistanceSensor(send: (data: SensorObserverPayload) => void): {
+/**
+ * Generate random distance to simulate someone moving the water weight up and down.
+ **/
+export function fakeUltraSonicSensor(send: (data: UltraSonicSensorObserverPayload) => void): {
   start: () => void;
   stop: () => void;
 } {
@@ -28,8 +31,11 @@ export function fakeDistanceSensor(send: (data: SensorObserverPayload) => void):
 
   return {
     start: () => {
+      // Stop the loop if it is already running
       continueReceiveData = false;
       clearTimeout(ref);
+
+      // Start the loop
       continueReceiveData = true;
       ref = setTimeout(() => loop(), 0); // Start getting fake data
     },

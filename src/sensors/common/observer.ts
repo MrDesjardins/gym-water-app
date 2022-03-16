@@ -1,4 +1,4 @@
-import { Unpacked } from "../TypeScript/utilityTypes";
+import { Unpacked } from "../../TypeScript/utilityTypes";
 
 export class Observers<T extends (...args: any) => any> {
   private observers: T[] = [];

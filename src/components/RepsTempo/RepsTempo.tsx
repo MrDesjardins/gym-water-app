@@ -1,10 +1,11 @@
 import { batch, createEffect, createMemo, createSignal, on, onCleanup, onMount, untrack } from "solid-js";
-import { SensorObserverPayload } from "../../sensors/distanceSensors";
-import { useSensors } from "../../sensors/SensorsContext";
+import { UltraSonicSensorObserverPayload } from "../../sensors/ultraSonicSensor";
+import { useSensors } from "../../sensors/context/SensorsContext";
 import "../ComponentVariables.css";
 import { ChartData } from "./canvasModel";
 import styles from "./RepsTempo.module.css";
 import { RepsTempoChart } from "./RepsTempoChart";
+import { MagneticContactSensorObserverPayload } from "../../sensors/magneticContactSensor";
 export interface RepsTempoProps {
   height: number;
   width: number;
@@ -12,12 +13,15 @@ export interface RepsTempoProps {
 }
 const TEXT_HEIGHT = 20;
 export const RepsTempo = (props: RepsTempoProps) => {
-  let repetitionIndex = 0;
-  let directionUp = true;
-  let lastCm = 0;
-  let startTimeInMs = 0;
-  const sensors = useSensors();
-  const distanceSensorInput = (input: SensorObserverPayload): void => {
+  let repetitionIndex = 0; // Maintain an index that organize the data when coming in
+  let directionUp = true; // Needed to know when to increase the index
+  let lastCm = 0; // Needed to know if we are going up or down
+  let startTimeInMs = 0; // Every reps reset the time to 0: makes the chart having each repetition stacking above each other
+
+  const [magneticSensorContactOpen, setMagneticSensorContactOpen] = createSignal(false);
+  const sensors = useSensors(); // Allopws to know when the user start and stop exercising and to know the distance
+
+  const distanceSensorInput = (input: UltraSonicSensorObserverPayload): void => {
     if (input.cm > lastCm && !directionUp) {
       directionUp = true;
       repetitionIndex++;
@@ -33,42 +37,36 @@ export const RepsTempo = (props: RepsTempoProps) => {
     pushNewData(newData);
     lastCm = input.cm;
   };
+
+  const magneticContactSensorInput = (input: MagneticContactSensorObserverPayload): void => {
+    setMagneticSensorContactOpen(input.isOpen);
+    if (input.isOpen) {
+      // When open => doing reps
+      repetitionIndex = 0;
+      directionUp = true;
+      lastCm = 0;
+      setChartData([]); // Start fresh with no data
+      startTimeInMs = Date.now();
+    }
+  };
+
+  /**
+   * Cleanup the subscribers that is listening to the distance sensor
+   **/
   onMount(() => {
-    sensors?.actions.subscribeToDistanceSensor(distanceSensorInput);
+    sensors?.sensors.ultraSonicSensor.subscribe(distanceSensorInput);
+    sensors?.sensors.magneticContactSensor.subscribe(magneticContactSensorInput);
     onCleanup(() => {
-      sensors?.actions.unSubscribeToDistanceSensor(distanceSensorInput);
+      sensors?.sensors.ultraSonicSensor.unsubscribe(distanceSensorInput);
+      sensors?.sensors.magneticContactSensor.unsubscribe(magneticContactSensorInput);
     });
   });
-  const [executing, setExecuting] = createSignal(false);
-
-  createEffect(
-    on(
-      () => sensors?.state.contactSensorIsClosed,
-      () => {
-        if (sensors !== undefined) {
-          if (sensors.state.contactSensorIsClosed) {
-            batch(() => {
-              setExecuting(false);
-            });
-          } else {
-            repetitionIndex = 0;
-            directionUp = true;
-            lastCm = 0;
-            setChartData([]); // Start fresh with no data
-            startTimeInMs = Date.now();
-            setExecuting(true);
-          }
-        }
-      },
-      { defer: true }, // Need to defer: we do not want any execution on the first render, only when a change occurs
-    ),
-  );
 
   /**
    * E.g.
    * [
-   *  [{repetitionIndex: 0, timeInSec: 1.23, distanceInCm: 1.23}, {repetitionIndex: 0, timeInSec: 1.63, distanceInCm: 7}],
-   *  [{repetitionIndex: 1, timeInSec: 0.33, distanceInCm: 0.93}, {repetitionIndex: 1, timeInSec: 1.01, distanceInCm: 2.44}, {...}],
+   *  [{repetitionIndex: 0, timeInMs: 1.23, distanceInCm: 1.23}, {repetitionIndex: 0, timeInMs: 1.63, distanceInCm: 7}],
+   *  [{repetitionIndex: 1, timeInMs: 0.33, distanceInCm: 0.93}, {repetitionIndex: 1, timeInMs: 1.01, distanceInCm: 2.44}, {...}],
    * ]
    */
   const [chartData, setChartData] = createSignal<ChartData[][]>([]);
@@ -102,17 +100,23 @@ export const RepsTempo = (props: RepsTempoProps) => {
     setChartData(currentData);
   }
 
+  /**
+   * Computes the number of repetition
+   */
   const currentRepetition = createMemo(() => {
     const arrData = chartData();
     return arrData.length;
   });
 
-  const makeEmphasisRep = createMemo(() => {
+  /**
+   * Indicates if the animation must run
+   */
+  const animateRepsCount = createMemo(() => {
     if (props.expectedReps === undefined) {
       return false;
     }
 
-    if (!executing()) {
+    if (!magneticSensorContactOpen()) {
       return false;
     }
 
@@ -142,7 +146,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
       <div class={styles.reps}>
         <span
           class={styles.currentRepCount}
-          classList={{ [styles.currentRepCountAnimated]: makeEmphasisRep() }}
+          classList={{ [styles.currentRepCountAnimated]: animateRepsCount() }}
           style={{
             width: currentRepetition() > 9 ? "50px" : "30px",
           }}

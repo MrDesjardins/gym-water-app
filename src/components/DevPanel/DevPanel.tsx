@@ -1,4 +1,4 @@
-import { useSensors } from "../../sensors/SensorsContext";
+import { useSensors } from "../../sensors/context/SensorsContext";
 import styles from "./DevPanel.module.css";
 export const DevPanel = () => {
   const sensors = useSensors();
@@ -8,7 +8,8 @@ export const DevPanel = () => {
       <a
         href="#"
         onClick={() => {
-          sensors?.actions.openHeightContactSensor();
+          sensors?.sensors.magneticContactSensor.startListening();
+          sensors?.sensors.ultraSonicSensor.startListening();
         }}
       >
         Contact Sensor Open
@@ -16,7 +17,8 @@ export const DevPanel = () => {
       <a
         href="#"
         onClick={() => {
-          sensors?.actions.closeHeightContactSensor();
+          sensors?.sensors.magneticContactSensor.stopListening();
+          sensors?.sensors.ultraSonicSensor.stopListening();
         }}
       >
         Contact Sensor Close

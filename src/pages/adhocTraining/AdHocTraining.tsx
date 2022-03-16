@@ -3,7 +3,7 @@ import { Button } from "../../components/Button/Button";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "../../components/SingleWeightSelector/SingleWeightSelector";
 import { CONSTANTS } from "../../models/constants";
-import { useSensors } from "../../sensors/SensorsContext";
+import { useSensors } from "../../sensors/context/SensorsContext";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes } from "../routes";
 import styles from "./AdHocTraining.module.css";

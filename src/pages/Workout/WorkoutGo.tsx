@@ -1,5 +1,5 @@
-import { useLocation, useNavigate } from "solid-app-router";
-import { batch, createEffect, createMemo, createSignal, on, onCleanup, onMount } from "solid-js";
+import { useLocation } from "solid-app-router";
+import { batch, createMemo, createSignal, onCleanup, onMount } from "solid-js";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { WaterScreen } from "../../components/Transitions/WaterScreen";
 import { Workout } from "../../models/workout";

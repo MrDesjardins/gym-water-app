@@ -1,11 +1,11 @@
-import { batch, createEffect, createMemo, createSignal, on, onCleanup, onMount, untrack } from "solid-js";
-import { UltraSonicSensorObserverPayload } from "../../sensors/ultraSonicSensor";
+import { createMemo, createSignal, onCleanup, onMount } from "solid-js";
 import { useSensors } from "../../sensors/context/SensorsContext";
+import { MagneticContactSensorObserverPayload } from "../../sensors/magneticContactSensor";
+import { UltraSonicSensorObserverPayload } from "../../sensors/ultraSonicSensor";
 import "../ComponentVariables.css";
 import { ChartData } from "./canvasModel";
 import styles from "./RepsTempo.module.css";
 import { RepsTempoChart } from "./RepsTempoChart";
-import { MagneticContactSensorObserverPayload } from "../../sensors/magneticContactSensor";
 export interface RepsTempoProps {
   height: number;
   width: number;

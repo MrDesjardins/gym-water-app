@@ -1,9 +1,8 @@
-import { JSX, createContext, useContext } from "solid-js";
+import { createContext, JSX, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
-import { UltraSonicSensor, UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
 import { SensorObserver } from "../common/physicalSensor";
 import { MagneticContactSensor } from "../magneticContactSensor";
-import { magneticSensor } from "../physicalSensors/magneticSensor";
+import { UltraSonicSensor, UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
 
 export interface SensorsContextState {}
 export interface SensorsContextActions {

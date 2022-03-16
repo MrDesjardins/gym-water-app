@@ -1,5 +1,5 @@
 import { getExercise } from "./exercise";
-import { ExerciseSet, WorkoutExercise } from "./exerciseSet";
+import { WorkoutExercise } from "./exerciseSet";
 
 export interface Workout {
   /**

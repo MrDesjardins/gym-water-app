@@ -1,5 +1,12 @@
 import { useSensors } from "../../sensors/context/SensorsContext";
 import styles from "./DevPanel.module.css";
+
+/**
+ * Hidden panel. Dev only.
+ * 
+ * This is visually under what is displayed in the real UI. The goal
+ * is to allow while developing the app, to simulate the real sensors
+ **/
 export const DevPanel = () => {
   const sensors = useSensors();
   return (
@@ -12,16 +19,16 @@ export const DevPanel = () => {
           sensors?.sensors.ultraSonicSensor.startListening();
         }}
       >
-        Contact Sensor Open
+        Contact Sensor Open + Start Moving
       </a>
       <a
         href="#"
         onClick={() => {
-          sensors?.sensors.magneticContactSensor.stopListening();
           sensors?.sensors.ultraSonicSensor.stopListening();
+          sensors?.sensors.magneticContactSensor.stopListening();
         }}
       >
-        Contact Sensor Close
+        Stop moving + Contact Sensor Close
       </a>
     </div>
   );

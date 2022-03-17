@@ -4,7 +4,7 @@ export const ROUTES = {
   MAIN: "/main",
   ADHOC: "/adhoc-training",
   SINGLE_EXERCISE: "/single-exercise",
-  SINGLE_EXERCISE_ID: "/single-exercise/:id",
+  SINGLE_EXERCISE_ID: "/single-exercise/:exerciseId",
   WORKOUT: "/workout",
   WORKOUT_GO: "/workout/go",
 };

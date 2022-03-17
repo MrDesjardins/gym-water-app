@@ -26,7 +26,7 @@ export const SingleExercise = () => {
   const OFFSET = 40; // Margin
   const [setData, setSetData] = createSignal<ExerciseSet[]>([]);
 
-  const exerciseDetail = getExercise(Number(params.id));
+  const exerciseDetail = getExercise(Number(params.exerciseId));
 
   if (exerciseDetail === undefined) {
     // Should never happen, but if the URL had a exercise ID that does not exist, we move back

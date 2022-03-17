@@ -30,3 +30,8 @@
   display: flex; /*Vertical center*/
   align-items: center; /*Vertical center*/
 }
+
+.SingleWeightSelectorHandle_Disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

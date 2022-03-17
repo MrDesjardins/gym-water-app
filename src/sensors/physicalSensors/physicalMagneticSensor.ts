@@ -1,9 +1,9 @@
-import { UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
+import { MagneticContactSensorObserverPayload } from "../magneticContactSensor";
 
 /**
  * Connect with WebSocker to the NodeJS server that is connected to all the sensors.
  **/
-export function ultraSonicSensor(send: (data: UltraSonicSensorObserverPayload) => void): {
+export function physicalMagneticSensor(send: (data: MagneticContactSensorObserverPayload) => void): {
   start: () => void;
   stop: () => void;
 } {

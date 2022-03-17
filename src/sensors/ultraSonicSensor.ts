@@ -2,11 +2,16 @@ import { throttle } from "../utils/throttle";
 import { fakeUltraSonicSensor } from "./fakeSensors/fakeUltraSonicSensor";
 import { Observers } from "./common/observer";
 import { PhysicalSensor, SensorObserver } from "./common/physicalSensor";
-import { ultraSonicSensor } from "./physicalSensors/ultraSonicSensor";
+import { physicalUltraSonicSensor } from "./physicalSensors/physicalUltraSonicSensor";
 
 export interface UltraSonicSensorObserverPayload {
   cm: number;
   fullDateTimeInMs: number;
+}
+
+export interface UltraSonicSensorActions {
+  start: () => void;
+  stop: () => void;
 }
 
 /**
@@ -20,7 +25,7 @@ export interface UltraSonicSensorObserverPayload {
  * listening, every subscriber will receive the data from the notify callback.
  */
 export class UltraSonicSensor implements PhysicalSensor<UltraSonicSensorObserverPayload> {
-  private sensor: ReturnType<typeof fakeUltraSonicSensor>;
+  private sensor: UltraSonicSensorActions;
   private observers: Observers<SensorObserver<UltraSonicSensorObserverPayload>>;
 
   public constructor(useFakeSensor: boolean) {
@@ -28,7 +33,7 @@ export class UltraSonicSensor implements PhysicalSensor<UltraSonicSensorObserver
     if (useFakeSensor) {
       this.sensor = fakeUltraSonicSensor(throttle((data) => this.handleData(data), 100));
     } else {
-      this.sensor = ultraSonicSensor(throttle((data) => this.handleData(data), 100));
+      this.sensor = physicalUltraSonicSensor(throttle((data) => this.handleData(data), 100));
     }
   }
 

@@ -11,7 +11,7 @@
   color: var(--app-title-fgcolor);
   margin-top: 0;
 }
-.dev > a {
+.dev > * {
   display: block;
   margin-bottom: 10px;
 }

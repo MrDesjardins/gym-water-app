@@ -1,12 +1,11 @@
-import { UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
+import { UltraSonicSensorActions, UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
 
 /**
  * Generate random distance to simulate someone moving the water weight up and down.
  **/
-export function fakeUltraSonicSensor(send: (data: UltraSonicSensorObserverPayload) => void): {
-  start: () => void;
-  stop: () => void;
-} {
+export function fakeUltraSonicSensor(
+  send: (data: UltraSonicSensorObserverPayload) => void,
+): UltraSonicSensorActions {
   let lastCm = 0;
   let direction = 1;
   let ref = 0;

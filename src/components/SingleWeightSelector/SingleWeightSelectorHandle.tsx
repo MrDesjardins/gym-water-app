@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createMemo, createSignal } from "solid-js";
 import "../ComponentVariables.css";
 import styles from "./SingleWeightSelectorHandle.module.css";
 import { BiMoveVertical } from "solid-icons/bi";
@@ -11,15 +11,12 @@ export interface SingleWeightSelectorHandleProps {
   offsetY: number;
   parentHeight: number;
   titleOffset: number;
+  disabled?: boolean;
 }
-export const SingleWeightSelectorHandle = (
-  props: SingleWeightSelectorHandleProps
-) => {
+export const SingleWeightSelectorHandle = (props: SingleWeightSelectorHandleProps) => {
   const [isDragging, setIsDragging] = createSignal(false);
   //const [initialYPosition, setInitialYPosition] = createSignal<number>(0);
-  const [realYPosition, setRealYPosition] = createSignal<undefined | number>(
-    props.defaultTop
-  );
+  const [realYPosition, setRealYPosition] = createSignal<undefined | number>(props.defaultTop);
   createEffect(() => {
     props.isDragging(isDragging());
   });
@@ -39,26 +36,35 @@ export const SingleWeightSelectorHandle = (
     setRealYPosition(newY);
   }
   let handleOffset = 0;
+  const idDisabled = createMemo(() => props.disabled ?? false);
   return (
     <div
       onmousedown={(e) => {
-        handleOffset = e.offsetY;
-        setIsDragging(true);
+        if (!idDisabled()) {
+          handleOffset = e.offsetY;
+          setIsDragging(true);
+        }
       }}
       ontouchstart={(e) => {
-        console.log(e.touches[0]);
-        setIsDragging(true);
+        if (!idDisabled()) {
+          console.log(e.touches[0]);
+          setIsDragging(true);
+        }
       }}
       onmousemove={(e) => {
-        if (isDragging()) {
-          const clientEY = e.clientY;
-          adjustClientYE(clientEY);
+        if (!idDisabled()) {
+          if (isDragging()) {
+            const clientEY = e.clientY;
+            adjustClientYE(clientEY);
+          }
         }
       }}
       ontouchmove={(e) => {
-        if (isDragging()) {
-          const clientEY = e.touches[0].clientY ;
-          adjustClientYE(clientEY);
+        if (!idDisabled()) {
+          if (isDragging()) {
+            const clientEY = e.touches[0].clientY;
+            adjustClientYE(clientEY);
+          }
         }
       }}
       onmouseup={(e) => {
@@ -74,6 +80,7 @@ export const SingleWeightSelectorHandle = (
         [styles.SingleWeightSelectorHandle]: true,
         [styles.SingleWeightSelectorHandle_Unpressed]: !isDragging(),
         [styles.SingleWeightSelectorHandle_Pressed]: isDragging(),
+        [styles.SingleWeightSelectorHandle_Disabled]: idDisabled(),
       }}
       style={{
         top: `${realYPosition()}px`,

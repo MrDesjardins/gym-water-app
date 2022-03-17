@@ -7,26 +7,33 @@ import { Wave } from "./Wave";
 export interface SingleWeightSelectorProps {
   minimumWeight: number;
   maximumWeight: number;
-  defaultWeight: number;
+  desiredWeight: number;
+  actualWeight: number;
   width: number;
   height: number;
   getCurrentWeight: (weight: number) => void;
+  disabled?: boolean;
 }
 const TEXT_HEIGHT = 20;
 const HANDLE_SIZE = 60;
 export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
-  const [currentWeight, setCurrentWeight] = createSignal(props.defaultWeight);
+  const [currentWeight, setCurrentWeight] = createSignal(props.desiredWeight);
   const [isDragging, setIsDragging] = createSignal(false);
 
   const getWaterHeight = createMemo((): number => {
-    return (
-      (currentWeight() / (props.maximumWeight - props.minimumWeight)) *
-      (props.height - TEXT_HEIGHT)
-    );
+    return (currentWeight() / (props.maximumWeight - props.minimumWeight)) * (props.height - TEXT_HEIGHT);
+  });
+
+  const getActualWaterHeight = createMemo((): number => {
+    return (props.actualWeight / (props.maximumWeight - props.minimumWeight)) * (props.height - TEXT_HEIGHT);
   });
 
   const getWaterTop = createMemo((): number => {
     return props.height - getWaterHeight();
+  });
+
+  const getActualWaterTop = createMemo((): number => {
+    return props.height - getActualWaterHeight();
   });
 
   /**
@@ -46,18 +53,12 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
   });
 
   const getHandleTop = createMemo((): number => {
-    return (
-      ((props.maximumWeight - currentWeight()) / props.maximumWeight) *
-      (props.height - HANDLE_SIZE)
-    );
+    return ((props.maximumWeight - currentWeight()) / props.maximumWeight) * (props.height - HANDLE_SIZE);
   });
 
   // Debounch to improve performance. Will get the last value
   // after 200ms of inactivity.
-  const [updateNewWeight, clear] = createDebounce(
-    (value) => props.getCurrentWeight(value as number),
-    200
-  );
+  const [updateNewWeight, clear] = createDebounce((value) => props.getCurrentWeight(value as number), 200);
   createEffect(() => {
     updateNewWeight(currentWeight());
   });
@@ -80,9 +81,15 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         height: `${props.height}px`,
       }}
     >
-      <Wave width={props.width} top={getWaterTop()} wobble={isDragging()} />
+      <Wave
+        style={{ opacity: !isDragging() ? 0 : props.actualWeight < currentWeight() ? 0.5 : 1 }}
+        width={props.width}
+        top={getWaterTop()-38}
+        wobble={isDragging()}
+      />
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>
       <SingleWeightSelectorHandle
+        disabled={props.disabled}
         offsetY={getOffset()}
         titleOffset={0}
         parentHeight={props.height}
@@ -91,9 +98,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         defaultLeft={props.width - HANDLE_SIZE / 2}
         updateTop={(pixel) => {
           setCurrentWeight(() => {
-            let newWeight = Math.round(
-              (props.height - HANDLE_SIZE - pixel) / getOneLbsPixelEquivalence()
-            );
+            let newWeight = Math.round((props.height - HANDLE_SIZE - pixel) / getOneLbsPixelEquivalence());
 
             return newWeight; // 0 to 280 (320-60)
           });
@@ -111,9 +116,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
           left: 0,
         }}
       >
-        <span class={styles.SingleWeightSelectorWeight_Number}>
-          {currentWeight()}
-        </span>
+        <span class={styles.SingleWeightSelectorWeight_Number}>{currentWeight()}</span>
         <span class={styles.SingleWeightSelectorWeight_Lbs}>lbs</span>
       </div>
       <div
@@ -127,9 +130,24 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
         <div
           class={styles.SingleWeightSelectorWaterTankWater}
           style={{
+            opacity: props.actualWeight < currentWeight() ? 0.5 : 1,
             width: `${props.width}px`,
             height: `${getWaterHeight()}px`,
             top: `${getWaterTop()}px`,
+            left: 0,
+          }}
+        ></div>
+        <div
+          class={styles.SingleWeightSelectorActualWaterTankWater}
+          classList={{
+            [styles.SingleWeightSelectorActualWaterTankWater_Same]: props.actualWeight === currentWeight(),
+            [styles.SingleWeightSelectorActualWaterTankWater_Diff]: props.actualWeight !== currentWeight(),
+          }}
+          style={{
+            opacity: props.actualWeight >= currentWeight() ? 0.5 : 1,
+            width: props.actualWeight === currentWeight() ? 0 : `${props.width}px`,
+            height: `${getActualWaterHeight()}px`,
+            top: `${getActualWaterTop()}px`,
             left: 0,
           }}
         ></div>

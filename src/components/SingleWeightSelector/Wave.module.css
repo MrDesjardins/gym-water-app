@@ -1,11 +1,14 @@
 .Wave {
   position: absolute;
   overflow: hidden; /*Hide the wave that are bigger on left and right side (allowing wobbling)*/
-  transition: transform 1.5s cubic-bezier(0.08, 0.62, 0.26, 0.93);
+  transition: opacity 500ms cubic-bezier(0.08, 0.62, 0.26, 0.93);
   z-index: var(--water-zindex);
 }
 .Wave_Wobble {
-  transform: translateY(-38px); /*2px less than 40 to avoid having a line between the water and the waveß*/
+  opacity: 1;
+}
+.Wave_NotWobble {
+  opacity: 0;
 }
 .WaveContainer {
   transform: translateX(

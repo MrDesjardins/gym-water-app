@@ -8,6 +8,7 @@
   --weight-selector-radius: 8px;
   --weight-selector-water-tank-bgcolor: #453d55;
   --weight-selector-water-tank-bgcolor-water: #0288d1;
+  --weight-selector-actual-water-tank-bgcolor-water: #02bed1;
   --weight-selector-handle-bgcolor: #c4c4c4;
 
   /*The repetition color*/
@@ -45,9 +46,10 @@
   /*Z-index*/
   --movable-panel-curtains-zindex: 10;
   --water-zindex: 2;
-  --component-title-zindex: 3;
-  --component-svg-zindex: 3;
-  --component-handle-zindex: 8;
+  --water-actual-zindex: 3;
+  --component-title-zindex: 5;
+  --component-svg-zindex: 5;
+  --component-handle-zindex: 10;
   --transition-zindex: 100;
   --transition-text-zindex: 110;
 }

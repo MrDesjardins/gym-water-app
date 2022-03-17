@@ -1,9 +1,8 @@
-import { MagneticContactSensorObserverPayload } from "../magneticContactSensor";
+import { MagneticContactSensorActions, MagneticContactSensorObserverPayload } from "../magneticContactSensor";
 
-export function fakeMagneticSensor(send: (data: MagneticContactSensorObserverPayload) => void): {
-  start: () => void;
-  stop: () => void;
-} {
+export function fakeMagneticSensor(
+  send: (data: MagneticContactSensorObserverPayload) => void,
+): MagneticContactSensorActions {
   let isOpen: boolean = false;
 
   return {

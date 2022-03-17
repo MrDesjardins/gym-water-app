@@ -14,6 +14,7 @@
   z-index: var(--component-title-zindex);
   text-shadow: black 1px 1px 1px;
 }
+.SingleWeightSelectorActualWaterTankWater,
 .SingleWeightSelectorWaterTank,
 .SingleWeightSelectorWaterTankWater {
   box-sizing: border-box; /*The width and height includes the border*/
@@ -51,4 +52,15 @@
   position: absolute;
   z-index: var(--component-svg-zindex);
   overflow: visible;
+}
+
+.SingleWeightSelectorActualWaterTankWater {
+  position: absolute;
+  z-index: var(--water-actual-zindex);
+  background: linear-gradient(
+    to bottom,
+    var(--weight-selector-water-tank-bgcolor-water) 0%,
+    var(--weight-selector-actual-water-tank-bgcolor-water) 100%
+  );
+  transition: width 200ms ease-in-out;
 }

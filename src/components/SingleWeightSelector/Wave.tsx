@@ -1,5 +1,6 @@
 import "../ComponentVariables.css";
 import styles from "./Wave.module.css";
+import { JSX } from "solid-js";
 export interface WaveProps {
   /**
    * To fit the water tank width
@@ -15,15 +16,21 @@ export interface WaveProps {
    * Wobble = Water animation
    */
   wobble: boolean;
+  style?: JSX.CSSProperties;
 }
 export const Wave = (props: WaveProps) => {
   const TOP_HEIGHT = 40; // Maximum height of the top wave
   return (
     <div
-      classList={{ [styles.Wave]: true, [styles.Wave_Wobble]: props.wobble }} // Allows to have the wave overflow hidden
+      classList={{
+        [styles.Wave]: true,
+        [styles.Wave_Wobble]: props.wobble,
+        [styles.Wave_NotWobble]: !props.wobble,
+      }} // Allows to have the wave overflow hidden
       style={{
-        top: `${props.top}px`,
+        top: `${props.top-2}px`,
         width: `${props.width}px`,
+        ...props.style,
       }}
     >
       {/*Wave container that is moving left-right*/}

@@ -2,12 +2,17 @@ import { throttle } from "../utils/throttle";
 import { Observers } from "./common/observer";
 import { fakeMagneticSensor } from "./fakeSensors/fakeMagneticSensor";
 import { PhysicalSensor, SensorObserver } from "./common/physicalSensor";
-import { magneticSensor } from "./physicalSensors/magneticSensor";
+import { physicalMagneticSensor } from "./physicalSensors/physicalMagneticSensor";
 export interface MagneticContactSensorObserverPayload {
   isOpen: boolean;
 }
+
+export interface MagneticContactSensorActions {
+  start: () => void;
+  stop: () => void;
+}
 export class MagneticContactSensor implements PhysicalSensor<MagneticContactSensorObserverPayload> {
-  private sensor: ReturnType<typeof fakeMagneticSensor>;
+  private sensor: MagneticContactSensorActions;
   private observers: Observers<SensorObserver<MagneticContactSensorObserverPayload>>;
 
   public constructor(useFakeSensor: boolean) {
@@ -15,7 +20,7 @@ export class MagneticContactSensor implements PhysicalSensor<MagneticContactSens
     if (useFakeSensor) {
       this.sensor = fakeMagneticSensor(throttle((data) => this.handleData(data), 100));
     } else {
-      this.sensor = magneticSensor(throttle((data) => this.handleData(data), 100));
+      this.sensor = physicalMagneticSensor(throttle((data) => this.handleData(data), 100));
     }
   }
 

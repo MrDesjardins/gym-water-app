@@ -1,24 +1,19 @@
 import { createContext, JSX, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
-import { SensorObserver } from "../common/physicalSensor";
 import { MagneticContactSensor } from "../magneticContactSensor";
-import { UltraSonicSensor, UltraSonicSensorObserverPayload } from "../ultraSonicSensor";
+import { UltraSonicSensor } from "../ultraSonicSensor";
+import { WeightSensor } from "../weightSensor";
 
 export interface SensorsContextState {}
-export interface SensorsContextActions {
-  listenDistanceSensor: () => void;
-  stopListeningDistanceSensor: () => void;
-  subscribeToDistanceSensor: (o: SensorObserver<UltraSonicSensorObserverPayload>) => void;
-  unSubscribeToDistanceSensor: (o: SensorObserver<UltraSonicSensorObserverPayload>) => void;
-}
+
 export interface SensorsContextSensors {
   ultraSonicSensor: UltraSonicSensor;
   magneticContactSensor: MagneticContactSensor;
+  weightSensor: WeightSensor;
 }
 export interface SensorsContextModel {
   state: SensorsContextState;
   sensors: SensorsContextSensors;
-  actions: SensorsContextActions;
 }
 export interface SensorsContextProps {
   /**
@@ -37,26 +32,14 @@ export function SensorsProvider(props: SensorsContextProps) {
   const [state, setState] = createStore<SensorsContextState>({});
   const distanceSensor = new UltraSonicSensor(props.useFakeSensors);
   const magneticSensor = new MagneticContactSensor(props.useFakeSensors);
+  const weightSensor = new WeightSensor(props.useFakeSensors);
 
   const value: SensorsContextModel = {
     state: state,
     sensors: {
       ultraSonicSensor: distanceSensor,
       magneticContactSensor: magneticSensor,
-    },
-    actions: {
-      listenDistanceSensor() {
-        distanceSensor.startListening();
-      },
-      stopListeningDistanceSensor() {
-        distanceSensor.stopListening();
-      },
-      subscribeToDistanceSensor(observer: SensorObserver<UltraSonicSensorObserverPayload>) {
-        distanceSensor.subscribe(observer);
-      },
-      unSubscribeToDistanceSensor(observer: SensorObserver<UltraSonicSensorObserverPayload>) {
-        distanceSensor.unsubscribe(observer);
-      },
+      weightSensor: weightSensor,
     },
   };
 

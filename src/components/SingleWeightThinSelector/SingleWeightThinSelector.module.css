@@ -26,6 +26,7 @@
   margin-left: 5px;
 }
 
+.SingleWeightSelectorActualWaterTankWater,
 .SingleWeightThinSelectorWaterTank,
 .SingleWeightThinSelectorWaterTankWater {
   box-sizing: border-box; /*The width and height includes the border*/
@@ -38,6 +39,7 @@
   background-color: var(--weight-selector-water-tank-bgcolor-water);
   border-bottom-left-radius: var(--weight-selector-radius);
   border-bottom-right-radius: var(--weight-selector-radius);
+  z-index: var(--water-zindex);
 }
 
 .SingleWeightSelectorWeight {
@@ -61,4 +63,15 @@
   position: absolute;
   z-index: var(--component-svg-zindex);
   overflow: visible;
+}
+
+.SingleWeightSelectorActualWaterTankWater {
+  position: absolute;
+  z-index: var(--water-actual-zindex);
+  background: linear-gradient(
+    to bottom,
+    var(--weight-selector-water-tank-bgcolor-water) 0%,
+    var(--weight-selector-actual-water-tank-bgcolor-water) 100%
+  );
+  transition: width 200ms ease-in-out;
 }

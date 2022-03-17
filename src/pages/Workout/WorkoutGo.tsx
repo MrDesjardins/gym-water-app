@@ -1,5 +1,6 @@
 import { useLocation } from "solid-app-router";
-import { batch, createMemo, createSignal, onCleanup, onMount } from "solid-js";
+import { batch, createEffect, createMemo, createSignal, onCleanup, onMount } from "solid-js";
+import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { WaterScreen } from "../../components/Transitions/WaterScreen";
 import { Workout } from "../../models/workout";
@@ -14,6 +15,7 @@ import styles from "./WorkoutGo.module.css";
 export const WorkoutGo = () => {
   const location = useLocation();
   const sensors = useSensors();
+  const serverCommunication = useServerCommunication();
   const [activeExerciseIndex, setActiveExerciseIndex] = createSignal(0);
   const [activeSetIndex, setActiveSetIndex] = createSignal(0);
   const [workoutCompleted, setWorkoutCompleted] = createSignal(false);
@@ -60,6 +62,21 @@ export const WorkoutGo = () => {
       }
     }
   };
+
+  /**
+   * Effect that check for the current set and request the weight
+   * if there is a change in the weight. Two different sets with
+   * the same weight do not trigger the effect.
+   */
+  createEffect(() => {
+    serverCommunication?.request({
+      kind: "weight",
+      payload: {
+        weightLbs: currentSet().weight,
+      },
+    });
+  });
+
   return (
     <MainStructure
       title="Training"

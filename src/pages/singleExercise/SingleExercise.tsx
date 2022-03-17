@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "solid-app-router";
 import { BsArrowRight } from "solid-icons/bs";
 import { createSignal } from "solid-js";
-import { style } from "solid-js/web";
 import { AddSet } from "../../components/AddSet/AddSet";
 import { Button } from "../../components/Button/Button";
 import { MovablePanel } from "../../components/MovablePanel/MovablePanel";
@@ -55,7 +54,7 @@ export const SingleExercise = () => {
             <div class={styles.oneset} style={{ flex: `0 0 ${ADD_SET_WIDTH}px` }}>
               <div class={styles.child1}>
                 <SingleWeightThinSelector
-                  defaultWeight={set.weight}
+                  desiredWeight={set.weight}
                   minimumWeight={CONSTANTS.MIN_WEIGHT}
                   maximumWeight={CONSTANTS.MAX_WEIGHT}
                   getCurrentWeight={(weight) => {
@@ -99,7 +98,7 @@ export const SingleExercise = () => {
             <div class={styles.oneset}>
               <div class={styles.child1}>
                 <SingleWeightThinSelector
-                  defaultWeight={lastKnownWeightForExercise}
+                  desiredWeight={lastKnownWeightForExercise}
                   minimumWeight={CONSTANTS.MIN_WEIGHT}
                   maximumWeight={CONSTANTS.MAX_WEIGHT}
                   getCurrentWeight={(weight) => {

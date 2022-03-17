@@ -4,15 +4,16 @@ import { RepsTempo } from "../components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "../components/SingleWeightSelector/SingleWeightSelector";
 import { SingleWeightThinSelector } from "../components/SingleWeightThinSelector/SingleWeightThinSelector";
 import { createSignal } from "solid-js";
+import { useSensors } from "../sensors/context/SensorsContext";
 export const StoryBook = () => {
-  const [repGroupId, setRepGroupId] = createSignal(0);
-  const [repGroupId2, setRepGroupId2] = createSignal(0);
+  const sensors = useSensors();
   return (
     <div class={styles.StoryBook}>
       <div class={styles.item} style={{ width: "150px" }}>
         <SingleWeightThinSelector
           height={300}
-          defaultWeight={100}
+          actualWeight={100}
+          desiredWeight={100}
           minimumWeight={0}
           maximumWeight={200}
           getCurrentWeight={(weight) => {
@@ -47,8 +48,22 @@ export const StoryBook = () => {
         <div style={{ height: "350px" }}>
           <RepsTempo height={300} width={300} expectedReps={12} />
         </div>
-        <button onclick={() => setRepGroupId(repGroupId() + 1)}>Start({repGroupId()})</button>
-        <button onclick={() => setRepGroupId(repGroupId2() + 1)}>Stop ({repGroupId2()})</button>
+        <button
+          onclick={() => {
+            sensors?.sensors.magneticContactSensor.startListening();
+            sensors?.sensors.ultraSonicSensor.startListening();
+          }}
+        >
+          Start
+        </button>
+        <button
+          onclick={() => {
+            sensors?.sensors.ultraSonicSensor.stopListening();
+            sensors?.sensors.magneticContactSensor.stopListening();
+          }}
+        >
+          Stop
+        </button>
       </div>
     </div>
   );

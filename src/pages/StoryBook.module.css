@@ -1,6 +1,6 @@
 .StoryBook {
   min-height: 100vh;
-  
+
   display: flex;
   flex-flow: row wrap;
   align-items: center;

@@ -1,3 +1,4 @@
+import { CONSTANTS } from "../../models/constants";
 import { WeightSensorActions, WeightSensorObserverPayload } from "../weightSensor";
 
 export const FakeWeightSingleton = {
@@ -6,29 +7,22 @@ export const FakeWeightSingleton = {
 
 export function fakeWeightSensor(send: (data: WeightSensorObserverPayload) => void): WeightSensorActions {
   let ref = 0;
-  let continueReceiveData = false;
+  let lastFakeWeightLbs = FakeWeightSingleton.fakeWeightLbs;
+
   const loop = () => {
-    if (continueReceiveData) {
-      send({ lbs: FakeWeightSingleton.fakeWeightLbs });
-      clearTimeout(ref);
-      ref = setTimeout(() => loop(), 50 + Math.random() * 200); // Next fake fetched data in few ms
-    } else {
-      clearTimeout(ref);
+    if (lastFakeWeightLbs !== FakeWeightSingleton.fakeWeightLbs) {
+      const diff = FakeWeightSingleton.fakeWeightLbs - lastFakeWeightLbs;
+      if (Math.abs(diff) >= CONSTANTS.THRESHOLD_WEIGHT_DIFFERENCE) {
+        lastFakeWeightLbs +=
+          diff > 0 ? CONSTANTS.THRESHOLD_WEIGHT_DIFFERENCE : -CONSTANTS.THRESHOLD_WEIGHT_DIFFERENCE;
+      } else {
+        lastFakeWeightLbs = FakeWeightSingleton.fakeWeightLbs;
+      }
+      send({ lbs: lastFakeWeightLbs });
     }
   };
 
-  return {
-    start: () => {
-      // Stop the loop if it is already running
-      continueReceiveData = false;
-      clearTimeout(ref);
+  ref = setInterval(() => loop(), 500);
 
-      continueReceiveData = true;
-      ref = setTimeout(() => loop(), 0);
-    },
-    stop: () => {
-      continueReceiveData = false;
-      clearTimeout(ref);
-    },
-  };
+  return {};
 }

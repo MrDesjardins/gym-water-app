@@ -5,6 +5,8 @@ import { SingleWeightSelector } from "../components/SingleWeightSelector/SingleW
 import { SingleWeightThinSelector } from "../components/SingleWeightThinSelector/SingleWeightThinSelector";
 import { createSignal } from "solid-js";
 import { useSensors } from "../sensors/context/SensorsContext";
+import { FakeMagneticSensorSingleton } from "../sensors/fakeSensors/fakeMagneticSensor";
+import { FakeUltraSonirSensorSingleton } from "../sensors/fakeSensors/fakeUltraSonicSensor";
 export const StoryBook = () => {
   const sensors = useSensors();
   return (
@@ -50,16 +52,16 @@ export const StoryBook = () => {
         </div>
         <button
           onclick={() => {
-            sensors?.sensors.magneticContactSensor.startListening();
-            sensors?.sensors.ultraSonicSensor.startListening();
+            FakeMagneticSensorSingleton.isOpen = true;
+            FakeUltraSonirSensorSingleton.isMoving = true;
           }}
         >
           Start
         </button>
         <button
           onclick={() => {
-            sensors?.sensors.ultraSonicSensor.stopListening();
-            sensors?.sensors.magneticContactSensor.stopListening();
+            FakeMagneticSensorSingleton.isOpen = false;
+            FakeUltraSonirSensorSingleton.isMoving = false;
           }}
         >
           Stop

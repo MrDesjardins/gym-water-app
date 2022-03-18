@@ -31,16 +31,12 @@ export const AdHocTraining = () => {
   };
 
   const realWeightIsDesiredWeight = createMemo(() => {
-    return (
-      !waitingWeightAdjustment() ||
-      Math.abs(actualPhysicalWeight() - weight()) <= CONSTANTS.THRESHOLD_WEIGHT_DIFFERENCE
-    );
+    return !waitingWeightAdjustment() || Math.abs(actualPhysicalWeight() - weight()) === 0;
   });
 
   createEffect(() => {
     if (realWeightIsDesiredWeight()) {
       sensors?.sensors.weightSensor.unsubscribe(weightSensorCallback);
-      sensors?.sensors.weightSensor.stopListening();
       setWaitingWeightAdjustment(false);
     }
   });
@@ -72,7 +68,6 @@ export const AdHocTraining = () => {
                 setWaitingWeightAdjustment(true);
                 console.log("Adjusting the weight. Sending signal with a weight of: ", weight());
                 serverCommunication?.request({ kind: "weight", payload: { weightLbs: weight() } });
-                sensors?.sensors.weightSensor.startListening();
                 sensors?.sensors.weightSensor.subscribe(weightSensorCallback);
               },
             }}

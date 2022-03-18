@@ -39,6 +39,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
   };
 
   const magneticContactSensorInput = (input: MagneticContactSensorObserverPayload): void => {
+    console.log("MACGNETIC");
     setMagneticSensorContactOpen(input.isOpen);
     if (input.isOpen) {
       // When open => doing reps
@@ -47,6 +48,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
       lastCm = 0;
       setChartData([]); // Start fresh with no data
       startTimeInMs = Date.now();
+      console.log("Start time set");
     }
   };
 
@@ -97,6 +99,7 @@ export const RepsTempo = (props: RepsTempoProps) => {
         ]);
       }
     }
+    console.log(currentData);
     setChartData(currentData);
   }
 

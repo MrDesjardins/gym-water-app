@@ -32,10 +32,8 @@ export const WorkoutExerciseSets = (props: WorkoutExerciseSetsProps) => {
   
   onMount(() => {
     sensors?.sensors.weightSensor.subscribe(weightCallback);
-    sensors?.sensors.weightSensor.startListening();
 
     onCleanup(() => {
-      sensors?.sensors.weightSensor.stopListening();
       sensors?.sensors.weightSensor.unsubscribe(weightCallback);
     });
   });

@@ -1,6 +1,8 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
 import { useSensors } from "../../sensors/context/SensorsContext";
+import { FakeMagneticSensorSingleton } from "../../sensors/fakeSensors/fakeMagneticSensor";
+import { FakeUltraSonirSensorSingleton } from "../../sensors/fakeSensors/fakeUltraSonicSensor";
 import styles from "./DevPanel.module.css";
 
 /**
@@ -18,8 +20,8 @@ export const DevPanel = () => {
       <a
         href="#"
         onClick={() => {
-          sensors?.sensors.magneticContactSensor.startListening();
-          sensors?.sensors.ultraSonicSensor.startListening();
+          FakeMagneticSensorSingleton.isOpen = true;
+          FakeUltraSonirSensorSingleton.isMoving = true;
         }}
       >
         Contact Sensor Open + Start Moving
@@ -27,8 +29,8 @@ export const DevPanel = () => {
       <a
         href="#"
         onClick={() => {
-          sensors?.sensors.ultraSonicSensor.stopListening();
-          sensors?.sensors.magneticContactSensor.stopListening();
+          FakeMagneticSensorSingleton.isOpen = false;
+          FakeUltraSonirSensorSingleton.isMoving = false;
         }}
       >
         Stop moving + Contact Sensor Close

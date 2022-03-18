@@ -10,12 +10,5 @@ export function physicalWeightSensor(send: (data: WeightSensorObserverPayload) =
     }
   };
 
-  return {
-    start: () => {
-      continueReceiveData = true;
-    },
-    stop: () => {
-      continueReceiveData = false;
-    },
-  };
+  return {};
 }

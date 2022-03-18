@@ -12,12 +12,5 @@ export function physicalUltraSonicSensor(
     }
   };
 
-  return {
-    start: () => {
-      continueReceiveData = true;
-    },
-    stop: () => {
-      continueReceiveData = false;
-    },
-  };
+  return {};
 }

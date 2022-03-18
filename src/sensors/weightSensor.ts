@@ -9,10 +9,7 @@ export interface WeightSensorObserverPayload {
   lbs: number;
 }
 
-export interface WeightSensorActions {
-  start: () => void;
-  stop: () => void;
-}
+export interface WeightSensorActions {}
 
 /**
  * Simulate a sensor that calculate the weight of the upper bin (the one
@@ -34,14 +31,6 @@ export class WeightSensor implements PhysicalSensor<WeightSensorObserverPayload>
     } else {
       this.sensor = physicalWeightSensor(throttle((data) => this.handleData(data), 100));
     }
-  }
-
-  public startListening(): void {
-    this.sensor.start();
-  }
-
-  public stopListening(): void {
-    this.sensor.stop();
   }
 
   public subscribe(observer: SensorObserver<WeightSensorObserverPayload>): void {

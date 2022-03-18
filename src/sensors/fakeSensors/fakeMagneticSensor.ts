@@ -1,18 +1,18 @@
 import { MagneticContactSensorActions, MagneticContactSensorObserverPayload } from "../magneticContactSensor";
 
+export const FakeMagneticSensorSingleton = {
+  isOpen: false,
+};
 export function fakeMagneticSensor(
   send: (data: MagneticContactSensorObserverPayload) => void,
 ): MagneticContactSensorActions {
-  let isOpen: boolean = false;
-
-  return {
-    start: () => {
-      isOpen = true;
-      send({ isOpen: isOpen });
-    },
-    stop: () => {
-      isOpen = false;
-      send({ isOpen: isOpen });
-    },
-  };
+  let ref = 0;
+  let lastIsOpen = FakeMagneticSensorSingleton.isOpen;
+  ref = setInterval(() => {
+    if (lastIsOpen !== FakeMagneticSensorSingleton.isOpen) {
+      lastIsOpen = FakeMagneticSensorSingleton.isOpen;
+      send({ isOpen: FakeMagneticSensorSingleton.isOpen });
+    }
+  }, 1000);
+  return {};
 }

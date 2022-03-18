@@ -95,3 +95,8 @@ The dev panel consumes the sensor in a particular way. Because during developmen
 1. Connect to NodeJs to download workouts (or create on the device ?)
 1. Save previous weight for specific exercises, when coming back, we could reload previously used weight
 
+
+## Else
+
+1. Too much reliance on the FakeWeight
+2. StopListening and StartListening are global per sensor. If used at two different places, it shut downs everything.

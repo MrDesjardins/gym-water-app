@@ -9,10 +9,7 @@ export interface UltraSonicSensorObserverPayload {
   fullDateTimeInMs: number;
 }
 
-export interface UltraSonicSensorActions {
-  start: () => void;
-  stop: () => void;
-}
+export interface UltraSonicSensorActions {}
 
 /**
  * Simulate a distance sensor.
@@ -35,14 +32,6 @@ export class UltraSonicSensor implements PhysicalSensor<UltraSonicSensorObserver
     } else {
       this.sensor = physicalUltraSonicSensor(throttle((data) => this.handleData(data), 100));
     }
-  }
-
-  public startListening(): void {
-    this.sensor.start();
-  }
-
-  public stopListening(): void {
-    this.sensor.stop();
   }
 
   public subscribe(observer: SensorObserver<UltraSonicSensorObserverPayload>): void {

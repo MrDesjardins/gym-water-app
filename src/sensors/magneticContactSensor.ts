@@ -7,10 +7,7 @@ export interface MagneticContactSensorObserverPayload {
   isOpen: boolean;
 }
 
-export interface MagneticContactSensorActions {
-  start: () => void;
-  stop: () => void;
-}
+export interface MagneticContactSensorActions {}
 export class MagneticContactSensor implements PhysicalSensor<MagneticContactSensorObserverPayload> {
   private sensor: MagneticContactSensorActions;
   private observers: Observers<SensorObserver<MagneticContactSensorObserverPayload>>;
@@ -22,14 +19,6 @@ export class MagneticContactSensor implements PhysicalSensor<MagneticContactSens
     } else {
       this.sensor = physicalMagneticSensor(throttle((data) => this.handleData(data), 100));
     }
-  }
-
-  public startListening(): void {
-    this.sensor.start();
-  }
-
-  public stopListening(): void {
-    this.sensor.stop();
   }
 
   public subscribe(observer: SensorObserver<MagneticContactSensorObserverPayload>): void {

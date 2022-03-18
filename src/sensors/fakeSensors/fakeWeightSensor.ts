@@ -10,6 +10,7 @@ export function fakeWeightSensor(send: (data: WeightSensorObserverPayload) => vo
   let lastFakeWeightLbs = FakeWeightSingleton.fakeWeightLbs;
 
   const loop = () => {
+    //console.log("fakeWeightSensor loop", lastFakeWeightLbs, FakeWeightSingleton.fakeWeightLbs);
     if (lastFakeWeightLbs !== FakeWeightSingleton.fakeWeightLbs) {
       const diff = FakeWeightSingleton.fakeWeightLbs - lastFakeWeightLbs;
       if (Math.abs(diff) >= CONSTANTS.THRESHOLD_WEIGHT_DIFFERENCE) {
@@ -18,8 +19,8 @@ export function fakeWeightSensor(send: (data: WeightSensorObserverPayload) => vo
       } else {
         lastFakeWeightLbs = FakeWeightSingleton.fakeWeightLbs;
       }
-      send({ lbs: lastFakeWeightLbs });
     }
+    send({ lbs: lastFakeWeightLbs });
   };
 
   ref = setInterval(() => loop(), 500);

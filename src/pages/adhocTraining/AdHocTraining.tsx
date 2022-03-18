@@ -5,38 +5,44 @@ import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "../../components/SingleWeightSelector/SingleWeightSelector";
 import { CONSTANTS } from "../../models/constants";
 import { useSensors } from "../../sensors/context/SensorsContext";
-import { FakeWeightSingleton } from "../../sensors/fakeSensors/fakeWeightSensor";
 import { WeightSensorObserverPayload } from "../../sensors/weightSensor";
 import { MainStructure } from "../../structure/MainStructure";
+import { triggerIfChanged } from "../../utils/changeFilter";
 import { getMainRoutes } from "../routes";
 import styles from "./AdHocTraining.module.css";
 export const AdHocTraining = () => {
-  const [weight, setWeight] = createSignal(FakeWeightSingleton.fakeWeightLbs);
+  const [desiredWeight, setDesiredWeight] = createSignal(50);
+  const [actualPhysicalWeight, setActualPhysicalWeight] = createSignal(0);
+
   const [waitingWeightAdjustment, setWaitingWeightAdjustment] = createSignal(false);
-  const [actualPhysicalWeight, setActualPhysicalWeight] = createSignal(FakeWeightSingleton.fakeWeightLbs);
   const sensors = useSensors();
   const serverCommunication = useServerCommunication();
   /**
    * We need to ensure we unsubscribe from the sensor when the component is unmounted.
    **/
   onMount(() => {
+    sensors?.sensors.weightSensor.subscribe(weightSensorCallback);
     onCleanup(() => {
       sensors?.sensors.weightSensor.unsubscribe(weightSensorCallback);
     });
   });
 
   const weightSensorCallback = (callback: WeightSensorObserverPayload): void => {
-    console.log("Weight sensor callback", callback);
-    setActualPhysicalWeight(callback.lbs);
+    triggerIfChanged(
+      (value: number) => {
+        setActualPhysicalWeight(value);
+      },
+      actualPhysicalWeight(),
+      callback.lbs,
+    );
   };
 
   const realWeightIsDesiredWeight = createMemo(() => {
-    return !waitingWeightAdjustment() || Math.abs(actualPhysicalWeight() - weight()) === 0;
+    return !waitingWeightAdjustment() || Math.abs(actualPhysicalWeight() - desiredWeight()) === 0;
   });
 
   createEffect(() => {
     if (realWeightIsDesiredWeight()) {
-      sensors?.sensors.weightSensor.unsubscribe(weightSensorCallback);
       setWaitingWeightAdjustment(false);
     }
   });
@@ -49,13 +55,13 @@ export const AdHocTraining = () => {
             disabled={!realWeightIsDesiredWeight()}
             height={340}
             width={230}
-            desiredWeight={FakeWeightSingleton.fakeWeightLbs}
+            desiredWeight={desiredWeight()}
             actualWeight={actualPhysicalWeight()}
             minimumWeight={CONSTANTS.MIN_WEIGHT}
             maximumWeight={CONSTANTS.MAX_WEIGHT}
             getCurrentWeight={(weight) => {
-              console.log("Set the weight to: ", weight);
-              setWeight(weight);
+              console.log("AdHoc: Set the weight to: ", weight);
+              setDesiredWeight(weight);
             }}
           />
         </div>
@@ -66,9 +72,8 @@ export const AdHocTraining = () => {
             props={{
               onclick: () => {
                 setWaitingWeightAdjustment(true);
-                console.log("Adjusting the weight. Sending signal with a weight of: ", weight());
-                serverCommunication?.request({ kind: "weight", payload: { weightLbs: weight() } });
-                sensors?.sensors.weightSensor.subscribe(weightSensorCallback);
+                console.log("Adjusting the weight. Sending signal with a weight of: ", desiredWeight());
+                serverCommunication?.request({ kind: "weight", payload: { weightLbs: desiredWeight() } });
               },
             }}
           >

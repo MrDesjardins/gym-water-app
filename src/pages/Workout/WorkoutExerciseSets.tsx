@@ -5,6 +5,7 @@ import { CONSTANTS } from "../../models/constants";
 import { WorkoutExercise } from "../../models/exerciseSet";
 import { useSensors } from "../../sensors/context/SensorsContext";
 import { WeightSensorObserverPayload } from "../../sensors/weightSensor";
+import { triggerIfChanged } from "../../utils/changeFilter";
 import styles from "./WorkoutExerciseSets.module.css";
 export interface WorkoutExerciseSetsProps {
   workoutExercise: WorkoutExercise;
@@ -23,16 +24,21 @@ function getLeft(activeIndex: number): number {
   }
 }
 export const WorkoutExerciseSets = (props: WorkoutExerciseSetsProps) => {
-  const [actualWeight, setActualWeight] = createSignal(0);
+  const [actualPhysicalWeight, setActualPhysicalWeight] = createSignal(0);
   const sensors = useSensors();
 
   const weightCallback = (payload: WeightSensorObserverPayload) => {
-    setActualWeight(payload.lbs);
+    triggerIfChanged(
+      (value: number) => {
+        setActualPhysicalWeight(value);
+      },
+      actualPhysicalWeight(),
+      payload.lbs,
+    );
   };
-  
+
   onMount(() => {
     sensors?.sensors.weightSensor.subscribe(weightCallback);
-
     onCleanup(() => {
       sensors?.sensors.weightSensor.unsubscribe(weightCallback);
     });
@@ -63,7 +69,7 @@ export const WorkoutExerciseSets = (props: WorkoutExerciseSetsProps) => {
           >
             <div class={styles.topControl}>
               <SingleWeightThinSelector
-                actualWeight={isActiveSet ? set.weight : actualWeight()}
+                actualWeight={isActiveSet ? set.weight : actualPhysicalWeight()}
                 desiredWeight={set.weight}
                 height={380}
                 width={WIDTH}

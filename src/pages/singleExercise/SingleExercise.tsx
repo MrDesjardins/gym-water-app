@@ -54,6 +54,8 @@ export const SingleExercise = () => {
             <div class={styles.oneset} style={{ flex: `0 0 ${ADD_SET_WIDTH}px` }}>
               <div class={styles.child1}>
                 <SingleWeightThinSelector
+                  showActualWeight={false}
+                  actualWeight={set.weight}
                   desiredWeight={set.weight}
                   minimumWeight={CONSTANTS.MIN_WEIGHT}
                   maximumWeight={CONSTANTS.MAX_WEIGHT}
@@ -98,11 +100,13 @@ export const SingleExercise = () => {
             <div class={styles.oneset}>
               <div class={styles.child1}>
                 <SingleWeightThinSelector
+                  showActualWeight={false}
+                  actualWeight={lastKnownWeightForExercise}
                   desiredWeight={lastKnownWeightForExercise}
                   minimumWeight={CONSTANTS.MIN_WEIGHT}
                   maximumWeight={CONSTANTS.MAX_WEIGHT}
                   getCurrentWeight={(weight) => {
-                    console.log("Set the weight to: ", weight);
+                    console.log("Single Exervice Set the weight to: ", weight);
                   }}
                   height={COMPONENT_HEIGHT}
                 />

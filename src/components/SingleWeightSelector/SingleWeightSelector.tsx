@@ -1,5 +1,5 @@
 import createDebounce from "@solid-primitives/debounce";
-import { createEffect, createMemo, createSignal, onCleanup } from "solid-js";
+import { createEffect, createMemo, createSignal, on, onCleanup } from "solid-js";
 import "../ComponentVariables.css";
 import styles from "./SingleWeightSelector.module.css";
 import { SingleWeightSelectorHandle } from "./SingleWeightSelectorHandle";
@@ -59,9 +59,17 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
   // Debounch to improve performance. Will get the last value
   // after 200ms of inactivity.
   const [updateNewWeight, clear] = createDebounce((value) => props.getCurrentWeight(value as number), 200);
-  createEffect(() => {
-    updateNewWeight(currentWeight());
-  });
+  createEffect(
+    on(
+      () => {
+        currentWeight();
+      },
+      () => {
+        updateNewWeight(currentWeight());
+      },
+      { defer: true }, // Defer because we do not want to updateNewWeight on mounting
+    ),
+  );
   onCleanup(() => {
     clear();
   });
@@ -84,7 +92,7 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
       <Wave
         style={{ opacity: !isDragging() ? 0 : props.actualWeight < currentWeight() ? 0.5 : 1 }}
         width={props.width}
-        top={getWaterTop()-38}
+        top={getWaterTop() - 38}
         wobble={isDragging()}
       />
       <div class={styles.SingleWeightSelectorTitle}>Weight</div>

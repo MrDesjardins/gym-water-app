@@ -37,8 +37,8 @@ export const StoryBook = () => {
         <SingleWeightSelector
           height={300}
           width={200}
-          actualWeight={200}
-          desiredWeight={200}
+          actualWeight={100}
+          desiredWeight={100}
           minimumWeight={0}
           maximumWeight={200}
           getCurrentWeight={(weight) => {

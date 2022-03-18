@@ -12,6 +12,7 @@ export interface SingleWeightThinSelectorProps {
   getCurrentWeight: (weight: number) => void;
   turnOffHandle?: boolean;
   width?: number;
+  showActualWeight?: boolean;
 }
 const HANDLE_SIZE = 60;
 const TEXT_HEIGHT = 40;
@@ -69,6 +70,8 @@ export const SingleWeightThinSelector = (props: SingleWeightThinSelectorProps) =
   onCleanup(() => {
     clear();
   });
+
+  const isShowingActualWeight = createMemo(() => props.showActualWeight ?? true);
   return (
     <div
       ref={containerRef}
@@ -113,27 +116,29 @@ export const SingleWeightThinSelector = (props: SingleWeightThinSelectorProps) =
         <div
           class={styles.SingleWeightThinSelectorWaterTankWater}
           style={{
-            opacity: props.actualWeight < currentWeight() ? 0.5 : 1,
+            opacity: isShowingActualWeight() ? (props.actualWeight < currentWeight() ? 0.5 : 1) : 1,
             width: `${props.width ?? WIDTH}px`,
             height: `${getWaterHeight()}px`,
             top: `${getWaterTop()}px`,
             left: 0,
           }}
         ></div>
-        <div
-          class={styles.SingleWeightSelectorActualWaterTankWater}
-          classList={{
-            [styles.SingleWeightSelectorActualWaterTankWater_Same]: props.actualWeight === currentWeight(),
-            [styles.SingleWeightSelectorActualWaterTankWater_Diff]: props.actualWeight !== currentWeight(),
-          }}
-          style={{
-            opacity: props.actualWeight >= currentWeight() ? 0.5 : 1,
-            width: props.actualWeight === currentWeight() ? 0 : `${props.width}px`,
-            height: `${getActualWaterHeight()}px`,
-            top: `${getActualWaterTop()}px`,
-            left: 0,
-          }}
-        ></div>
+        {isShowingActualWeight() ? (
+          <div
+            class={styles.SingleWeightSelectorActualWaterTankWater}
+            classList={{
+              [styles.SingleWeightSelectorActualWaterTankWater_Same]: props.actualWeight === currentWeight(),
+              [styles.SingleWeightSelectorActualWaterTankWater_Diff]: props.actualWeight !== currentWeight(),
+            }}
+            style={{
+              opacity: props.actualWeight >= currentWeight() ? 0.5 : 1,
+              width: props.actualWeight === currentWeight() ? 0 : `${props.width}px`,
+              height: `${getActualWaterHeight()}px`,
+              top: `${getActualWaterTop()}px`,
+              left: 0,
+            }}
+          ></div>
+        ) : null}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { throttle } from "../utils/throttle";
 import { Observers } from "./common/observer";
 import { PhysicalSensor, SensorObserver } from "./common/physicalSensor";
-import { fakeUltraSonicSensor } from "./fakeSensors/fakeUltraSonicSensor";
 import { fakeWeightSensor } from "./fakeSensors/fakeWeightSensor";
 import { physicalWeightSensor } from "./physicalSensors/physicalWeightSonicSensor";
 
@@ -27,9 +26,13 @@ export class WeightSensor implements PhysicalSensor<WeightSensorObserverPayload>
   public constructor(useFakeSensor: boolean) {
     this.observers = new Observers<SensorObserver<WeightSensorObserverPayload>>();
     if (useFakeSensor) {
-      this.sensor = fakeWeightSensor(throttle((data) => this.handleData(data), 100));
+      this.sensor = fakeWeightSensor(
+        throttle((data: WeightSensorObserverPayload) => this.handleData(data), 100),
+      );
     } else {
-      this.sensor = physicalWeightSensor(throttle((data) => this.handleData(data), 100));
+      this.sensor = physicalWeightSensor(
+        throttle((data: WeightSensorObserverPayload) => this.handleData(data), 100),
+      );
     }
   }
 

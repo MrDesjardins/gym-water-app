@@ -93,4 +93,7 @@ The dev panel consumes the sensor in a particular way. Because during developmen
 
 1. Connect to NodeJs for sensors information (might need to throttle)
 1. Connect to NodeJs to download workouts (or create on the device ?)
-1. Save previous weight for specific exercises, when coming back, we could reload previously used weight
+
+## Scheduled Priorities
+1. [Workout] When in a workout, when a set is completed to let the user adjust the weight for the next workout if needed.
+1. [Single Exercise] Save previous weight for specific exercises, when coming back, we could reload previously used weight

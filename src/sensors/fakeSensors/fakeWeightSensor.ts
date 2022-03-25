@@ -23,7 +23,7 @@ export function fakeWeightSensor(send: (data: WeightSensorObserverPayload) => vo
     send({ lbs: lastFakeWeightLbs });
   };
 
-  ref = setInterval(() => loop(), 500);
+  ref = window.setInterval(() => loop(), 500);
 
   return {};
 }

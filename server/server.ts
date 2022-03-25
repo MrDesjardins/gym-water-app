@@ -1,4 +1,6 @@
 import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
 import WebSocket from "ws";
 import dotenv from "dotenv";
 dotenv.config();
@@ -11,6 +13,9 @@ console.log(`Server ${SERVER_IP}:${SERVER_PORT}`);
 console.log(`WS  ${SERVER_IP}:${SERVER_WEBSOCKET_PORT}`);
 
 const serverApp = express();
+serverApp.use(bodyParser.json()); // Allows to parse POST body
+serverApp.use(bodyParser.urlencoded({ extended: true }));
+serverApp.use(cors());
 
 serverApp.get("/api/workouts", async (req: any, res: any) => {
   try {
@@ -33,9 +38,15 @@ serverApp.get("/api/workouts/:workoutid", async (req: any, res: any) => {
   }
 });
 
+serverApp.post("/api/sensors/weight", (req: any, res: any) => {
+  const data = req.body;
+  console.log(data);
+  console.log(`Adjust weight to be ${data.weight} at ${new Date().toLocaleTimeString()}`, data);
+});
+
 serverApp.post("/api/workouts/:workoutid/save", (req: any, res: any) => {
   const id = req.params.workoutid;
-  const data = JSON.stringify(req.body.content);
+  const data = JSON.stringify(req.body);
   console.log(`Save workout id ${id} at ${new Date().toLocaleTimeString()}`, data);
 });
 

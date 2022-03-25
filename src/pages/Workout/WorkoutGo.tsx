@@ -1,5 +1,5 @@
 import { useLocation } from "solid-app-router";
-import { batch, createEffect, createMemo, createSignal, onCleanup, onMount } from "solid-js";
+import { JSX, batch, createEffect, createMemo, createSignal, onCleanup, onMount } from "solid-js";
 import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { WaterScreen } from "../../components/Transitions/WaterScreen";
@@ -12,7 +12,7 @@ import { WorkoutExercises } from "./WorkoutExercises";
 import { WorkoutExerciseSets } from "./WorkoutExerciseSets";
 import styles from "./WorkoutGo.module.css";
 
-export const WorkoutGo = () => {
+export const WorkoutGo = (): JSX.Element => {
   const location = useLocation();
   const sensors = useSensors();
   const serverCommunication = useServerCommunication();

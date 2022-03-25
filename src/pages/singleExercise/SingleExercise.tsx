@@ -10,6 +10,7 @@ import { CONSTANTS } from "../../models/constants";
 import { getExercise } from "../../models/exercise";
 import { ExerciseSet, getNewSet, WorkoutExercise } from "../../models/exerciseSet";
 import { Workout } from "../../models/workout";
+import { dataGateway } from "../../persistence/dataGateway";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes, ROUTES } from "../routes";
 import styles from "./SingleExercise.module.css";
@@ -31,6 +32,13 @@ export const SingleExercise = () => {
     // Should never happen, but if the URL had a exercise ID that does not exist, we move back
     navigate(getMainRoutes(ROUTES.SINGLE_EXERCISE));
   }
+
+  // Load the last time configuration for the exercise
+  const lastSet = dataGateway.getLastExercisesSet(exerciseDetail.id);
+  if (lastSet.length > 0) {
+    setSetData(lastSet);
+  }
+
   return (
     <MainStructure
       title="Training"
@@ -130,6 +138,7 @@ export const SingleExercise = () => {
           disabled={setData().length === 0}
           class={styles.right}
           onClick={() => {
+            dataGateway.saveLastExerciseSet(exerciseDetail.id, setData());
             const singleWorkoutExercise: WorkoutExercise = {
               exercise: exerciseDetail!,
               exerciseSets: setData(),

@@ -1,7 +1,7 @@
 import { useNavigate } from "solid-app-router";
 import { BsArrowRight } from "solid-icons/bs";
 import { Button } from "../../components/Button/Button";
-import { getOrderedWorkouts } from "../../models/workout";
+import { dataGateway } from "../../persistence/dataGateway";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes, ROUTES } from "../routes";
 import styles from "./Workout.module.css";
@@ -10,7 +10,7 @@ export const Workout = () => {
   return (
     <MainStructure title="Training" subtitle="Workout" backButtonLink={getMainRoutes()}>
       <div class={styles.Workout}>
-        {getOrderedWorkouts().map((workout) => (
+        {dataGateway.getAllWorkouts().map((workout) => (
           <div class={styles.choice}>
             <WorkoutButton
               name={workout.workoutName}

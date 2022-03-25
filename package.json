@@ -27,7 +27,7 @@
     "vite-plugin-solid": "^2.2.5"
   },
   "dependencies": {
-    "@solid-primitives/debounce": "^1.1.2",
+    "@solid-primitives/debounce": "^1.2.0",
     "@solid-primitives/throttle": "^1.1.2",
     "@solid-primitives/websocket": "^0.0.100",
     "body-parser": "^1.19.2",

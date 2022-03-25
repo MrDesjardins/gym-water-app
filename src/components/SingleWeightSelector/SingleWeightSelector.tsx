@@ -58,20 +58,20 @@ export const SingleWeightSelector = (props: SingleWeightSelectorProps) => {
 
   // Debounch to improve performance. Will get the last value
   // after 200ms of inactivity.
-  const [updateNewWeight, clear] = createDebounce((value) => props.getCurrentWeight(value as number), 200);
+  const deb = createDebounce((value: number) => props.getCurrentWeight(value), 200);
   createEffect(
     on(
       () => {
         currentWeight();
       },
       () => {
-        updateNewWeight(currentWeight());
+        deb(currentWeight());
       },
       { defer: true }, // Defer because we do not want to updateNewWeight on mounting
     ),
   );
   onCleanup(() => {
-    clear();
+    deb.clear();
   });
   let containerRef: HTMLDivElement | undefined = undefined;
   const getOffset = (): number => {

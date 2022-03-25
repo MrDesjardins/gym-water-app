@@ -32,8 +32,8 @@ export function fakeUltraSonicSensor(
     }
     lastIsMoving = FakeUltraSonirSensorSingleton.isMoving;
     clearTimeout(ref);
-    ref = setTimeout(() => loop(), 1 + Math.random() * 60); // Next fake fetched data in few ms
+    ref = window.setTimeout(() => loop(), 1 + Math.random() * 60); // Next fake fetched data in few ms
   };
-  ref = setTimeout(() => loop(), 0); // Start getting fake data
+  ref = window.setTimeout(() => loop(), 0); // Start getting fake data
   return {};
 }

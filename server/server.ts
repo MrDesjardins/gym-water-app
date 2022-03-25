@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import WebSocket from "ws";
 import dotenv from "dotenv";
+import e from "express";
 dotenv.config();
 
 const SERVER_IP = process.env.SERVER_IP;
@@ -16,6 +17,9 @@ const serverApp = express();
 serverApp.use(bodyParser.json()); // Allows to parse POST body
 serverApp.use(bodyParser.urlencoded({ extended: true }));
 serverApp.use(cors());
+
+let desiredWeightLbs = 0;
+let lastSensorReceivedWeightLbs = 0;
 
 serverApp.get("/api/workouts", async (req: any, res: any) => {
   try {
@@ -40,8 +44,9 @@ serverApp.get("/api/workouts/:workoutid", async (req: any, res: any) => {
 
 serverApp.post("/api/sensors/weight", (req: any, res: any) => {
   const data = req.body;
-  console.log(data);
   console.log(`Adjust weight to be ${data.weight} at ${new Date().toLocaleTimeString()}`, data);
+  desiredWeightLbs = data.weight;
+  res.send({ status: "ok" });
 });
 
 serverApp.post("/api/workouts/:workoutid/save", (req: any, res: any) => {
@@ -72,9 +77,31 @@ wsApp.on("error", (err) => {
   console.error(`Error ${err.name}: ${err.message}`);
 });
 
-// Listen on the GPIO pin to send data about distance, weight, etc.
-// wsApp.clients.forEach((client) => {
-//   if (client.readyState === WebSocket.OPEN) {
-//     client.send(data);
-//   }
-// });
+function sendCurrentWeight(currentWeightLbs: number): void {
+  wsApp.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(
+        JSON.stringify({
+          __type: "weight",
+          weightLbs: currentWeightLbs,
+        }),
+      );
+    }
+  });
+}
+
+const weightLoopSimulateGPIO = () => {
+  console.log("Weight", desiredWeightLbs, lastSensorReceivedWeightLbs);
+  if (desiredWeightLbs !== lastSensorReceivedWeightLbs) {
+    const diff = desiredWeightLbs - lastSensorReceivedWeightLbs;
+    if (Math.abs(diff) >= 5) {
+      lastSensorReceivedWeightLbs += diff > 0 ? 5 : -5; // Fake the water moving
+    } else {
+      lastSensorReceivedWeightLbs = desiredWeightLbs;
+    }
+
+    sendCurrentWeight(lastSensorReceivedWeightLbs);
+  }
+};
+
+setInterval(() => weightLoopSimulateGPIO(), 500);

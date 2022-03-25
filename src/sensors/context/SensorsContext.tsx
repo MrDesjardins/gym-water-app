@@ -1,8 +1,13 @@
-import { createContext, JSX, useContext } from "solid-js";
+import createWebsocket from "@solid-primitives/websocket";
+import { createContext, JSX, onCleanup, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
+import { ENV_VARIABLES } from "../../models/constants_env";
+import { AllWebSocketPayloadTypes, buildObjFromWebsocketResponse } from "../../models/websocket/payload";
+import { fakeMagneticSensor } from "../fakeSensors/fakeMagneticSensor";
+import { fakeWeightSensor } from "../fakeSensors/fakeWeightSensor";
 import { MagneticContactSensor } from "../magneticContactSensor";
 import { UltraSonicSensor } from "../ultraSonicSensor";
-import { WeightSensor } from "../weightSensor";
+import { WeightSensor, WeightSensorActions, WeightSensorObserverPayload } from "../weightSensor";
 
 export interface SensorsContextState {}
 
@@ -30,9 +35,43 @@ export const SensorsContext = createContext<SensorsContextModel>();
 
 export function SensorsProvider(props: SensorsContextProps) {
   const [state, setState] = createStore<SensorsContextState>({});
+
+  if (props.useFakeSensors) {
+    fakeWeightSensor((data: WeightSensorObserverPayload) => {
+      weightSensor.update(data.lbs);
+    });
+  } else {
+    const distributeToSensor = (payload: AllWebSocketPayloadTypes) => {
+      if (payload.__type === "weight") {
+        weightSensor.update(payload.weightLbs);
+      }
+    };
+    const [connect, disconnect, send, wsState] = createWebsocket(
+      `ws://${ENV_VARIABLES.SERVER_IP}:${ENV_VARIABLES.SERVER_WEBSOCKET_PORT}`,
+      (msg) => {
+        const payload = buildObjFromWebsocketResponse(JSON.parse(msg.data));
+        distributeToSensor(payload);
+      },
+      (msg) => console.log(msg),
+      [],
+      5 /*Reconnect*/,
+      5000 /*Reconnect pause*/,
+    );
+
+    if (!props.useFakeSensors) {
+      console.log("Connecting WS");
+      connect();
+    }
+
+    onCleanup(() => {
+      console.log("Disconnecting WS");
+      disconnect();
+    });
+  }
+
   const distanceSensor = new UltraSonicSensor(props.useFakeSensors);
   const magneticSensor = new MagneticContactSensor(props.useFakeSensors);
-  const weightSensor = new WeightSensor(props.useFakeSensors);
+  const weightSensor = new WeightSensor();
 
   const value: SensorsContextModel = {
     state: state,

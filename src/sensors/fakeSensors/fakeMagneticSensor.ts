@@ -8,7 +8,7 @@ export function fakeMagneticSensor(
 ): MagneticContactSensorActions {
   let ref = 0;
   let lastIsOpen = FakeMagneticSensorSingleton.isOpen;
-  ref = setInterval(() => {
+  ref = window.setInterval(() => {
     if (lastIsOpen !== FakeMagneticSensorSingleton.isOpen) {
       lastIsOpen = FakeMagneticSensorSingleton.isOpen;
       send({ isOpen: FakeMagneticSensorSingleton.isOpen });

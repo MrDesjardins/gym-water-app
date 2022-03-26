@@ -1,4 +1,4 @@
-import { AllWebSocketPayloadTypes } from "../models/websocket/payload";
+import { AllWebSocketPayloadTypes } from "../../common/websocket/payload";
 import { exhaustiveCheck } from "../TypeScript/checks";
 import { MagneticContactSensor } from "./magneticContactSensor";
 import { UltraSonicSensor } from "./ultraSonicSensor";

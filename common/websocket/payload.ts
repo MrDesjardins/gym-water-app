@@ -1,6 +1,6 @@
-import { MagneticContactSensorObserverPayload } from "../../../common/magneticContactSensorObserverPayload";
-import { UltraSonicSensorObserverPayload } from "../../../common/ultraSonicSensorObserverPayload";
-import { WeightSensorObserverPayload } from "../../../common/weightSensorObserverPayload";
+import { MagneticContactSensorObserverPayload } from "../magneticContactSensorObserverPayload";
+import { UltraSonicSensorObserverPayload } from "../ultraSonicSensorObserverPayload";
+import { WeightSensorObserverPayload } from "../weightSensorObserverPayload";
 
 export type AllWebSocketPayloadTypes = WeightPayload | DistancePayload | MagnecticPayload;
 

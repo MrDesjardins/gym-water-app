@@ -1,5 +1,4 @@
-import { MagneticContactSensorObserverPayload } from "../../src/sensors/magneticContactSensor";
-import { WeightSensorObserverPayload } from "../../src/sensors/weightSensor";
+import { MagneticContactSensorObserverPayload } from "../../common/magneticContactSensorObserverPayload";
 
 export class MagneticContactGpio {
   private loopRef: NodeJS.Timer | undefined = undefined;

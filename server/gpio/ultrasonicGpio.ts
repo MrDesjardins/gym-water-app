@@ -1,4 +1,4 @@
-import { UltraSonicSensorObserverPayload } from "../../src/sensors/ultraSonicSensor";
+import { UltraSonicSensorObserverPayload } from "../../common/ultraSonicSensorObserverPayload";
 
 export class UltrasonicGpio {
   private loopRef: NodeJS.Timer | undefined = undefined;

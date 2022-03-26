@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 import express from "express";
 import { RestRoutes } from "../common/restRoutes";
 import { Workout } from "../src/models/workout";
-import { getWorkouts, setWorkout } from "./fakeData";
 import { MagneticContactGpio } from "./gpio/magneticContactGpio";
 import { UltrasonicGpio } from "./gpio/ultrasonicGpio";
 import { WeightGpio } from "./gpio/weightGpio";
+import { getWorkouts, setWorkout } from "./persistence/file";
 import { WebSocketApp } from "./websocket/websocket";
 
 dotenv.config();

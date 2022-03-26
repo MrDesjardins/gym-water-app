@@ -2,7 +2,7 @@ import { getExercise } from "../src/models/exercise";
 import { Workout } from "../src/models/workout";
 
 // To be replaced with a fetch to get the workout from outside the machine
-let workouts: Workout[] = [
+export const fakeWorkout: Workout[] = [
   {
     id: 1,
     workoutName: "Arm Day",
@@ -112,12 +112,3 @@ let workouts: Workout[] = [
     ],
   },
 ];
-
-export function getWorkouts(): Workout[] {
-  return workouts;
-}
-export function setWorkout(workout: Workout): void {
-  workouts = workouts.filter((d) => d.id !== workout.id);
-  workouts.push(workout);
-  console.log(workouts[workouts.length - 1].workoutExercises[0].exerciseSets);
-}

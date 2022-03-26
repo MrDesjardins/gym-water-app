@@ -1,11 +1,11 @@
 import { createEffect, createMemo, createSignal, onCleanup, onMount } from "solid-js";
+import { WeightSensorObserverPayload } from "../../../common/weightSensorObserverPayload";
 import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
 import { Button } from "../../components/Button/Button";
 import { RepsTempo } from "../../components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "../../components/SingleWeightSelector/SingleWeightSelector";
 import { CONSTANTS } from "../../models/constants";
 import { useSensors } from "../../sensors/context/SensorsContext";
-import { WeightSensorObserverPayload } from "../../sensors/weightSensor";
 import { MainStructure } from "../../structure/MainStructure";
 import { triggerIfChanged } from "../../utils/changeFilter";
 import { getMainRoutes } from "../routes";
@@ -27,13 +27,13 @@ export const AdHocTraining = () => {
     });
   });
 
-  const weightSensorCallback = (callback: WeightSensorObserverPayload): void => {
+  const weightSensorCallback = (callbackPayload: WeightSensorObserverPayload): void => {
     triggerIfChanged(
       (value: number) => {
         setActualPhysicalWeight(value);
       },
       actualPhysicalWeight(),
-      callback.lbs,
+      callbackPayload.lbs,
     );
   };
 
@@ -73,7 +73,7 @@ export const AdHocTraining = () => {
               onclick: () => {
                 setWaitingWeightAdjustment(true);
                 console.log("Adjusting the weight. Sending signal with a weight of: ", desiredWeight());
-                serverCommunication?.request({ kind: "weight", payload: { weightLbs: desiredWeight() } });
+                serverCommunication?.client.adjustWeight(desiredWeight());
               },
             }}
           >

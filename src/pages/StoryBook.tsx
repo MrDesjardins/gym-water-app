@@ -1,14 +1,13 @@
-import styles from "./StoryBook.module.css";
+import { useServerCommunication } from "../communications/context/ServerCommunicationContext";
 import { RepSelector } from "../components/RepsSelector/RepSelector";
 import { RepsTempo } from "../components/RepsTempo/RepsTempo";
 import { SingleWeightSelector } from "../components/SingleWeightSelector/SingleWeightSelector";
 import { SingleWeightThinSelector } from "../components/SingleWeightThinSelector/SingleWeightThinSelector";
-import { createSignal } from "solid-js";
 import { useSensors } from "../sensors/context/SensorsContext";
-import { FakeMagneticSensorSingleton } from "../sensors/fakeSensors/fakeMagneticSensor";
-import { FakeUltraSonirSensorSingleton } from "../sensors/fakeSensors/fakeUltraSonicSensor";
+import styles from "./StoryBook.module.css";
 export const StoryBook = () => {
   const sensors = useSensors();
+  const serverCommunication = useServerCommunication();
   return (
     <div class={styles.StoryBook}>
       <div class={styles.item} style={{ width: "150px" }}>
@@ -52,16 +51,16 @@ export const StoryBook = () => {
         </div>
         <button
           onclick={() => {
-            FakeMagneticSensorSingleton.isOpen = true;
-            FakeUltraSonirSensorSingleton.isMoving = true;
+            serverCommunication?.client.__devSetMagneticContact(true);
+            serverCommunication?.client.__devSetUltrasonic(true);
           }}
         >
           Start
         </button>
         <button
           onclick={() => {
-            FakeMagneticSensorSingleton.isOpen = false;
-            FakeUltraSonirSensorSingleton.isMoving = false;
+            serverCommunication?.client.__devSetMagneticContact(false);
+            serverCommunication?.client.__devSetUltrasonic(false);
           }}
         >
           Stop

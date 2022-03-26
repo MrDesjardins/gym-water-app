@@ -13,14 +13,11 @@ import { SingleExerciseSelection } from "./pages/singleExercise/SingleExerciseSe
 import { WorkoutGo } from "./pages/Workout/WorkoutGo";
 import { SensorsProvider } from "./sensors/context/SensorsContext";
 import { ServerCommunicationProvider } from "./communications/context/ServerCommunicationContext";
-import { ENV_VARIABLES } from "./models/constants_env";
 
-const FAKE_BACKEND = !Boolean(ENV_VARIABLES.USE_SERVER);
-console.log("Using the fakebackend?", FAKE_BACKEND);
 const App: Component = () => {
   return (
-    <ServerCommunicationProvider useFakeBackend={FAKE_BACKEND}>
-      <SensorsProvider useFakeSensors={FAKE_BACKEND}>
+    <ServerCommunicationProvider>
+      <SensorsProvider>
         <div class={styles.App}>
           <div class={styles.Container}>
             <Routes>

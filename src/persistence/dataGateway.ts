@@ -1,6 +1,5 @@
 import { ExerciseSet } from "../models/exerciseSet";
 import { Workout } from "../models/workout";
-import { fakeWorkouts } from "./fakeData";
 
 /**
  * Data gateway to persistence
@@ -23,10 +22,6 @@ export class DataGateway {
       DataGateway.KEY_SINGLE_EXERCISE_SET + exerciseId.toString(),
       JSON.stringify(exerciseSet),
     );
-  }
-
-  public getAllWorkouts(): Workout[] {
-    return fakeWorkouts;
   }
 }
 

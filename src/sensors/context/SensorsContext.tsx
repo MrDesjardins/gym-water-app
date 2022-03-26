@@ -1,15 +1,13 @@
 import createWebsocket from "@solid-primitives/websocket";
 import { createContext, JSX, onCleanup, useContext } from "solid-js";
-import { createStore } from "solid-js/store";
+import { CONSTANTS } from "../../models/constants";
 import { ENV_VARIABLES } from "../../models/constants_env";
 import { AllWebSocketPayloadTypes, buildObjFromWebsocketResponse } from "../../models/websocket/payload";
-import { fakeMagneticSensor } from "../fakeSensors/fakeMagneticSensor";
-import { fakeWeightSensor } from "../fakeSensors/fakeWeightSensor";
+import { exhaustiveCheck } from "../../TypeScript/checks";
 import { MagneticContactSensor } from "../magneticContactSensor";
+import { SensorManager } from "../sensorManager";
 import { UltraSonicSensor } from "../ultraSonicSensor";
-import { WeightSensor, WeightSensorActions, WeightSensorObserverPayload } from "../weightSensor";
-
-export interface SensorsContextState {}
+import { WeightSensor } from "../weightSensor";
 
 export interface SensorsContextSensors {
   ultraSonicSensor: UltraSonicSensor;
@@ -17,68 +15,40 @@ export interface SensorsContextSensors {
   weightSensor: WeightSensor;
 }
 export interface SensorsContextModel {
-  state: SensorsContextState;
   sensors: SensorsContextSensors;
 }
 export interface SensorsContextProps {
-  /**
-   * Fake Sensor relies on the hidden DEV panel to simulate the contact sensor.
-   * Useful when not connected on the actual micro-controller that is connected
-   * to the physical real sensors.
-   *
-   * The value should be false once deployed on the real system
-   **/
-  useFakeSensors: boolean;
   children: JSX.Element;
 }
 export const SensorsContext = createContext<SensorsContextModel>();
 
 export function SensorsProvider(props: SensorsContextProps) {
-  const [state, setState] = createStore<SensorsContextState>({});
+  const sensorManager = new SensorManager();
+  const [connect, disconnect, send, wsState] = createWebsocket(
+    `ws://${ENV_VARIABLES.SERVER_IP}:${ENV_VARIABLES.SERVER_WEBSOCKET_PORT}`,
+    (msg) => {
+      const payload = buildObjFromWebsocketResponse(JSON.parse(msg.data));
+      sensorManager.dispathToSensor(payload);
+    },
+    (msg) => console.log(msg),
+    [],
+    CONSTANTS.WEBSOCKET_RETRY_CONNECTION,
+    CONSTANTS.WEBSOCKET_RETRY_PAUSE_MS,
+  );
 
-  if (props.useFakeSensors) {
-    fakeWeightSensor((data: WeightSensorObserverPayload) => {
-      weightSensor.update(data.lbs);
-    });
-  } else {
-    const distributeToSensor = (payload: AllWebSocketPayloadTypes) => {
-      if (payload.__type === "weight") {
-        weightSensor.update(payload.weightLbs);
-      }
-    };
-    const [connect, disconnect, send, wsState] = createWebsocket(
-      `ws://${ENV_VARIABLES.SERVER_IP}:${ENV_VARIABLES.SERVER_WEBSOCKET_PORT}`,
-      (msg) => {
-        const payload = buildObjFromWebsocketResponse(JSON.parse(msg.data));
-        distributeToSensor(payload);
-      },
-      (msg) => console.log(msg),
-      [],
-      5 /*Reconnect*/,
-      5000 /*Reconnect pause*/,
-    );
+  console.log("Connecting WS");
+  connect();
 
-    if (!props.useFakeSensors) {
-      console.log("Connecting WS");
-      connect();
-    }
-
-    onCleanup(() => {
-      console.log("Disconnecting WS");
-      disconnect();
-    });
-  }
-
-  const distanceSensor = new UltraSonicSensor(props.useFakeSensors);
-  const magneticSensor = new MagneticContactSensor(props.useFakeSensors);
-  const weightSensor = new WeightSensor();
+  onCleanup(() => {
+    console.log("Disconnecting WS");
+    disconnect();
+  });
 
   const value: SensorsContextModel = {
-    state: state,
     sensors: {
-      ultraSonicSensor: distanceSensor,
-      magneticContactSensor: magneticSensor,
-      weightSensor: weightSensor,
+      ultraSonicSensor: sensorManager.distanceSensor,
+      magneticContactSensor: sensorManager.magneticSensor,
+      weightSensor: sensorManager.weightSensor,
     },
   };
 

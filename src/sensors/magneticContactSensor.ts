@@ -1,24 +1,14 @@
+import { MagneticContactSensorObserverPayload } from "../../common/magneticContactSensorObserverPayload";
 import { throttle } from "../utils/throttle";
 import { Observers } from "./common/observer";
-import { fakeMagneticSensor } from "./fakeSensors/fakeMagneticSensor";
 import { PhysicalSensor, SensorObserver } from "./common/physicalSensor";
-import { physicalMagneticSensor } from "./physicalSensors/physicalMagneticSensor";
-export interface MagneticContactSensorObserverPayload {
-  isOpen: boolean;
-}
 
 export interface MagneticContactSensorActions {}
 export class MagneticContactSensor implements PhysicalSensor<MagneticContactSensorObserverPayload> {
-  private sensor: MagneticContactSensorActions;
   private observers: Observers<SensorObserver<MagneticContactSensorObserverPayload>>;
 
-  public constructor(useFakeSensor: boolean) {
+  public constructor() {
     this.observers = new Observers<SensorObserver<MagneticContactSensorObserverPayload>>();
-    if (useFakeSensor) {
-      this.sensor = fakeMagneticSensor(throttle((data) => this.handleData(data), 100));
-    } else {
-      this.sensor = physicalMagneticSensor(throttle((data) => this.handleData(data), 100));
-    }
   }
 
   public subscribe(observer: SensorObserver<MagneticContactSensorObserverPayload>): void {
@@ -28,7 +18,11 @@ export class MagneticContactSensor implements PhysicalSensor<MagneticContactSens
   public unsubscribe(observer: SensorObserver<MagneticContactSensorObserverPayload>): void {
     this.observers.unSubscribe(observer);
   }
-  private handleData = (data: MagneticContactSensorObserverPayload): void => {
+  private handleData = throttle((data: MagneticContactSensorObserverPayload): void => {
     this.observers.notify({ isOpen: data.isOpen });
-  };
+  }, 100);
+
+  public update(data: MagneticContactSensorObserverPayload): void {
+    this.handleData(data);
+  }
 }

@@ -69,12 +69,7 @@ export const WorkoutGo = (): JSX.Element => {
    * the same weight do not trigger the effect.
    */
   createEffect(() => {
-    serverCommunication?.request({
-      kind: "weight",
-      payload: {
-        weightLbs: currentSet().weight,
-      },
-    });
+    serverCommunication?.client.adjustWeight(currentSet().weight);
   });
 
   return (

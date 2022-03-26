@@ -1,16 +1,25 @@
 import { useNavigate } from "solid-app-router";
 import { BsArrowRight } from "solid-icons/bs";
+import { createEffect, createSignal } from "solid-js";
+import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
 import { Button } from "../../components/Button/Button";
-import { dataGateway } from "../../persistence/dataGateway";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes, ROUTES } from "../routes";
 import styles from "./Workout.module.css";
+import { Workout as WorkoutModel } from "../../models/workout";
 export const Workout = () => {
+  const [allWorkouts, setAllWorkout] = createSignal<WorkoutModel[]>([]);
   const navigate = useNavigate();
+  const serverCommunication = useServerCommunication();
+
+  createEffect(async () => {
+    setAllWorkout((await serverCommunication?.client.getAllWorkouts()) ?? []);
+  });
+
   return (
     <MainStructure title="Training" subtitle="Workout" backButtonLink={getMainRoutes()}>
       <div class={styles.Workout}>
-        {dataGateway.getAllWorkouts().map((workout) => (
+        {allWorkouts().map((workout) => (
           <div class={styles.choice}>
             <WorkoutButton
               name={workout.workoutName}

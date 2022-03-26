@@ -1,39 +1,39 @@
 import { createContext, JSX, useContext } from "solid-js";
-import { exhaustiveCheck } from "../../TypeScript/checks";
-import { NodeJsClient } from "../client/NodeJsClient";
+import { NodeJsClient } from "../client/nodeJsClient";
 
 /**
  * Can have many type of request (union of type of request)
  */
-export type ServerCommunicationRequest = {
-  kind: "weight";
-  payload: { weightLbs: number };
-};
+export type ServerCommunicationRequest =
+  | {
+      kind: "weight";
+      payload: { weightLbs: number };
+    }
+  | {
+      kind: "isOpen";
+      payload: { isOpen: boolean };
+    }
+  | {
+      kind: "isMoving";
+      payload: { isMoving: boolean };
+    }
+  | {
+      kind: "getAllWorkouts";
+      payload: {};
+    };
+
 export interface ServerCommunicationContextModel {
-  request: (request: ServerCommunicationRequest) => void;
+  client: NodeJsClient;
 }
 export interface SensorsContextProps {
-  useFakeBackend: boolean;
   children: JSX.Element;
 }
 export const ServerCommunicationContext = createContext<ServerCommunicationContextModel>();
 
 export function ServerCommunicationProvider(props: SensorsContextProps) {
-  const backend = new NodeJsClient(props.useFakeBackend);
+  const backend = new NodeJsClient();
   return (
-    <ServerCommunicationContext.Provider
-      value={{
-        request: (request: ServerCommunicationRequest) => {
-          switch (request.kind) {
-            case "weight":
-              backend.adjustWeight(request.payload.weightLbs);
-              break;
-            default:
-              exhaustiveCheck(request.kind);
-          }
-        },
-      }}
-    >
+    <ServerCommunicationContext.Provider value={{ client: backend }}>
       {props.children}
     </ServerCommunicationContext.Provider>
   );

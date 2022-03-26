@@ -1,5 +1,5 @@
-import { getExercise } from "../models/exercise";
-import { Workout } from "../models/workout";
+import { getExercise } from "../src/models/exercise";
+import { Workout } from "../src/models/workout";
 
 // To be replaced with a fetch to get the workout from outside the machine
 export const fakeWorkouts: Workout[] = [

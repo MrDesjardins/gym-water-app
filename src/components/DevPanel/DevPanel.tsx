@@ -1,8 +1,5 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
 import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
 import { useSensors } from "../../sensors/context/SensorsContext";
-import { FakeMagneticSensorSingleton } from "../../sensors/fakeSensors/fakeMagneticSensor";
-import { FakeUltraSonirSensorSingleton } from "../../sensors/fakeSensors/fakeUltraSonicSensor";
 import styles from "./DevPanel.module.css";
 
 /**
@@ -13,15 +10,15 @@ import styles from "./DevPanel.module.css";
  **/
 export const DevPanel = () => {
   const sensors = useSensors();
-
+  const serverCommunication = useServerCommunication();
   return (
     <div class={styles.dev}>
       <h3> Dev Panel: Fake Sensors Actions</h3>
       <a
         href="#"
         onClick={() => {
-          FakeMagneticSensorSingleton.isOpen = true;
-          FakeUltraSonirSensorSingleton.isMoving = true;
+          serverCommunication?.client.__devSetMagneticContact(true);
+          serverCommunication?.client.__devSetUltrasonic(true);
         }}
       >
         Contact Sensor Open + Start Moving
@@ -29,8 +26,8 @@ export const DevPanel = () => {
       <a
         href="#"
         onClick={() => {
-          FakeMagneticSensorSingleton.isOpen = false;
-          FakeUltraSonirSensorSingleton.isMoving = false;
+          serverCommunication?.client.__devSetMagneticContact(false);
+          serverCommunication?.client.__devSetUltrasonic(false);
         }}
       >
         Stop moving + Contact Sensor Close

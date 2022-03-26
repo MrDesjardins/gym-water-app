@@ -1,10 +1,7 @@
+import { WeightSensorObserverPayload } from "../../common/weightSensorObserverPayload";
 import { throttle } from "../utils/throttle";
 import { Observers } from "./common/observer";
 import { PhysicalSensor, SensorObserver } from "./common/physicalSensor";
-
-export interface WeightSensorObserverPayload {
-  lbs: number;
-}
 
 export interface WeightSensorActions {}
 
@@ -35,7 +32,7 @@ export class WeightSensor implements PhysicalSensor<WeightSensorObserverPayload>
     this.observers.notify({ lbs: data.lbs });
   }, 100);
 
-  public update(weight: number): void {
-    this.handleData({ lbs: weight });
+  public update(data: WeightSensorObserverPayload): void {
+    this.handleData(data);
   }
 }

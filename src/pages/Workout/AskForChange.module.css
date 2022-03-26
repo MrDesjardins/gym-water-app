@@ -1,0 +1,35 @@
+.AskForChange {
+  position: absolute;
+  z-index: var(--modal);
+
+  width: 800px;
+  left: 112px;
+  top: 90px;
+
+  background-color: var(--app-bgcolor);
+
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+
+  box-shadow: #848484 2px 2px 20px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.selector {
+  display: flex;
+  flex: 1;
+}
+
+.oneset {
+  display: flex;
+}
+
+.oneset > .child1,
+.oneset > .child2 {
+  flex: 0 0 50px;
+}
+.AskForChangeButton {
+  align-self: flex-end;
+}

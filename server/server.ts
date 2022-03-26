@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { RestRoutes } from "../common/restRoutes";
-import { fakeWorkouts } from "./fakeData";
+import { Workout } from "../src/models/workout";
+import { getWorkouts, setWorkout } from "./fakeData";
 import { MagneticContactGpio } from "./gpio/magneticContactGpio";
 import { UltrasonicGpio } from "./gpio/ultrasonicGpio";
 import { WeightGpio } from "./gpio/weightGpio";
@@ -34,7 +35,7 @@ const magneticContactSensor = new MagneticContactGpio(USE_GPIO, (data) =>
 
 serverApp.get("/" + RestRoutes.Get_All_Workouts, async (req, res) => {
   try {
-    res.send(fakeWorkouts);
+    res.send(getWorkouts());
   } catch (e) {
     console.error(e);
   }
@@ -42,7 +43,7 @@ serverApp.get("/" + RestRoutes.Get_All_Workouts, async (req, res) => {
 serverApp.get("/" + RestRoutes.Get_Workout, async (req, res) => {
   const id = Number(req.params.workoutid);
   try {
-    const workout = fakeWorkouts.find((d) => d.id === id);
+    const workout = getWorkouts().find((d) => d.id === id);
     if (workout === undefined) {
       res.status(404).send("Workout not found");
     } else {
@@ -52,6 +53,12 @@ serverApp.get("/" + RestRoutes.Get_Workout, async (req, res) => {
     console.error(e);
     res.status(500).send("Internal server error");
   }
+});
+
+serverApp.put("/" + RestRoutes.Save_Workout, (req: { body: Workout }, res) => {
+  const data = req.body;
+  setWorkout(data);
+  res.send({ status: "ok" });
 });
 
 serverApp.post("/" + RestRoutes.Set_Weight, (req: { body: { weight: number } }, res) => {
@@ -77,8 +84,9 @@ serverApp.post("/" + RestRoutes.Dev_SetContact, (req, res) => {
 
 serverApp.post("/" + RestRoutes.Set_Workout, (req, res) => {
   const id = req.params.workoutid;
-  const data = JSON.stringify(req.body);
-  console.log(`Save workout id ${id} at ${new Date().toLocaleTimeString()}`, data);
+  const workout = req.body;
+  console.log(`Save workout id ${id} at ${new Date().toLocaleTimeString()}`);
+  setWorkout(workout);
 });
 
 serverApp.listen(SERVER_PORT, () =>

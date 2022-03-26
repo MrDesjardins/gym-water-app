@@ -9,6 +9,7 @@ import { Workout } from "../../models/workout";
 import { useSensors } from "../../sensors/context/SensorsContext";
 import { MainStructure } from "../../structure/MainStructure";
 import { getMainRoutes } from "../routes";
+import { AskForChange } from "./AskForChange";
 import { WorkoutExercises } from "./WorkoutExercises";
 import { WorkoutExerciseSets } from "./WorkoutExerciseSets";
 import styles from "./WorkoutGo.module.css";
@@ -24,11 +25,13 @@ export const WorkoutGo = (): JSX.Element => {
 
   createEffect(async () => {
     const workout = location.state as Workout;
-    if (workout.id === CONSTANTS.ADHOC_WORKOUT_ID) {
-      setActiveWorkout(workout);
-    } else {
-      const workoutFromServer = await serverCommunication?.client.getWorkout(workout.id);
-      setActiveWorkout(workoutFromServer);
+    if (workout !== undefined && workout !== null) {
+      if (workout.id === CONSTANTS.ADHOC_WORKOUT_ID) {
+        setActiveWorkout(workout);
+      } else {
+        const workoutFromServer = await serverCommunication?.client.getWorkout(workout.id);
+        setActiveWorkout(workoutFromServer);
+      }
     }
   });
 
@@ -98,6 +101,7 @@ export const WorkoutGo = (): JSX.Element => {
       subtitleDetail={activeWorkout()?.workoutName ?? ""}
       backButtonLink={getMainRoutes()}
     >
+      <AskForChange workout={activeWorkout()} workoutExercise={currentExercise()} exerciseIndex={activeExerciseIndex()}/>
       {workoutCompleted() ? <WaterScreen /> : null}
       <div class={styles.WorkoutGoExercise}>
         {activeWorkout() === undefined ? null : (

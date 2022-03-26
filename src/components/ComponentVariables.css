@@ -52,4 +52,5 @@
   --component-handle-zindex: 10;
   --transition-zindex: 100;
   --transition-text-zindex: 110;
+  --modal: 200;
 }

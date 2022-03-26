@@ -15,7 +15,7 @@ export class NodeJsClient {
     const payload = await response.json();
     return payload as Workout;
   }
-  
+
   public async adjustWeight(weight: number): Promise<void> {
     await this.postHttpRequest(
       RestRoutes.Set_Weight,
@@ -38,6 +38,12 @@ export class NodeJsClient {
       JSON.stringify({
         isMoving: isMoving,
       }),
+    );
+  }
+  public async saveWorkout(workout: Workout): Promise<void> {
+    await this.postHttpRequest(
+      RestRoutes.Set_Workout.replace(":workoutid", workout.id.toString()),
+      JSON.stringify(workout),
     );
   }
   private async postHttpRequest(endpointUrl: string, body: string): Promise<Response> {

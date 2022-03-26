@@ -40,13 +40,17 @@ serverApp.get("/" + RestRoutes.Get_All_Workouts, async (req, res) => {
   }
 });
 serverApp.get("/" + RestRoutes.Get_Workout, async (req, res) => {
-  const id = req.params.workoutid;
+  const id = Number(req.params.workoutid);
   try {
-    const jsonData = { id: id };
-    res.send(jsonData);
-    console.log(jsonData);
+    const workout = fakeWorkouts.find((d) => d.id === id);
+    if (workout === undefined) {
+      res.status(404).send("Workout not found");
+    } else {
+      res.send(workout);
+    }
   } catch (e) {
     console.error(e);
+    res.status(500).send("Internal server error");
   }
 });
 

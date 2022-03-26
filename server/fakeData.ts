@@ -4,6 +4,7 @@ import { Workout } from "../src/models/workout";
 // To be replaced with a fetch to get the workout from outside the machine
 export const fakeWorkouts: Workout[] = [
   {
+    id: 1,
     workoutName: "Arm Day",
     workoutExercises: [
       {
@@ -48,6 +49,7 @@ export const fakeWorkouts: Workout[] = [
     ],
   },
   {
+    id: 2,
     workoutName: "Back and Shoulder Day",
     workoutExercises: [
       {
@@ -80,6 +82,7 @@ export const fakeWorkouts: Workout[] = [
     ],
   },
   {
+    id: 3,
     workoutName: "Dev 1 Set",
     workoutExercises: [
       {
@@ -89,6 +92,7 @@ export const fakeWorkouts: Workout[] = [
     ],
   },
   {
+    id: 4,
     workoutName: "Dev 2 Exercise",
     workoutExercises: [
       {

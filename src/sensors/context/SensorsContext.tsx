@@ -1,9 +1,8 @@
 import createWebsocket from "@solid-primitives/websocket";
 import { createContext, JSX, onCleanup, useContext } from "solid-js";
+import { buildObjFromWebsocketResponse } from "../../../common/websocket/payload";
 import { CONSTANTS } from "../../models/constants";
 import { ENV_VARIABLES } from "../../models/constants_env";
-import { AllWebSocketPayloadTypes, buildObjFromWebsocketResponse } from "../../../common/websocket/payload";
-import { exhaustiveCheck } from "../../TypeScript/checks";
 import { MagneticContactSensor } from "../magneticContactSensor";
 import { SensorManager } from "../sensorManager";
 import { UltraSonicSensor } from "../ultraSonicSensor";

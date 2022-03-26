@@ -144,6 +144,7 @@ export const SingleExercise = () => {
               exerciseSets: setData(),
             };
             const adhocWorkout: Workout = {
+              id: CONSTANTS.ADHOC_WORKOUT_ID,
               workoutName: "Adhoc",
               workoutExercises: [singleWorkoutExercise],
             };

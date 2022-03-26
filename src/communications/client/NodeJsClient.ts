@@ -8,6 +8,14 @@ export class NodeJsClient {
     const payload = await response.json();
     return payload as Workout[];
   }
+  public async getWorkout(workoutId: number): Promise<Workout> {
+    const response = await this.getRequest(
+      RestRoutes.Get_Workout.replace(":workoutid", workoutId.toString()),
+    );
+    const payload = await response.json();
+    return payload as Workout;
+  }
+  
   public async adjustWeight(weight: number): Promise<void> {
     await this.postHttpRequest(
       RestRoutes.Set_Weight,

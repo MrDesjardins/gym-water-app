@@ -4,3 +4,6 @@ dist
 
 src/.env
 server/.env
+
+*.js
+*.jsx

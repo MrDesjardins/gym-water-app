@@ -1,5 +1,4 @@
 import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
-import { useSensors } from "../../sensors/context/SensorsContext";
 import styles from "./DevPanel.module.css";
 
 /**
@@ -9,7 +8,6 @@ import styles from "./DevPanel.module.css";
  * is to allow while developing the app, to simulate the real sensors
  **/
 export const DevPanel = () => {
-  const sensors = useSensors();
   const serverCommunication = useServerCommunication();
   return (
     <div class={styles.dev}>

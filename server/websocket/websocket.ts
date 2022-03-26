@@ -15,7 +15,6 @@ export class WebSocketApp {
 
   public constructor(port: number) {
     this.wsApp = new WebSocket.Server({ port: port });
-
     this.wsApp.on("connection", (socket, request) => this.onConnection(socket, request));
   }
 

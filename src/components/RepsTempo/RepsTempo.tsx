@@ -1,7 +1,7 @@
 import { createMemo, createSignal, onCleanup, onMount } from "solid-js";
+import { MagneticContactSensorObserverPayload } from "../../../common/magneticContactSensorObserverPayload";
+import { UltraSonicSensorObserverPayload } from "../../../common/ultraSonicSensorObserverPayload";
 import { useSensors } from "../../sensors/context/SensorsContext";
-import { MagneticContactSensorObserverPayload } from "../../sensors/magneticContactSensor";
-import { UltraSonicSensorObserverPayload } from "../../sensors/ultraSonicSensor";
 import "../ComponentVariables.css";
 import { ChartData } from "./canvasModel";
 import styles from "./RepsTempo.module.css";

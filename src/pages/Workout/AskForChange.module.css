@@ -2,8 +2,8 @@
   position: absolute;
   z-index: var(--modal);
 
-  width: 800px;
-  left: 112px;
+  width: 865px;
+  left: 65px;
   top: 90px;
 
   background-color: var(--app-bgcolor);
@@ -32,4 +32,8 @@
 }
 .AskForChangeButton {
   align-self: flex-end;
+}
+
+.next > svg {
+  margin-left: 4px;
 }

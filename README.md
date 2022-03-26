@@ -98,5 +98,4 @@ The dev panel consumes the sensor in a particular way. Because during developmen
 1. Throttle all the Gpio `updateCallback`
 
 ## Scheduled Priorities
-1. [Workout] When in a workout, when a set is completed to let the user adjust the weight for the next workout if needed.
-1. [Single Exercise] Save previous weight for specific exercises, when coming back, we could reload previously used weight
+1. [Single Exercise] Save previous weight on the NodeJS server for specific exercises, when coming back, we could reload previously used weight

@@ -1,70 +1,5 @@
 [
   {
-    "id": 1,
-    "workoutName": "Arm Day",
-    "workoutExercises": [
-      {
-        "exercise": {
-          "id": 1,
-          "displayName": "Tricep Push Down",
-          "category": "TRICEP",
-          "displayOrder": 1
-        },
-        "exerciseSets": [
-          { "weight": 40, "reps": 16 },
-          { "weight": 45, "reps": 12 },
-          { "weight": 50, "reps": 10 },
-          { "weight": 55, "reps": 8 },
-          { "weight": 50, "reps": 6 },
-          { "weight": 50, "reps": 6 }
-        ]
-      },
-      {
-        "exercise": {
-          "id": 2,
-          "displayName": "Bicep Curl",
-          "category": "BICEP",
-          "displayOrder": 4
-        },
-        "exerciseSets": [
-          { "weight": 20, "reps": 16 },
-          { "weight": 20, "reps": 12 },
-          { "weight": 20, "reps": 10 }
-        ]
-      },
-      {
-        "exercise": {
-          "id": 4,
-          "displayName": "Tricep Reverse Push Down",
-          "category": "TRICEP",
-          "displayOrder": 2
-        },
-        "exerciseSets": [
-          { "weight": 20, "reps": 16 },
-          { "weight": 22, "reps": 12 },
-          { "weight": 25, "reps": 10 },
-          { "weight": 30, "reps": 10 },
-          { "weight": 30, "reps": 10 }
-        ]
-      },
-      {
-        "exercise": {
-          "id": 2,
-          "displayName": "Bicep Curl",
-          "category": "BICEP",
-          "displayOrder": 4
-        },
-        "exerciseSets": [
-          { "weight": 25, "reps": 12 },
-          { "weight": 30, "reps": 10 },
-          { "weight": 35, "reps": 8 },
-          { "weight": 40, "reps": 6 },
-          { "weight": 40, "reps": 6 }
-        ]
-      }
-    ]
-  },
-  {
     "id": 2,
     "workoutName": "Back and Shoulder Day",
     "workoutExercises": [
@@ -113,8 +48,8 @@
     ]
   },
   {
-    "id": 3,
-    "workoutName": "Dev 1 Set",
+    "id": 1,
+    "workoutName": "Arm Day",
     "workoutExercises": [
       {
         "exercise": {
@@ -123,7 +58,57 @@
           "category": "TRICEP",
           "displayOrder": 1
         },
-        "exerciseSets": [{ "weight": 40, "reps": 6 }]
+        "exerciseSets": [
+          { "weight": 40, "reps": 16 },
+          { "weight": 45, "reps": 12 },
+          { "weight": 50, "reps": 10 },
+          { "weight": 55, "reps": 8 },
+          { "weight": 50, "reps": 6 },
+          { "weight": 121, "reps": 6 }
+        ]
+      },
+      {
+        "exercise": {
+          "id": 2,
+          "displayName": "Bicep Curl",
+          "category": "BICEP",
+          "displayOrder": 4
+        },
+        "exerciseSets": [
+          { "weight": 20, "reps": 16 },
+          { "weight": 20, "reps": 12 },
+          { "weight": 20, "reps": 10 }
+        ]
+      },
+      {
+        "exercise": {
+          "id": 4,
+          "displayName": "Tricep Reverse Push Down",
+          "category": "TRICEP",
+          "displayOrder": 2
+        },
+        "exerciseSets": [
+          { "weight": 20, "reps": 16 },
+          { "weight": 22, "reps": 12 },
+          { "weight": 25, "reps": 10 },
+          { "weight": 30, "reps": 10 },
+          { "weight": 30, "reps": 10 }
+        ]
+      },
+      {
+        "exercise": {
+          "id": 2,
+          "displayName": "Bicep Curl",
+          "category": "BICEP",
+          "displayOrder": 4
+        },
+        "exerciseSets": [
+          { "weight": 25, "reps": 12 },
+          { "weight": 30, "reps": 10 },
+          { "weight": 35, "reps": 8 },
+          { "weight": 40, "reps": 6 },
+          { "weight": 40, "reps": 6 }
+        ]
       }
     ]
   },
@@ -154,6 +139,21 @@
           { "weight": 50, "reps": 12 },
           { "weight": 60, "reps": 16 }
         ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "workoutName": "Dev 1 Set",
+    "workoutExercises": [
+      {
+        "exercise": {
+          "id": 1,
+          "displayName": "Tricep Push Down",
+          "category": "TRICEP",
+          "displayOrder": 1
+        },
+        "exerciseSets": [{ "weight": 40, "reps": 6 }]
       }
     ]
   }

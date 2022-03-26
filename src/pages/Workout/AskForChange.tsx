@@ -7,12 +7,13 @@ import { SingleWeightThinSelector } from "../../components/SingleWeightThinSelec
 import { RepSelector } from "../../components/RepsSelector/RepSelector";
 import { WorkoutExercise } from "../../models/exerciseSet";
 import { Button } from "../../components/Button/Button";
-import { BiSolidSave } from "solid-icons/bi";
+import { FaSolidRunning } from "solid-icons/fa";
 import { useServerCommunication } from "../../communications/context/ServerCommunicationContext";
 export interface AskForChangeProps {
   workout: Workout | undefined;
   workoutExercise: WorkoutExercise | undefined;
   exerciseIndex: number;
+  workoutCompleted: boolean;
 }
 
 const COMPONENT_HEIGHT = 400;
@@ -29,7 +30,7 @@ export const AskForChange = (props: AskForChangeProps): JSX.Element => {
 
   createEffect(
     on(
-      () => props.workoutExercise,
+      () => [props.workoutExercise, props.workoutCompleted],
       () => {
         if (props.workoutExercise !== lastWorkoutExercise() && props.workoutExercise !== undefined) {
           console.log("===> SHOW", currentWorkoutExercise(), props.workoutExercise);
@@ -84,7 +85,7 @@ export const AskForChange = (props: AskForChangeProps): JSX.Element => {
           </div>
           <div class={styles.AskForChangeButton}>
             <Button
-              class={styles.back}
+              class={styles.next}
               onClick={() => {
                 const workout = props.workout;
                 const exerciseModified = lastWorkoutExercise()!;
@@ -99,8 +100,8 @@ export const AskForChange = (props: AskForChangeProps): JSX.Element => {
                 }
               }}
             >
-              <BiSolidSave size={24} color="#fff" />
-              Continue
+              Next
+              <FaSolidRunning size={24} color="#fff" />
             </Button>
           </div>
         </div>

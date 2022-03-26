@@ -101,7 +101,12 @@ export const WorkoutGo = (): JSX.Element => {
       subtitleDetail={activeWorkout()?.workoutName ?? ""}
       backButtonLink={getMainRoutes()}
     >
-      <AskForChange workout={activeWorkout()} workoutExercise={currentExercise()} exerciseIndex={activeExerciseIndex()}/>
+      <AskForChange
+        workout={activeWorkout()}
+        workoutExercise={currentExercise()}
+        exerciseIndex={activeExerciseIndex()}
+        workoutCompleted={workoutCompleted()}
+      />
       {workoutCompleted() ? <WaterScreen /> : null}
       <div class={styles.WorkoutGoExercise}>
         {activeWorkout() === undefined ? null : (

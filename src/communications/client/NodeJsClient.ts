@@ -6,7 +6,7 @@ export class NodeJsClient {
   public async getAllWorkouts(): Promise<Workout[]> {
     const response = await this.getRequest(RestRoutes.Get_All_Workouts);
     const payload = await response.json();
-    return payload as Workout[];
+    return (payload as Workout[]).sort((a, b) => a.id - b.id);
   }
   public async getWorkout(workoutId: number): Promise<Workout> {
     const response = await this.getRequest(
